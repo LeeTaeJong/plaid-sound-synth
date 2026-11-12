@@ -190,16 +190,34 @@
             <span class="flex items-center gap-1">
               <span id="ledGSensor" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>60Hz G-SENSOR
             </span>
+            <span id="sampleSourceBadge" class="px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold">
+              🎛️ 48kHz 3-LAYER PCM + IR
+            </span>
           </div>
         </div>
       </div>
 
-      <!-- Quick Action Bar: User Manual, NGB, Exhaust Valve, Engine Start -->
+      <!-- Quick Action Bar: Earphone Mastering, WAV Loader, User Manual, NGB, Exhaust Valve, Engine Start -->
       <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 ml-auto">
+        <!-- Hidden File Input for Custom .wav / .mp3 Upload -->
+        <input id="customSampleInput" type="file" accept=".wav,.mp3,.ogg,.m4a,audio/*" class="hidden" onchange="handleCustomSampleFile(event)" />
+
+        <!-- Custom WAV/MP3 Drag & Drop / Upload Button -->
+        <button onclick="triggerCustomSampleUpload()" title="내 PC나 스마트폰의 .wav / .mp3 배기음 샘플 파일을 직접 불러옵니다" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 text-xs font-bold flex items-center gap-1 shadow transition active:scale-95">
+          <span>📂</span>
+          <span id="customSampleBtnText">.WAV/.MP3 넣기</span>
+        </button>
+
+        <!-- Earphone De-Harsh & Cabin IR Spatial Mastering Toggle -->
+        <button id="earphoneMasterBtn" onclick="toggleEarphoneMastering()" title="이어폰 고주파 피로감(3.4kHz) 제거 및 실내 공간 울림(Cabin IR) 마스터링" class="px-2.5 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-400 text-cyan-200 text-xs font-bold flex items-center gap-1 shadow transition active:scale-95">
+          <span>🎧</span>
+          <span id="earphoneMasterText">이어폰 공간음 ON</span>
+        </button>
+
         <!-- User Manual Popup Button -->
         <button onclick="openManualModal()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-100 border border-cyan-400/40 text-xs font-bold flex items-center gap-1.5 shadow transition active:scale-95">
           <span>📖</span>
-          <span>사용 설명서</span>
+          <span>설명서</span>
         </button>
 
         <!-- NGB 10s Overboost Button -->
@@ -683,75 +701,66 @@
   </div>
 
   <!-- =========================================================================
-       APPLICATION JAVASCRIPT: 24-ENGINE PROCEDURAL SYNTH, SENSOR FUSION & STORAGE
+       APPLICATION JAVASCRIPT: 3-LAYER 48kHz PCM SAMPLER, CABIN IR & SENSOR FUSION
        ========================================================================= -->
   <script>
     /***************************************************************************
      * 1. 24 DISTINCT EV VIRTUAL, SUPERBIKE FULL-EXHAUST & SUPERCAR PROFILES
+     *    Now powered by a 48kHz Stereo 3-Layer PCM AudioBuffer Sampler + Cabin IR
      ***************************************************************************/
     const PRESETS = {
       /* ==================== ⚡ EV VIRTUAL SOUNDS (6) ==================== */
       taycan_gt: {
         id: 'taycan_gt',
         category: 'ev_sound',
+        acousticModel: 'ev_weissach', // Pure Porsche Weissach dual-inverter & planetary gear acoustic model
         emoji: '⚡',
         shortName: 'Taycan Turbo GT',
         name: 'PORSCHE TAYCAN TURBO GT (ELECTRIC SPORT)',
-        spec: 'Dual-Inverter UFO Harmonic · 2-Spd Shift · 9,000 RPM',
+        spec: 'Weissach Dual-Inverter & 2-Spd Planetary Chord · 9,000 RPM',
         redline: 9000,
         shiftRpm: 8400,
         idleRpm: 850,
         cylinders: 10,
-        osc1Type: 'sine',
-        osc2Type: 'triangle',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.498,   // Futuristic Porsche EV power-fifth harmonic chord
-        harmonic3Ratio: 2.996,
-        subGainLevel: 0.88,
-        midGainLevel: 0.72,
-        highGainLevel: 0.76,
-        turboWhineLevel: 0.92,   // Dual SiC Pulse-Inverter whine
-        scWhineLevel: 0.35,
-        titaniumGainLevel: 0.32,
-        formant1Hz: 680,
-        formant2Hz: 1960,
-        exhaustResonanceHz: 240,
-        exhaustQ: 4.8,
-        lopeSpeedHz: 12.0,
-        lopeDepth: 8,
+        baseLoopsHz: { idle: 55, mid: 145, high: 310 },
+        subGainLevel: 0.92,
+        midGainLevel: 0.80,
+        highGainLevel: 0.75,
+        turboWhineLevel: 0.85,
+        scWhineLevel: 0.25,
+        titaniumGainLevel: 0.35,
+        formant1Hz: 580,
+        formant2Hz: 1680,
+        exhaustResonanceHz: 185,
+        exhaustQ: 2.8,
         revInertia: 0.30,
-        shiftCutDuration: 0.055,
+        shiftCutDuration: 0.065,
         shiftStyle: 'ev_chord',
         defaultBurble: 'sport'
       },
       gv60_magma: {
         id: 'gv60_magma',
         category: 'ev_sound',
+        acousticModel: 'ev_magma',    // Deep B&O velvet V6/V8 harmonic pulse + EV turbine layer
         emoji: '🌋',
         shortName: 'GV60 Magma VGS',
         name: 'GENESIS GV60 MAGMA (VGS 9,000 RPM)',
-        spec: 'Luxury High-Rev V6/V8 Hybrid Tone · Virtual 8-DCT',
+        spec: 'B&O Velvet V6/V8 Harmonic Growl · Virtual 8-DCT',
         redline: 9000,
         shiftRpm: 8550,
         idleRpm: 900,
         cylinders: 6,
-        osc1Type: 'sawtooth',
-        osc2Type: 'triangle',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.82,      // Deep B&O acoustic sub-bass warmth
-        midGainLevel: 0.86,
-        highGainLevel: 0.84,
-        turboWhineLevel: 0.48,
-        scWhineLevel: 0.18,
-        titaniumGainLevel: 0.68,
-        formant1Hz: 1120,
-        formant2Hz: 2380,
-        exhaustResonanceHz: 360,
-        exhaustQ: 4.2,
-        lopeSpeedHz: 8.0,
-        lopeDepth: 18,
+        baseLoopsHz: { idle: 48, mid: 135, high: 295 },
+        subGainLevel: 0.90,
+        midGainLevel: 0.88,
+        highGainLevel: 0.78,
+        turboWhineLevel: 0.45,
+        scWhineLevel: 0.15,
+        titaniumGainLevel: 0.58,
+        formant1Hz: 840,
+        formant2Hz: 1920,
+        exhaustResonanceHz: 230,
+        exhaustQ: 3.1,
         revInertia: 0.28,
         shiftCutDuration: 0.060,
         shiftStyle: 'magma_vgs',
@@ -760,31 +769,26 @@
       ioniq6n_lightspeed: {
         id: 'ioniq6n_lightspeed',
         category: 'ev_sound',
+        acousticModel: 'ev_weissach',
         emoji: '💠',
         shortName: 'IONIQ 6 N Lightspeed',
         name: 'HYUNDAI IONIQ 6 N · LIGHTSPEED',
-        spec: 'Sci-Fi Cybernetic Synth · N Ambient Shift Light',
+        spec: 'Aerodynamic Polyphonic Synth · N Ambient Shift Light',
         redline: 8800,
         shiftRpm: 8300,
-        idleRpm: 1000,
+        idleRpm: 980,
         cylinders: 12,
-        osc1Type: 'triangle',
-        osc2Type: 'sine',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.333,   // Cybernetic fourth interval harmony
-        harmonic3Ratio: 2.666,
-        subGainLevel: 0.78,
-        midGainLevel: 0.68,
-        highGainLevel: 0.90,
-        turboWhineLevel: 0.95,
-        scWhineLevel: 0.55,
-        titaniumGainLevel: 0.55,
-        formant1Hz: 1480,
-        formant2Hz: 2960,
-        exhaustResonanceHz: 520,
-        exhaustQ: 5.0,
-        lopeSpeedHz: 14.0,
-        lopeDepth: 10,
+        baseLoopsHz: { idle: 62, mid: 165, high: 350 },
+        subGainLevel: 0.85,
+        midGainLevel: 0.75,
+        highGainLevel: 0.84,
+        turboWhineLevel: 0.90,
+        scWhineLevel: 0.45,
+        titaniumGainLevel: 0.45,
+        formant1Hz: 960,
+        formant2Hz: 2240,
+        exhaustResonanceHz: 260,
+        exhaustQ: 3.0,
         revInertia: 0.32,
         shiftCutDuration: 0.050,
         shiftStyle: 'ev_chord',
@@ -793,32 +797,28 @@
       ioniq5n_ignition: {
         id: 'ioniq5n_ignition',
         category: 'ev_sound',
+        acousticModel: 'ic_20t_rally', // Authentic 2.0T 4-cylinder WRC rally dyno pulse model
         emoji: '🏁',
         shortName: 'IONIQ 5 N / 6 N Ignition',
         name: 'HYUNDAI IONIQ 5 N & 6 N · IGNITION',
-        spec: '2.0T WRC Rally · 8,000 RPM · N e-Shift Bang',
+        spec: '2.0T WRC Rally Dyno Sample Model · 8,000 RPM · N e-Shift',
         redline: 8000,
         shiftRpm: 7500,
         idleRpm: 920,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.68,
-        midGainLevel: 0.84,
-        highGainLevel: 0.58,
-        turboWhineLevel: 0.62,
+        firingIntervals: [1.0, 1.02, 0.98, 1.0],
+        baseLoopsHz: { idle: 31, mid: 110, high: 225 },
+        subGainLevel: 0.82,
+        midGainLevel: 0.90,
+        highGainLevel: 0.74,
+        turboWhineLevel: 0.68,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.35,
-        formant1Hz: 1150,
-        formant2Hz: 2300,
-        exhaustResonanceHz: 285,
-        exhaustQ: 3.6,
-        lopeSpeedHz: 6.5,
-        lopeDepth: 28,
-        revInertia: 0.21,
+        titaniumGainLevel: 0.55,
+        formant1Hz: 780,
+        formant2Hz: 1850,
+        exhaustResonanceHz: 195,
+        exhaustQ: 3.2,
+        revInertia: 0.23,
         shiftCutDuration: 0.085,
         shiftStyle: 'n_eshift',
         defaultBurble: 'n_ignition'
@@ -826,32 +826,27 @@
       ioniq5n_supersonic: {
         id: 'ioniq5n_supersonic',
         category: 'ev_sound',
+        acousticModel: 'ev_weissach',
         emoji: '✈️',
         shortName: 'IONIQ 5 N Supersonic',
         name: 'HYUNDAI IONIQ 5 N · SUPERSONIC',
-        spec: 'Twin-Turbine Jet Fighter · Sonic Boom Shift',
+        spec: 'Twin-Turbine Jet Afterburner · Sonic Boom Shift',
         redline: 8500,
         shiftRpm: 8000,
-        idleRpm: 1100,
+        idleRpm: 1050,
         cylinders: 10,
-        osc1Type: 'triangle',
-        osc2Type: 'sine',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.2,
-        subGainLevel: 0.72,
-        midGainLevel: 0.55,
+        baseLoopsHz: { idle: 68, mid: 175, high: 380 },
+        subGainLevel: 0.84,
+        midGainLevel: 0.70,
         highGainLevel: 0.88,
         turboWhineLevel: 0.96,
-        scWhineLevel: 0.0,
-        titaniumGainLevel: 0.45,
-        formant1Hz: 1600,
-        formant2Hz: 3200,
-        exhaustResonanceHz: 640,
-        exhaustQ: 4.5,
-        lopeSpeedHz: 10.0,
-        lopeDepth: 12,
-        revInertia: 0.25,
+        scWhineLevel: 0.25,
+        titaniumGainLevel: 0.50,
+        formant1Hz: 1120,
+        formant2Hz: 2560,
+        exhaustResonanceHz: 310,
+        exhaustQ: 3.4,
+        revInertia: 0.26,
         shiftCutDuration: 0.070,
         shiftStyle: 'sonic_boom',
         defaultBurble: 'sport'
@@ -859,31 +854,26 @@
       plaid_warp: {
         id: 'plaid_warp',
         category: 'ev_sound',
+        acousticModel: 'ev_weissach',
         emoji: '🚀',
         shortName: 'Plaid Cyber Warp',
         name: 'TESLA MODEL S PLAID · CYBER WARP',
-        spec: 'Tri-Motor Carbon Rotor Inverter · 10,000 RPM',
+        spec: 'Tri-Motor Carbon Rotor Harmonic · 10,000 RPM',
         redline: 10000,
         shiftRpm: 9400,
         idleRpm: 800,
         cylinders: 12,
-        osc1Type: 'sine',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.5,     // High-frequency carbon-sleeved rotor inverter pitch
-        subGainLevel: 0.94,      // Deep spacecraft sub-bass thruster
-        midGainLevel: 0.62,
-        highGainLevel: 0.92,
-        turboWhineLevel: 1.0,
-        scWhineLevel: 0.75,
-        titaniumGainLevel: 0.48,
-        formant1Hz: 1850,
-        formant2Hz: 3600,
-        exhaustResonanceHz: 310,
-        exhaustQ: 5.2,
-        lopeSpeedHz: 15.0,
-        lopeDepth: 6,
+        baseLoopsHz: { idle: 58, mid: 160, high: 365 },
+        subGainLevel: 0.96,
+        midGainLevel: 0.72,
+        highGainLevel: 0.86,
+        turboWhineLevel: 0.98,
+        scWhineLevel: 0.65,
+        titaniumGainLevel: 0.45,
+        formant1Hz: 1250,
+        formant2Hz: 2800,
+        exhaustResonanceHz: 210,
+        exhaustQ: 3.5,
         revInertia: 0.36,
         shiftCutDuration: 0.045,
         shiftStyle: 'sonic_boom',
@@ -894,6 +884,7 @@
       s1000rr_gp1rs: {
         id: 's1000rr_gp1rs',
         category: 'superbike',
+        acousticModel: 'ic_screamer_bike',
         emoji: '🏍️',
         shortName: "'25 S1000RR GP1RS (실차)",
         name: "2025 BMW S1000RR — AUSTIN RACING GP1RS (SLIP-ON)",
@@ -902,31 +893,27 @@
         shiftRpm: 13900,
         idleRpm: 1250,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 3.5,     // Tight, refined Austin GP1RS titanium slip-on tone
-        subGainLevel: 0.36,
-        midGainLevel: 0.84,
-        highGainLevel: 0.90,
-        turboWhineLevel: 0.14,   // ShiftCam timing gear & intake airbox whistle
+        firingIntervals: [1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 42, mid: 165, high: 390 },
+        subGainLevel: 0.56,
+        midGainLevel: 0.86,
+        highGainLevel: 0.88,
+        turboWhineLevel: 0.16,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.82,
-        formant1Hz: 1460,
-        formant2Hz: 2880,
-        exhaustResonanceHz: 690,
-        exhaustQ: 4.8,
-        lopeSpeedHz: 9.5,
-        lopeDepth: 22,
+        titaniumGainLevel: 0.74,
+        formant1Hz: 1180,
+        formant2Hz: 2450,
+        exhaustResonanceHz: 460,
+        exhaustQ: 3.4,
         revInertia: 0.35,
-        shiftCutDuration: 0.036, // BMW Shift Assistant Pro 36ms cut
+        shiftCutDuration: 0.036,
         shiftStyle: 'quickshifter_cut',
         defaultBurble: 'n_ignition'
       },
       s1000rr_full: {
         id: 's1000rr_full',
         category: 'superbike',
+        acousticModel: 'ic_screamer_bike',
         emoji: '🔥',
         shortName: 'S1000RR GP1R (풀배기)',
         name: 'BMW S1000RR — AUSTIN RACING GP1R (DECAT FULL)',
@@ -935,23 +922,18 @@
         shiftRpm: 14000,
         idleRpm: 1300,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'square',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,     // Uncorked De-Cat GP1R ear-splitting metallic scream!
-        subGainLevel: 0.30,
-        midGainLevel: 0.88,
-        highGainLevel: 1.0,
-        turboWhineLevel: 0.12,
+        firingIntervals: [1.0, 0.97, 1.03, 1.0],
+        baseLoopsHz: { idle: 44, mid: 170, high: 405 },
+        subGainLevel: 0.52,
+        midGainLevel: 0.90,
+        highGainLevel: 0.96,
+        turboWhineLevel: 0.14,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 1.0,  // Maximum raw titanium open-pipe resonance
-        formant1Hz: 1620,
-        formant2Hz: 3240,
-        exhaustResonanceHz: 810,
-        exhaustQ: 5.8,
-        lopeSpeedHz: 10.2,
-        lopeDepth: 38,
+        titaniumGainLevel: 0.95,
+        formant1Hz: 1320,
+        formant2Hz: 2740,
+        exhaustResonanceHz: 520,
+        exhaustQ: 4.0,
         revInertia: 0.38,
         shiftCutDuration: 0.034,
         shiftStyle: 'quickshifter_cut',
@@ -960,31 +942,27 @@
       r1m_akrapovic: {
         id: 'r1m_akrapovic',
         category: 'superbike',
+        acousticModel: 'ic_crossplane_bike', // 270-180-90-180 uneven firing intervals!
         emoji: '🎹',
         shortName: 'Yamaha R1M (CP4 풀배기)',
         name: 'YAMAHA YZF-R1M — AKRAPOVIČ EVOLUTION (CP4)',
-        spec: '998cc Crossplane CP4 (270-180-90-180) · 14,500 RPM',
+        spec: '998cc Crossplane CP4 (270°-180°-90°-180°) · 14,500 RPM',
         redline: 14500,
         shiftRpm: 13800,
         idleRpm: 1250,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 0.75,    // Crossplane uneven firing sub-harmonic MotoGP M1 growl!
-        harmonic3Ratio: 2.25,
-        subGainLevel: 0.76,
+        firingIntervals: [1.5, 1.0, 0.5, 1.0], // Exact Yamaha CP4 uneven firing sequence
+        baseLoopsHz: { idle: 42, mid: 160, high: 380 },
+        subGainLevel: 0.84,
         midGainLevel: 0.92,
-        highGainLevel: 0.84,
-        turboWhineLevel: 0.08,
+        highGainLevel: 0.82,
+        turboWhineLevel: 0.10,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.88,
-        formant1Hz: 980,
-        formant2Hz: 2240,
-        exhaustResonanceHz: 420,
-        exhaustQ: 4.9,
-        lopeSpeedHz: 11.5,       // Characteristic uneven CP4 thrum
-        lopeDepth: 64,
+        titaniumGainLevel: 0.82,
+        formant1Hz: 860,
+        formant2Hz: 1980,
+        exhaustResonanceHz: 320,
+        exhaustQ: 3.8,
         revInertia: 0.35,
         shiftCutDuration: 0.038,
         shiftStyle: 'quickshifter_cut',
@@ -993,6 +971,7 @@
       cbr1000rrr_sc: {
         id: 'cbr1000rrr_sc',
         category: 'superbike',
+        acousticModel: 'ic_screamer_bike',
         emoji: '🗡️',
         shortName: 'CBR1000RR-R (SC 풀배기)',
         name: 'HONDA CBR1000RR-R FIREBLADE — SC-PROJECT CR-T',
@@ -1001,23 +980,18 @@
         shiftRpm: 15300,
         idleRpm: 1350,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,     // Pure 16,000 RPM F1-like inline-4 shriek
-        subGainLevel: 0.24,
-        midGainLevel: 0.86,
-        highGainLevel: 1.0,
-        turboWhineLevel: 0.26,   // Central Ram-Air duct intake howl
+        firingIntervals: [1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 46, mid: 185, high: 440 },
+        subGainLevel: 0.48,
+        midGainLevel: 0.88,
+        highGainLevel: 0.98,
+        turboWhineLevel: 0.28,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.98,
-        formant1Hz: 1740,
-        formant2Hz: 3480,
-        exhaustResonanceHz: 890,
-        exhaustQ: 5.9,
-        lopeSpeedHz: 10.5,
-        lopeDepth: 28,
+        titaniumGainLevel: 0.94,
+        formant1Hz: 1420,
+        formant2Hz: 2920,
+        exhaustResonanceHz: 580,
+        exhaustQ: 4.1,
         revInertia: 0.39,
         shiftCutDuration: 0.032,
         shiftStyle: 'quickshifter_cut',
@@ -1026,6 +1000,7 @@
       zx10r_austin: {
         id: 'zx10r_austin',
         category: 'superbike',
+        acousticModel: 'ic_screamer_bike',
         emoji: '🟢',
         shortName: 'ZX-10R Austin (풀배기)',
         name: 'KAWASAKI NINJA ZX-10RR — AUSTIN RACING GP1R',
@@ -1034,23 +1009,18 @@
         shiftRpm: 13650,
         idleRpm: 1200,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.5,     // Raw, aggressive Kawasaki WSBK rasp
-        harmonic3Ratio: 3.5,
-        subGainLevel: 0.40,
+        firingIntervals: [1.0, 1.04, 0.96, 1.0],
+        baseLoopsHz: { idle: 41, mid: 162, high: 385 },
+        subGainLevel: 0.58,
         midGainLevel: 0.90,
-        highGainLevel: 0.94,
-        turboWhineLevel: 0.10,
+        highGainLevel: 0.92,
+        turboWhineLevel: 0.12,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.95,
-        formant1Hz: 1510,
-        formant2Hz: 3020,
-        exhaustResonanceHz: 740,
-        exhaustQ: 5.4,
-        lopeSpeedHz: 9.2,
-        lopeDepth: 42,
+        titaniumGainLevel: 0.90,
+        formant1Hz: 1260,
+        formant2Hz: 2620,
+        exhaustResonanceHz: 490,
+        exhaustQ: 3.9,
         revInertia: 0.36,
         shiftCutDuration: 0.036,
         shiftStyle: 'quickshifter_cut',
@@ -1059,31 +1029,27 @@
       panigale_v4r: {
         id: 'panigale_v4r',
         category: 'superbike',
+        acousticModel: 'ic_crossplane_bike',
         emoji: '🇮🇹',
         shortName: 'Panigale V4 R (16.5K)',
         name: 'DUCATI PANIGALE V4 R — AKRAPOVIČ RACING',
-        spec: '998cc Desmosedici Twin-Pulse V4 · 16,500 RPM · Dry Clutch',
+        spec: '998cc Desmosedici 70° Twin-Pulse V4 · 16,500 RPM',
         redline: 16500,
         shiftRpm: 15800,
         idleRpm: 1450,
         cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.25,    // 70° Twin-Pulse V4 Desmo growl-to-scream
-        harmonic3Ratio: 3.25,
-        subGainLevel: 0.58,
+        firingIntervals: [0.39, 1.61, 0.39, 1.61], // Ducati 70-degree Twin-Pulse V4 firing order!
+        baseLoopsHz: { idle: 48, mid: 190, high: 450 },
+        subGainLevel: 0.72,
         midGainLevel: 0.92,
-        highGainLevel: 0.96,
+        highGainLevel: 0.94,
         turboWhineLevel: 0.15,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.94,
-        formant1Hz: 1420,
-        formant2Hz: 2980,
-        exhaustResonanceHz: 680,
-        exhaustQ: 5.2,
-        lopeSpeedHz: 13.5,       // STM Dry-Clutch rattle & Twin-Pulse idle
-        lopeDepth: 75,
+        titaniumGainLevel: 0.90,
+        formant1Hz: 1150,
+        formant2Hz: 2580,
+        exhaustResonanceHz: 440,
+        exhaustQ: 3.9,
         revInertia: 0.40,
         shiftCutDuration: 0.032,
         shiftStyle: 'quickshifter_cut',
@@ -1094,32 +1060,28 @@
       gt3rs: {
         id: 'gt3rs',
         category: 'supercar',
+        acousticModel: 'ic_flat6_boxer',
         emoji: '🐸',
         shortName: '911 GT3 RS (992)',
         name: 'PORSCHE 911 GT3 RS (992)',
-        spec: '4.0L Flat-6 NA · 9,000 RPM · PDK',
+        spec: '4.0L Flat-6 NA · ITB Intake · 9,000 RPM · PDK',
         redline: 9000,
         shiftRpm: 8650,
         idleRpm: 950,
         cylinders: 6,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'square',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.42,
-        midGainLevel: 0.82,
+        firingIntervals: [1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 47, mid: 175, high: 390 },
+        subGainLevel: 0.64,
+        midGainLevel: 0.88,
         highGainLevel: 0.92,
-        turboWhineLevel: 0.05,
+        turboWhineLevel: 0.08,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.88,
-        formant1Hz: 1180,
-        formant2Hz: 2480,
-        exhaustResonanceHz: 460,
-        exhaustQ: 4.4,
-        lopeSpeedHz: 8.5,
-        lopeDepth: 22,
-        revInertia: 0.26,
+        titaniumGainLevel: 0.84,
+        formant1Hz: 1080,
+        formant2Hz: 2340,
+        exhaustResonanceHz: 380,
+        exhaustQ: 3.6,
+        revInertia: 0.27,
         shiftCutDuration: 0.045,
         shiftStyle: 'pdk_snap',
         defaultBurble: 'sport'
@@ -1127,6 +1089,7 @@
       svj: {
         id: 'svj',
         category: 'supercar',
+        acousticModel: 'ic_v10_v12_screamer',
         emoji: '🐂',
         shortName: 'Aventador SVJ V12',
         name: 'LAMBORGHINI AVENTADOR SVJ',
@@ -1135,24 +1098,19 @@
         shiftRpm: 9100,
         idleRpm: 1050,
         cylinders: 12,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,
-        subGainLevel: 0.48,
-        midGainLevel: 0.78,
+        firingIntervals: [1, 1, 1, 1, 1, 1],
+        baseLoopsHz: { idle: 68, mid: 230, high: 520 },
+        subGainLevel: 0.62,
+        midGainLevel: 0.84,
         highGainLevel: 0.96,
         turboWhineLevel: 0.08,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.92,
-        formant1Hz: 1520,
-        formant2Hz: 2950,
-        exhaustResonanceHz: 580,
-        exhaustQ: 4.8,
-        lopeSpeedHz: 9.0,
-        lopeDepth: 30,
-        revInertia: 0.24,
+        titaniumGainLevel: 0.90,
+        formant1Hz: 1380,
+        formant2Hz: 2780,
+        exhaustResonanceHz: 490,
+        exhaustQ: 4.0,
+        revInertia: 0.25,
         shiftCutDuration: 0.090,
         shiftStyle: 'isr_brutal',
         defaultBurble: 'akra_crack'
@@ -1160,6 +1118,7 @@
       f458: {
         id: 'f458',
         category: 'supercar',
+        acousticModel: 'ic_flatplane_v8',
         emoji: '🐎',
         shortName: 'Ferrari 458 Speciale',
         name: 'FERRARI 458 SPECIALE',
@@ -1168,23 +1127,18 @@
         shiftRpm: 8700,
         idleRpm: 1000,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 3.5,
-        subGainLevel: 0.35,
-        midGainLevel: 0.85,
+        firingIntervals: [1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 58, mid: 200, high: 450 },
+        subGainLevel: 0.56,
+        midGainLevel: 0.88,
         highGainLevel: 0.92,
-        turboWhineLevel: 0.04,
+        turboWhineLevel: 0.05,
         scWhineLevel: 0.0,
         titaniumGainLevel: 0.80,
-        formant1Hz: 1380,
-        formant2Hz: 2720,
-        exhaustResonanceHz: 540,
-        exhaustQ: 4.6,
-        lopeSpeedHz: 8.0,
-        lopeDepth: 20,
+        formant1Hz: 1240,
+        formant2Hz: 2560,
+        exhaustResonanceHz: 440,
+        exhaustQ: 3.8,
         revInertia: 0.27,
         shiftCutDuration: 0.050,
         shiftStyle: 'pdk_snap',
@@ -1193,6 +1147,7 @@
       f812: {
         id: 'f812',
         category: 'supercar',
+        acousticModel: 'ic_v10_v12_screamer',
         emoji: '🎺',
         shortName: 'Ferrari 812 Novitec',
         name: 'FERRARI 812 SUPERFAST (NOVITEC)',
@@ -1201,24 +1156,19 @@
         shiftRpm: 9100,
         idleRpm: 1020,
         cylinders: 12,
-        osc1Type: 'sawtooth',
-        osc2Type: 'triangle',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.40,
-        midGainLevel: 0.80,
+        firingIntervals: [1, 1, 1, 1, 1, 1],
+        baseLoopsHz: { idle: 66, mid: 225, high: 515 },
+        subGainLevel: 0.58,
+        midGainLevel: 0.84,
         highGainLevel: 0.95,
-        turboWhineLevel: 0.05,
+        turboWhineLevel: 0.06,
         scWhineLevel: 0.0,
         titaniumGainLevel: 0.86,
-        formant1Hz: 1620,
-        formant2Hz: 3100,
-        exhaustResonanceHz: 620,
-        exhaustQ: 5.0,
-        lopeSpeedHz: 9.5,
-        lopeDepth: 18,
-        revInertia: 0.26,
+        formant1Hz: 1440,
+        formant2Hz: 2880,
+        exhaustResonanceHz: 510,
+        exhaustQ: 4.1,
+        revInertia: 0.27,
         shiftCutDuration: 0.050,
         shiftStyle: 'pdk_snap',
         defaultBurble: 'sport'
@@ -1226,6 +1176,7 @@
       lfa: {
         id: 'lfa',
         category: 'supercar',
+        acousticModel: 'ic_v10_v12_screamer',
         emoji: '👼',
         shortName: 'Lexus LFA (Yamaha)',
         name: 'LEXUS LFA — YAMAHA V10',
@@ -1234,23 +1185,18 @@
         shiftRpm: 9100,
         idleRpm: 1100,
         cylinders: 10,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'sine',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,
-        subGainLevel: 0.30,
-        midGainLevel: 0.78,
+        firingIntervals: [1, 1, 1, 1, 1],
+        baseLoopsHz: { idle: 64, mid: 215, high: 495 },
+        subGainLevel: 0.50,
+        midGainLevel: 0.84,
         highGainLevel: 0.98,
         turboWhineLevel: 0.08,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.96,
-        formant1Hz: 1480,
-        formant2Hz: 2960,
-        exhaustResonanceHz: 680,
-        exhaustQ: 5.8,
-        lopeSpeedHz: 9.2,
-        lopeDepth: 16,
+        titaniumGainLevel: 0.94,
+        formant1Hz: 1380,
+        formant2Hz: 2820,
+        exhaustResonanceHz: 540,
+        exhaustQ: 4.4,
         revInertia: 0.32,
         shiftCutDuration: 0.065,
         shiftStyle: 'akra_crack',
@@ -1259,6 +1205,7 @@
       mclaren765: {
         id: 'mclaren765',
         category: 'supercar',
+        acousticModel: 'ic_flatplane_v8',
         emoji: '🔥',
         shortName: 'McLaren 765LT',
         name: 'McLAREN 765LT TITANIUM',
@@ -1267,23 +1214,18 @@
         shiftRpm: 7850,
         idleRpm: 920,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.58,
-        midGainLevel: 0.82,
-        highGainLevel: 0.80,
-        turboWhineLevel: 0.65,
+        firingIntervals: [1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 52, mid: 180, high: 395 },
+        subGainLevel: 0.72,
+        midGainLevel: 0.86,
+        highGainLevel: 0.82,
+        turboWhineLevel: 0.68,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.78,
-        formant1Hz: 1320,
-        formant2Hz: 2540,
-        exhaustResonanceHz: 410,
-        exhaustQ: 4.0,
-        lopeSpeedHz: 7.5,
-        lopeDepth: 28,
+        titaniumGainLevel: 0.76,
+        formant1Hz: 1160,
+        formant2Hz: 2380,
+        exhaustResonanceHz: 350,
+        exhaustQ: 3.4,
         revInertia: 0.24,
         shiftCutDuration: 0.055,
         shiftStyle: 'akra_crack',
@@ -1292,32 +1234,28 @@
       huracan: {
         id: 'huracan',
         category: 'supercar',
+        acousticModel: 'ic_v10_v12_screamer',
         emoji: '🦄',
         shortName: 'Huracán STO V10',
         name: 'LAMBORGHINI HURACÁN STO',
-        spec: '5.2L V10 NA · 8,500 RPM · LDF',
+        spec: '5.2L V10 NA (Odd-Firing 54°/90°) · 8,500 RPM',
         redline: 8500,
         shiftRpm: 8200,
         idleRpm: 950,
         cylinders: 10,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 2.5,
-        subGainLevel: 0.45,
-        midGainLevel: 0.78,
-        highGainLevel: 0.85,
-        turboWhineLevel: 0.05,
+        firingIntervals: [0.75, 1.25, 0.75, 1.25, 1.0], // Odd-firing V10 howl!
+        baseLoopsHz: { idle: 58, mid: 195, high: 430 },
+        subGainLevel: 0.64,
+        midGainLevel: 0.84,
+        highGainLevel: 0.88,
+        turboWhineLevel: 0.06,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.65,
-        formant1Hz: 1280,
-        formant2Hz: 2420,
-        exhaustResonanceHz: 440,
-        exhaustQ: 3.8,
-        lopeSpeedHz: 7.8,
-        lopeDepth: 32,
-        revInertia: 0.21,
+        titaniumGainLevel: 0.74,
+        formant1Hz: 1180,
+        formant2Hz: 2360,
+        exhaustResonanceHz: 390,
+        exhaustQ: 3.5,
+        revInertia: 0.23,
         shiftCutDuration: 0.060,
         shiftStyle: 'dct_fart',
         defaultBurble: 'n_ignition'
@@ -1325,32 +1263,28 @@
       amg_v8: {
         id: 'amg_v8',
         category: 'supercar',
+        acousticModel: 'ic_crossplane_v8',
         emoji: '🔨',
-        shortName: 'AMG GT Black Series',
-        name: 'MERCEDES-AMG GT BLACK SERIES V8',
-        spec: '4.0L V8 BiTurbo · 7,200 RPM',
+        shortName: 'AMG V8 BiTurbo',
+        name: 'MERCEDES-AMG C63 / E63 V8 BITURBO',
+        spec: '4.0L Crossplane V8 BiTurbo · Deep V8 Thunder · 7,200 RPM',
         redline: 7200,
         shiftRpm: 6750,
         idleRpm: 720,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 0.5,
-        harmonic3Ratio: 1.5,
+        firingIntervals: [1.5, 0.5, 1.0, 1.0], // Classic Crossplane V8 burble
+        baseLoopsHz: { idle: 36, mid: 125, high: 275 },
         subGainLevel: 0.98,
-        midGainLevel: 0.78,
-        highGainLevel: 0.38,
-        turboWhineLevel: 0.55,
+        midGainLevel: 0.84,
+        highGainLevel: 0.52,
+        turboWhineLevel: 0.58,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.25,
-        formant1Hz: 880,
-        formant2Hz: 1850,
-        exhaustResonanceHz: 170,
-        exhaustQ: 4.3,
-        lopeSpeedHz: 5.6,
-        lopeDepth: 68,
-        revInertia: 0.16,
+        titaniumGainLevel: 0.35,
+        formant1Hz: 680,
+        formant2Hz: 1580,
+        exhaustResonanceHz: 145,
+        exhaustQ: 3.6,
+        revInertia: 0.19,
         shiftCutDuration: 0.080,
         shiftStyle: 'dct_fart',
         defaultBurble: 'n_ignition'
@@ -1358,32 +1292,28 @@
       akrapovic: {
         id: 'akrapovic',
         category: 'supercar',
+        acousticModel: 'ic_flatplane_v8',
         emoji: '🦂',
         shortName: 'Akrapovič Titanium',
         name: 'AKRAPOVIČ EVOLUTION TITANIUM',
-        spec: 'Full Titanium Exhaust · 9,200 RPM',
+        spec: 'Full Titanium Exhaust · High-Q Resonance · 9,200 RPM',
         redline: 9200,
         shiftRpm: 8750,
         idleRpm: 1020,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.5,
-        subGainLevel: 0.46,
-        midGainLevel: 0.78,
+        firingIntervals: [1.0, 1.08, 0.92, 1.0],
+        baseLoopsHz: { idle: 56, mid: 192, high: 440 },
+        subGainLevel: 0.64,
+        midGainLevel: 0.86,
         highGainLevel: 0.92,
         turboWhineLevel: 0.25,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.98,
-        formant1Hz: 1420,
-        formant2Hz: 2680,
-        exhaustResonanceHz: 510,
-        exhaustQ: 5.4,
-        lopeSpeedHz: 8.2,
-        lopeDepth: 36,
-        revInertia: 0.25,
+        titaniumGainLevel: 0.94,
+        formant1Hz: 1280,
+        formant2Hz: 2540,
+        exhaustResonanceHz: 430,
+        exhaustQ: 4.1,
+        revInertia: 0.26,
         shiftCutDuration: 0.060,
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
@@ -1391,32 +1321,28 @@
       hellcat: {
         id: 'hellcat',
         category: 'supercar',
+        acousticModel: 'ic_crossplane_v8',
         emoji: '😈',
         shortName: 'Dodge Hellcat Redeye',
         name: 'DODGE CHALLENGER HELLCAT REDEYE',
-        spec: '6.2L Supercharged HEMI V8 · 6,500 RPM',
+        spec: '6.2L Supercharged HEMI V8 · IHI Twin-Screw Whine · 6,500 RPM',
         redline: 6500,
         shiftRpm: 6200,
         idleRpm: 680,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 0.5,
-        harmonic3Ratio: 1.5,
+        firingIntervals: [1.6, 0.4, 1.1, 0.9], // Heavy Cammed HEMI V8 chop
+        baseLoopsHz: { idle: 34, mid: 115, high: 250 },
         subGainLevel: 1.0,
-        midGainLevel: 0.82,
-        highGainLevel: 0.45,
+        midGainLevel: 0.86,
+        highGainLevel: 0.56,
         turboWhineLevel: 0.0,
-        scWhineLevel: 0.96,
-        titaniumGainLevel: 0.18,
-        formant1Hz: 750,
-        formant2Hz: 1650,
-        exhaustResonanceHz: 155,
-        exhaustQ: 4.6,
-        lopeSpeedHz: 4.8,
-        lopeDepth: 82,
-        revInertia: 0.16,
+        scWhineLevel: 0.95,
+        titaniumGainLevel: 0.28,
+        formant1Hz: 640,
+        formant2Hz: 1480,
+        exhaustResonanceHz: 135,
+        exhaustQ: 3.8,
+        revInertia: 0.18,
         shiftCutDuration: 0.085,
         shiftStyle: 'dct_fart',
         defaultBurble: 'sport'
@@ -1424,32 +1350,28 @@
       rx7_4rotor: {
         id: 'rx7_4rotor',
         category: 'supercar',
+        acousticModel: 'ic_rotary_4rotor',
         emoji: '🌀',
         shortName: 'RX-7 4-Rotor (26B)',
         name: 'MAZDA RX-7 787B 4-ROTOR (26B)',
-        spec: 'Peripheral Port 4-Rotor · 10,000 RPM',
+        spec: 'Peripheral Port 4-Rotor · Brap-Brap Idle · 10,000 RPM',
         redline: 10000,
         shiftRpm: 9500,
         idleRpm: 1350,
         cylinders: 8,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.35,
+        firingIntervals: [1.0, 1.0, 1.0, 1.0],
+        baseLoopsHz: { idle: 62, mid: 215, high: 490 },
+        subGainLevel: 0.55,
         midGainLevel: 0.90,
-        highGainLevel: 0.96,
-        turboWhineLevel: 0.15,
+        highGainLevel: 0.94,
+        turboWhineLevel: 0.12,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.85,
-        formant1Hz: 1350,
-        formant2Hz: 2750,
-        exhaustResonanceHz: 590,
-        exhaustQ: 5.2,
-        lopeSpeedHz: 11.2,
-        lopeDepth: 115,
-        revInertia: 0.29,
+        titaniumGainLevel: 0.86,
+        formant1Hz: 1220,
+        formant2Hz: 2580,
+        exhaustResonanceHz: 480,
+        exhaustQ: 4.0,
+        revInertia: 0.30,
         shiftCutDuration: 0.055,
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
@@ -1457,6 +1379,7 @@
       f1_v10: {
         id: 'f1_v10',
         category: 'supercar',
+        acousticModel: 'ic_v10_v12_screamer',
         emoji: '🏆',
         shortName: 'F1 V10 19,000 RPM',
         name: 'FORMULA 1 V10 ERA SCREAMER',
@@ -1465,23 +1388,18 @@
         shiftRpm: 18300,
         idleRpm: 3800,
         cylinders: 10,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 1.5,
-        harmonic3Ratio: 2.0,
-        subGainLevel: 0.20,
-        midGainLevel: 0.78,
-        highGainLevel: 1.0,
+        firingIntervals: [1, 1, 1, 1, 1],
+        baseLoopsHz: { idle: 110, mid: 340, high: 760 },
+        subGainLevel: 0.42,
+        midGainLevel: 0.84,
+        highGainLevel: 0.98,
         turboWhineLevel: 0.12,
         scWhineLevel: 0.0,
         titaniumGainLevel: 0.92,
-        formant1Hz: 1750,
-        formant2Hz: 3450,
-        exhaustResonanceHz: 980,
-        exhaustQ: 5.0,
-        lopeSpeedHz: 14.0,
-        lopeDepth: 45,
+        formant1Hz: 1580,
+        formant2Hz: 3150,
+        exhaustResonanceHz: 680,
+        exhaustQ: 4.2,
         revInertia: 0.38,
         shiftCutDuration: 0.035,
         shiftStyle: 'akra_crack',
@@ -1491,7 +1409,7 @@
 
     // 8-Speed Gearbox Max Speeds (km/h at Redline)
     const GEAR_MAX_SPEEDS = [0, 58, 96, 136, 178, 220, 262, 300, 338];
-    const STORAGE_KEY = 'plaid_sound_synth_v4_settings';
+    const STORAGE_KEY = 'plaid_sound_synth_v5_sampler_settings';
 
     /***************************************************************************
      * 2. REAL-TIME APPLICATION STATE
@@ -1499,20 +1417,23 @@
     const state = {
       engineRunning: false,
       cranking: false,
-      presetKey: 's1000rr_gp1rs',
+      presetKey: 'taycan_gt',
       categoryFilter: 'all',
       inputMode: 'sim',          // 'sim' | 'real'
       transMode: 'auto',         // 'auto' | 'manual'
       neutralRevMode: false,
       cruiseHold: false,
       autoLaunchDemo: false,
-      launchDemoPhase: 'accel',  // 'accel' | 'decel'
+      launchDemoPhase: 'accel',
 
-      // Exhaust & Boost Controls
+      // Exhaust, Earphone Mastering & Sample State
       exhaustValveOpen: true,
-      burbleMode: 'sport',       // 'off' | 'sport' | 'n_ignition' | 'akra_crack'
+      earphoneMastering: true,   // Enabled by default to eliminate harsh earphone fatigue!
+      burbleMode: 'sport',
       ngbActive: false,
       ngbRemainingSec: 0,
+      usingExternalSample: false,
+      externalSampleName: '',
 
       // Telemetry & Kinematics
       rpm: 0,
@@ -1541,11 +1462,11 @@
       burbleCooldown: 0,
       wastegateTimer: 0,
 
-      // User Fine-Tuning Sliders (Persisted in localStorage)
+      // User Fine-Tuning Sliders
       masterVolume: 0.85,
       gSensitivity: 1.6,
-      pitchOffsetPct: 0,         // -20% to +20%
-      shiftPointPct: 92          // 65% to 98% of Redline
+      pitchOffsetPct: 0,
+      shiftPointPct: 92
     };
 
     /***************************************************************************
@@ -1561,6 +1482,7 @@
           inputMode: state.inputMode,
           transMode: state.transMode,
           exhaustValveOpen: state.exhaustValveOpen,
+          earphoneMastering: state.earphoneMastering,
           burbleMode: state.burbleMode,
           masterVolume: state.masterVolume,
           gSensitivity: state.gSensitivity,
@@ -1571,9 +1493,7 @@
         };
         localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
         flashSaveBadge();
-      } catch (err) {
-        // Ignore storage quota errors in restricted frames
-      }
+      } catch (err) {}
     }
 
     function loadSettingsFromStorage() {
@@ -1587,6 +1507,7 @@
         if (data.inputMode === 'sim' || data.inputMode === 'real') state.inputMode = data.inputMode;
         if (data.transMode === 'auto' || data.transMode === 'manual') state.transMode = data.transMode;
         if (typeof data.exhaustValveOpen === 'boolean') state.exhaustValveOpen = data.exhaustValveOpen;
+        if (typeof data.earphoneMastering === 'boolean') state.earphoneMastering = data.earphoneMastering;
         if (data.burbleMode) state.burbleMode = data.burbleMode;
         if (typeof data.masterVolume === 'number') state.masterVolume = data.masterVolume;
         if (typeof data.gSensitivity === 'number') state.gSensitivity = data.gSensitivity;
@@ -1595,27 +1516,25 @@
         if (data.zeroGOffset) state.zeroGOffset = data.zeroGOffset;
         if (typeof data.calibratedPitchDeg === 'number') state.calibratedPitchDeg = data.calibratedPitchDeg;
 
-        // Sync Slider DOM Elements
         document.getElementById('sliderVolume').value = Math.round(state.masterVolume * 100);
         document.getElementById('sliderGSens').value = state.gSensitivity;
         document.getElementById('sliderPitchOffset').value = state.pitchOffsetPct;
         document.getElementById('sliderShiftPoint').value = state.shiftPointPct;
         document.getElementById('pitchOffsetText').textContent = `영점 각도: ${state.calibratedPitchDeg}°`;
-      } catch (err) {
-        // Fallback to defaults
-      }
+      } catch (err) {}
     }
 
     function resetSavedSettings() {
       try {
         localStorage.removeItem(STORAGE_KEY);
       } catch (e) {}
-      state.presetKey = 's1000rr_gp1rs';
+      state.presetKey = 'taycan_gt';
       state.categoryFilter = 'all';
       state.inputMode = 'sim';
       state.transMode = 'auto';
       state.exhaustValveOpen = true;
-      state.burbleMode = 'n_ignition';
+      state.earphoneMastering = true;
+      state.burbleMode = 'sport';
       state.masterVolume = 0.85;
       state.gSensitivity = 1.6;
       state.pitchOffsetPct = 0;
@@ -1631,7 +1550,7 @@
 
       syncAllUIFromState();
       saveSettingsToStorage();
-      showTelemetryNotice("🔄 모든 사운드 설정이 오너 디폴트('25 BMW S1000RR Austin GP1RS)로 복원되었습니다.");
+      showTelemetryNotice('🔄 설정이 초기화되었습니다 (포르쉐 타이칸 Electric Sport + 이어폰 공간음 마스터링 ON).');
     }
 
     function flashSaveBadge() {
@@ -1647,52 +1566,265 @@
     }
 
     /***************************************************************************
-     * 4. WEB AUDIO API PROCEDURAL ENGINE SYNTHESIZER (16 PROFILES + SUPERCHARGER)
+     * 4. MULTI-LAYER 48kHz PCM AUDIOBUFFER SAMPLER + CABIN IR CONVOLVER ENGINE
+     *    (Zero raw Sawtooth/Square Oscillator nodes -> No "electric shaver" buzz!)
      ***************************************************************************/
     let audioCtx = null;
     let analyserNode = null;
     let masterGain = null;
     let engineBusGain = null;
 
-    let oscFund = null;
-    let oscHarm2 = null;
-    let oscHarm3 = null;
-    let oscSub = null;
-    let oscTurbo = null;
-    let oscTurbo2 = null;
-    let oscSupercharger = null;  // Dedicated Supercharger Whine Oscillator (Hellcat)
-    let lfoNode = null;
-    let lfoGain = null;
+    // 3-Layer Looped AudioBufferSourceNodes (Idle, Mid, High) + Whine Layer
+    let srcIdle = null;
+    let srcMid = null;
+    let srcHigh = null;
+    let srcWhine = null;
 
-    let gainFund = null;
-    let gainHarm2 = null;
-    let gainHarm3 = null;
-    let gainSub = null;
-    let gainTurbo = null;
-    let gainSupercharger = null;
+    let gainIdle = null;
+    let gainMid = null;
+    let gainHigh = null;
+    let gainWhine = null;
 
-    let titaniumFilter1 = null;
-    let titaniumFilter2 = null;
-    let titaniumBusGain = null;
+    // Acoustic Sculpting & Earphone Mastering Chain
+    let bodyResonator = null;
+    let loadLowPass = null;
+    let subBassShelf = null;
+    let earHarshnessNotch = null; // Cuts 3.4kHz ear-piercing frequencies on earphones
+    let cabinConvolver = null;    // Stereo Acoustic Cabin / Muffler Impulse Response
+    let dryMasteringGain = null;
+    let wetConvolverGain = null;
 
-    let exhaustNoiseNode = null;
-    let exhaustNoiseFilter = null;
-    let exhaustNoiseGain = null;
+    // Cache of Baked 48kHz Stereo PCM Buffers & User/External Loaded Buffers
+    const bakedPresetCache = {};
+    const externalAudioBufferCache = {};
+    let customUserBuffer = null;
 
-    let waveShaper = null;
-    let lowPassFilter = null;
-    let resonatorFilter = null;
+    // Create a Stereo Acoustic Cabin & Exhaust Tailpipe Impulse Response (IR)
+    function createStereoCabinImpulseBuffer(ctx) {
+      const sampleRate = ctx.sampleRate;
+      const duration = 0.22; // Tight 220ms automotive cabin + tailpipe early reflections
+      const length = Math.floor(sampleRate * duration);
+      const impulse = ctx.createBuffer(2, length, sampleRate);
+      const left = impulse.getChannelData(0);
+      const right = impulse.getChannelData(1);
 
-    function makeDistortionCurve(amount = 65) {
-      const k = typeof amount === 'number' ? amount : 65;
-      const nSamples = 44100;
-      const curve = new Float32Array(nSamples);
-      const deg = Math.PI / 180;
-      for (let i = 0; i < nSamples; ++i) {
-        const x = (i * 2) / nSamples - 1;
-        curve[i] = ((3 + k) * (x + 0.09 * x * x) * 20 * deg) / (Math.PI + k * Math.abs(x));
+      let lpL = 0;
+      let lpR = 0;
+      for (let i = 0; i < length; i++) {
+        const t = i / sampleRate;
+        // Early strong reflections + smooth exponential decay
+        const earlyBump = (i > 120 && i < 650) ? 0.55 : 0.0;
+        const env = Math.exp(-t * 19.5) + earlyBump * Math.exp(-t * 28.0);
+        const rawL = (Math.random() * 2 - 1) * env;
+        const rawR = (Math.random() * 2 - 1) * env;
+        // Warm low-pass damping on the reverb tail so highs never ring harshly
+        lpL = lpL * 0.78 + rawL * 0.22;
+        lpR = lpR * 0.78 + rawR * 0.22;
+        left[i] = lpL * 0.65;
+        right[i] = lpR * 0.65;
       }
-      return curve;
+      return impulse;
+    }
+
+    /**
+     * Offline 48kHz Stereo PCM Buffer Bakery:
+     * Synthesizes organic, non-buzzing 4-second stereo loops for `idle`, `mid`, `high`, and `whine`.
+     */
+    function bakePresetBuffers(presetKey) {
+      if (bakedPresetCache[presetKey]) return bakedPresetCache[presetKey];
+      const p = PRESETS[presetKey];
+      const sr = audioCtx.sampleRate;
+
+      if (p.acousticModel === 'ev_weissach' || p.acousticModel === 'ev_magma') {
+        const isMagma = p.acousticModel === 'ev_magma';
+        const idleBuf = bakeEVHarmonicBuffer(sr, p.baseLoopsHz.idle, 'idle', isMagma);
+        const midBuf  = bakeEVHarmonicBuffer(sr, p.baseLoopsHz.mid, 'mid', isMagma);
+        const highBuf = bakeEVHarmonicBuffer(sr, p.baseLoopsHz.high, 'high', isMagma);
+        const whineBuf = bakeTurbineWhineBuffer(sr, 440);
+        bakedPresetCache[presetKey] = { idleBuf, midBuf, highBuf, whineBuf };
+      } else {
+        const idleBuf = bakeCombustionPulseBuffer(sr, p, p.baseLoopsHz.idle, 'idle');
+        const midBuf  = bakeCombustionPulseBuffer(sr, p, p.baseLoopsHz.mid, 'mid');
+        const highBuf = bakeCombustionPulseBuffer(sr, p, p.baseLoopsHz.high, 'high');
+        const whineBuf = bakeTurbineWhineBuffer(sr, 520);
+        bakedPresetCache[presetKey] = { idleBuf, midBuf, highBuf, whineBuf };
+      }
+      return bakedPresetCache[presetKey];
+    }
+
+    /**
+     * Bakes Porsche Taycan Weissach / IONIQ 6 N / GV60 Magma Stereo PCM Buffer:
+     * Uses warm polyphonic harmonic chords, planetary gear carrier hum, stereo chorus detuning,
+     * and velvet bandpass turbine air rush — ZERO sawtooth buzz!
+     */
+    function bakeEVHarmonicBuffer(sr, baseHz, band, isMagma) {
+      const targetDuration = 3.2;
+      const cycles = Math.max(8, Math.round(targetDuration * baseHz));
+      const loopDuration = cycles / baseHz;
+      const numSamples = Math.floor(sr * loopDuration);
+      const buf = audioCtx.createBuffer(2, numSamples, sr);
+      const L = buf.getChannelData(0);
+      const R = buf.getChannelData(1);
+
+      // Integer harmonics for seamless zero-click loop + chorus modulation
+      const ratios = isMagma
+        ? [0.5, 1.0, 1.5, 2.0, 3.0, 4.0]
+        : [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0, 6.0];
+      const amps = isMagma
+        ? [0.48, 0.65, 0.42, 0.32, 0.18, 0.08]
+        : (band === 'idle'
+            ? [0.55, 0.68, 0.30, 0.22, 0.12, 0.08, 0.03, 0.01]
+            : band === 'mid'
+              ? [0.42, 0.62, 0.45, 0.36, 0.24, 0.18, 0.10, 0.04]
+              : [0.32, 0.55, 0.48, 0.42, 0.30, 0.25, 0.16, 0.09]);
+
+      let pinkB0 = 0, pinkB1 = 0, pinkB2 = 0;
+      let airFilterL = 0, airFilterR = 0;
+
+      for (let i = 0; i < numSamples; i++) {
+        const t = i / sr;
+        const loopPhase = (i / numSamples) * Math.PI * 2;
+        // Slow stereo chorus shimmer (exact integer cycles over loopDuration)
+        const shimmerL = Math.sin(loopPhase * 3) * 0.003;
+        const shimmerR = Math.cos(loopPhase * 3) * 0.003;
+
+        let sumL = 0;
+        let sumR = 0;
+        for (let h = 0; h < ratios.length; h++) {
+          const freq = baseHz * ratios[h];
+          const phaseL = Math.PI * 2 * freq * t + shimmerL * (h + 1) + h * 0.7;
+          const phaseR = Math.PI * 2 * freq * t + shimmerR * (h + 1) + h * 1.1;
+          sumL += Math.sin(phaseL) * amps[h];
+          sumR += Math.sin(phaseR) * amps[h];
+        }
+
+        // For GV60 Magma, add subtle warm V6/V8 velvet pulse envelope
+        if (isMagma) {
+          const pulseEnv = 0.78 + 0.22 * Math.sin(Math.PI * 2 * baseHz * t);
+          sumL *= pulseEnv;
+          sumR *= pulseEnv;
+        }
+
+        // Velvet turbine air rush (filtered pink noise)
+        const white = Math.random() * 2 - 1;
+        pinkB0 = 0.997 * pinkB0 + white * 0.029;
+        pinkB1 = 0.985 * pinkB1 + white * 0.032;
+        pinkB2 = 0.950 * pinkB2 + white * 0.048;
+        const pink = (pinkB0 + pinkB1 + pinkB2 + white * 0.02);
+        airFilterL = airFilterL * 0.86 + pink * 0.14;
+        airFilterR = airFilterR * 0.84 + (pink * 0.95) * 0.16;
+
+        const airMix = band === 'high' ? 0.28 : (band === 'mid' ? 0.18 : 0.10);
+        // Warm soft-clip tube saturation (tanh)
+        L[i] = Math.tanh((sumL + airFilterL * airMix) * 0.85) * 0.78;
+        R[i] = Math.tanh((sumR + airFilterR * airMix) * 0.85) * 0.78;
+      }
+      return buf;
+    }
+
+    /**
+     * Bakes Realistic Internal Combustion (IC) Cylinder Pressure Pulse Stereo PCM Buffer:
+     * Simulates discrete cylinder exhaust valve opening shockwaves, uneven firing orders
+     * (e.g., Yamaha R1M CP4, Ducati Twin-Pulse, AMG V8, GT3 RS Flat-6), cycle-to-cycle stochastic
+     * combustion variation, and dual-muffler acoustic resonance — NO oscillator buzzing!
+     */
+    function bakeCombustionPulseBuffer(sr, preset, baseFiringHz, band) {
+      const intervals = preset.firingIntervals || [1.0, 1.0, 1.0, 1.0];
+      const numCylInPattern = intervals.length;
+      const patternRateHz = baseFiringHz / numCylInPattern;
+      const targetDuration = 3.2;
+      const patternCycles = Math.max(6, Math.round(targetDuration * patternRateHz));
+      const loopDuration = patternCycles / patternRateHz;
+      const numSamples = Math.floor(sr * loopDuration);
+
+      const buf = audioCtx.createBuffer(2, numSamples, sr);
+      const L = buf.getChannelData(0);
+      const R = buf.getChannelData(1);
+
+      // Normalize firing interval weights
+      const totalWeight = intervals.reduce((a, b) => a + b, 0);
+      const normIntervals = intervals.map(w => (w / totalWeight) * numCylInPattern);
+
+      // Generate every discrete cylinder explosion event across the 3.2-second buffer
+      const pulseDecay = band === 'idle'
+        ? baseFiringHz * 2.4
+        : (band === 'mid' ? baseFiringHz * 1.65 : baseFiringHz * 1.25);
+
+      const resonance1 = preset.exhaustResonanceHz || 280;
+      const resonance2 = (preset.formant1Hz || 1100) * (band === 'high' ? 0.85 : 0.65);
+
+      let cursorTime = 0;
+      let stepIndex = 0;
+      while (cursorTime < loopDuration) {
+        const intervalMult = normIntervals[stepIndex % numCylInPattern];
+        const nominalDt = intervalMult / baseFiringHz;
+        // Cycle-to-cycle stochastic combustion jitter (gives authentic organic engine texture!)
+        const jitterTime = (Math.random() - 0.5) * nominalDt * (band === 'idle' ? 0.08 : 0.035);
+        const eventTime = Math.max(0, cursorTime + jitterTime);
+        const ampJitter = 0.82 + Math.random() * 0.34;
+        // Alternate stereo pan slightly between cylinder banks
+        const bankPanL = (stepIndex % 2 === 0) ? 1.05 : 0.88;
+        const bankPanR = (stepIndex % 2 === 0) ? 0.88 : 1.05;
+
+        const startSample = Math.floor(eventTime * sr);
+        const pulseLenSamples = Math.floor((sr / baseFiringHz) * 2.8);
+
+        for (let k = 0; k < pulseLenSamples; k++) {
+          const idx = (startSample + k) % numSamples;
+          const pt = k / sr;
+          const env = Math.exp(-pt * pulseDecay);
+
+          // Physical exhaust blowdown wave: deep fundamental pressure wave + pipe resonance + gas turbulence
+          const fundWave = Math.sin(Math.PI * 2 * baseFiringHz * pt * 0.95) * 0.75;
+          const subWave  = Math.sin(Math.PI * 2 * (baseFiringHz * 0.5) * pt) * (preset.subGainLevel * 0.65);
+          const pipeRes1 = Math.sin(Math.PI * 2 * resonance1 * pt) * 0.36 * Math.exp(-pt * pulseDecay * 1.3);
+          const pipeRes2 = Math.sin(Math.PI * 2 * resonance2 * pt) * (preset.titaniumGainLevel * 0.22) * Math.exp(-pt * pulseDecay * 1.9);
+          const gasRush  = (Math.random() * 2 - 1) * (band === 'high' ? 0.34 : 0.20) * Math.exp(-pt * pulseDecay * 1.2);
+
+          const sampleVal = (fundWave + subWave + pipeRes1 + pipeRes2 + gasRush) * env * ampJitter;
+          L[idx] += sampleVal * bankPanL;
+          R[idx] += sampleVal * bankPanR;
+        }
+
+        cursorTime += nominalDt;
+        stepIndex++;
+      }
+
+      // Apply warm 2-pole low-pass & soft-saturation across the stereo buffer to eliminate any digital edge
+      let lp1L = 0, lp2L = 0, lp1R = 0, lp2R = 0;
+      const smoothAlpha = band === 'idle' ? 0.22 : (band === 'mid' ? 0.34 : 0.46);
+      for (let i = 0; i < numSamples; i++) {
+        lp1L += smoothAlpha * (L[i] - lp1L);
+        lp2L += smoothAlpha * (lp1L - lp2L);
+        lp1R += smoothAlpha * (R[i] - lp1R);
+        lp2R += smoothAlpha * (lp1R - lp2R);
+        L[i] = Math.tanh(lp2L * 0.95) * 0.82;
+        R[i] = Math.tanh(lp2R * 0.95) * 0.82;
+      }
+
+      return buf;
+    }
+
+    /**
+     * Bakes a smooth Turbo / Supercharger / SiC Inverter Whine Loop Buffer
+     */
+    function bakeTurbineWhineBuffer(sr, baseWhineHz) {
+      const cycles = Math.round(2.0 * baseWhineHz);
+      const dur = cycles / baseWhineHz;
+      const len = Math.floor(sr * dur);
+      const buf = audioCtx.createBuffer(2, len, sr);
+      const L = buf.getChannelData(0);
+      const R = buf.getChannelData(1);
+
+      for (let i = 0; i < len; i++) {
+        const t = i / sr;
+        const w1 = Math.sin(Math.PI * 2 * baseWhineHz * t) * 0.45;
+        const w2 = Math.sin(Math.PI * 2 * (baseWhineHz * 1.5) * t + 0.4) * 0.25;
+        const air = (Math.random() * 2 - 1) * 0.08;
+        L[i] = (w1 + w2 + air) * 0.5;
+        R[i] = (w1 + w2 - air) * 0.5;
+      }
+      return buf;
     }
 
     function initAudioEngine() {
@@ -1705,156 +1837,234 @@
 
       analyserNode = audioCtx.createAnalyser();
       analyserNode.fftSize = 256;
-      analyserNode.smoothingTimeConstant = 0.72;
+      analyserNode.smoothingTimeConstant = 0.75;
 
       engineBusGain = audioCtx.createGain();
       engineBusGain.gain.value = 0.0;
 
-      resonatorFilter = audioCtx.createBiquadFilter();
-      resonatorFilter.type = 'peaking';
-      resonatorFilter.frequency.value = 420;
-      resonatorFilter.Q.value = 3.5;
-      resonatorFilter.gain.value = 9.5;
+      // 3-Layer Sample Gains + Whine Gain
+      gainIdle = audioCtx.createGain();
+      gainMid = audioCtx.createGain();
+      gainHigh = audioCtx.createGain();
+      gainWhine = audioCtx.createGain();
 
-      lowPassFilter = audioCtx.createBiquadFilter();
-      lowPassFilter.type = 'lowpass';
-      lowPassFilter.frequency.value = 1400;
-      lowPassFilter.Q.value = 1.6;
+      // Acoustic Exhaust Body Resonator
+      bodyResonator = audioCtx.createBiquadFilter();
+      bodyResonator.type = 'peaking';
+      bodyResonator.frequency.value = 220;
+      bodyResonator.Q.value = 2.4;
+      bodyResonator.gain.value = 5.5;
 
-      titaniumFilter1 = audioCtx.createBiquadFilter();
-      titaniumFilter1.type = 'bandpass';
-      titaniumFilter1.frequency.value = 1420;
-      titaniumFilter1.Q.value = 6.0;
+      // Dynamic Load & RPM Lowpass Filter (No piercing highs)
+      loadLowPass = audioCtx.createBiquadFilter();
+      loadLowPass.type = 'lowpass';
+      loadLowPass.frequency.value = 1800;
+      loadLowPass.Q.value = 0.9;
 
-      titaniumFilter2 = audioCtx.createBiquadFilter();
-      titaniumFilter2.type = 'bandpass';
-      titaniumFilter2.frequency.value = 2680;
-      titaniumFilter2.Q.value = 6.5;
+      // Deep Sub-Bass Shelf (65Hz warmth for earphones & car subwoofer)
+      subBassShelf = audioCtx.createBiquadFilter();
+      subBassShelf.type = 'lowshelf';
+      subBassShelf.frequency.value = 80;
+      subBassShelf.gain.value = 7.5;
 
-      titaniumBusGain = audioCtx.createGain();
-      titaniumBusGain.gain.value = 0.5;
+      // Earphone De-Harshness Notch Filter (cuts the 3.4kHz ear-canal resonance peak)
+      earHarshnessNotch = audioCtx.createBiquadFilter();
+      earHarshnessNotch.type = 'peaking';
+      earHarshnessNotch.frequency.value = 3400;
+      earHarshnessNotch.Q.value = 1.8;
+      earHarshnessNotch.gain.value = state.earphoneMastering ? -11.5 : -2.0;
 
-      waveShaper = audioCtx.createWaveShaper();
-      waveShaper.curve = makeDistortionCurve(68);
-      waveShaper.oversample = '2x';
+      // Stereo Cabin / Tailpipe Impulse Response Convolver
+      cabinConvolver = audioCtx.createConvolver();
+      cabinConvolver.buffer = createStereoCabinImpulseBuffer(audioCtx);
 
-      oscFund = audioCtx.createOscillator();
-      oscHarm2 = audioCtx.createOscillator();
-      oscHarm3 = audioCtx.createOscillator();
-      oscSub = audioCtx.createOscillator();
-      oscTurbo = audioCtx.createOscillator();
-      oscTurbo2 = audioCtx.createOscillator();
-      oscSupercharger = audioCtx.createOscillator();
+      dryMasteringGain = audioCtx.createGain();
+      wetConvolverGain = audioCtx.createGain();
+      dryMasteringGain.gain.value = state.earphoneMastering ? 0.72 : 0.92;
+      wetConvolverGain.gain.value = state.earphoneMastering ? 0.52 : 0.18;
 
-      gainFund = audioCtx.createGain();
-      gainHarm2 = audioCtx.createGain();
-      gainHarm3 = audioCtx.createGain();
-      gainSub = audioCtx.createGain();
-      gainTurbo = audioCtx.createGain();
-      gainSupercharger = audioCtx.createGain();
+      // Connect Signal Chain:
+      // [srcIdle, srcMid, srcHigh] -> [gainIdle, gainMid, gainHigh] -> bodyResonator -> loadLowPass -> subBassShelf -> earHarshnessNotch -> (Dry + Cabin IR Convolver) -> engineBusGain -> masterGain
+      gainIdle.connect(bodyResonator);
+      gainMid.connect(bodyResonator);
+      gainHigh.connect(bodyResonator);
+      gainWhine.connect(loadLowPass);
 
-      // Cam Lope / Rotary Brap LFO
-      lfoNode = audioCtx.createOscillator();
-      lfoGain = audioCtx.createGain();
-      lfoNode.frequency.value = 8.0;
-      lfoGain.gain.value = 25;
-      lfoNode.connect(lfoGain);
-      lfoGain.connect(oscFund.frequency);
-      lfoGain.connect(oscHarm2.frequency);
+      bodyResonator.connect(loadLowPass);
+      loadLowPass.connect(subBassShelf);
+      subBassShelf.connect(earHarshnessNotch);
 
-      oscFund.connect(gainFund);
-      oscHarm2.connect(gainHarm2);
-      oscHarm3.connect(gainHarm3);
-      oscSub.connect(gainSub);
+      earHarshnessNotch.connect(dryMasteringGain);
+      earHarshnessNotch.connect(cabinConvolver);
+      cabinConvolver.connect(wetConvolverGain);
 
-      gainFund.connect(waveShaper);
-      gainHarm2.connect(waveShaper);
-      gainHarm3.connect(waveShaper);
-      gainSub.connect(resonatorFilter);
-
-      oscTurbo.connect(gainTurbo);
-      oscTurbo2.connect(gainTurbo);
-      gainTurbo.connect(engineBusGain);
-
-      oscSupercharger.type = 'sawtooth';
-      oscSupercharger.connect(gainSupercharger);
-      gainSupercharger.connect(engineBusGain);
-
-      // Continuous Exhaust / Intake / Afterburner Rush Noise
-      const bufferSize = audioCtx.sampleRate * 2;
-      const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-      const output = noiseBuffer.getChannelData(0);
-      for (let i = 0; i < bufferSize; i++) {
-        output[i] = Math.random() * 2 - 1;
-      }
-      exhaustNoiseNode = audioCtx.createBufferSource();
-      exhaustNoiseNode.buffer = noiseBuffer;
-      exhaustNoiseNode.loop = true;
-
-      exhaustNoiseFilter = audioCtx.createBiquadFilter();
-      exhaustNoiseFilter.type = 'bandpass';
-      exhaustNoiseFilter.frequency.value = 480;
-      exhaustNoiseFilter.Q.value = 1.8;
-
-      exhaustNoiseGain = audioCtx.createGain();
-      exhaustNoiseGain.gain.value = 0.12;
-
-      exhaustNoiseNode.connect(exhaustNoiseFilter);
-      exhaustNoiseFilter.connect(exhaustNoiseGain);
-      exhaustNoiseGain.connect(waveShaper);
-
-      waveShaper.connect(resonatorFilter);
-      resonatorFilter.connect(lowPassFilter);
-      lowPassFilter.connect(engineBusGain);
-
-      waveShaper.connect(titaniumFilter1);
-      waveShaper.connect(titaniumFilter2);
-      titaniumFilter1.connect(titaniumBusGain);
-      titaniumFilter2.connect(titaniumBusGain);
-      titaniumBusGain.connect(engineBusGain);
+      dryMasteringGain.connect(engineBusGain);
+      wetConvolverGain.connect(engineBusGain);
 
       engineBusGain.connect(masterGain);
       masterGain.connect(analyserNode);
       analyserNode.connect(audioCtx.destination);
 
-      oscFund.start();
-      oscHarm2.start();
-      oscHarm3.start();
-      oscSub.start();
-      oscTurbo.start();
-      oscTurbo2.start();
-      oscSupercharger.start();
-      lfoNode.start();
-      exhaustNoiseNode.start();
+      rebuildLoopingSampleSources();
+    }
 
-      applyPresetToAudioNodes();
+    function stopCurrentSampleSources() {
+      [srcIdle, srcMid, srcHigh, srcWhine].forEach(src => {
+        if (src) {
+          try { src.stop(); src.disconnect(); } catch (e) {}
+        }
+      });
+      srcIdle = null;
+      srcMid = null;
+      srcHigh = null;
+      srcWhine = null;
+    }
+
+    function rebuildLoopingSampleSources() {
+      if (!audioCtx) return;
+      stopCurrentSampleSources();
+
+      const p = PRESETS[state.presetKey];
+      const now = audioCtx.currentTime;
+
+      bodyResonator.frequency.setTargetAtTime(p.exhaustResonanceHz || 240, now, 0.03);
+      bodyResonator.Q.setTargetAtTime(Math.min(3.5, p.exhaustQ || 2.5), now, 0.03);
+      subBassShelf.gain.setTargetAtTime(4.5 + p.subGainLevel * 5.5, now, 0.03);
+
+      // Check if a real external .mp3/.wav buffer is available (either user-uploaded or from ./sounds/<id>.mp3)
+      const extBuf = customUserBuffer || externalAudioBufferCache[state.presetKey];
+      const baked = bakePresetBuffers(state.presetKey);
+
+      srcIdle = audioCtx.createBufferSource();
+      srcMid = audioCtx.createBufferSource();
+      srcHigh = audioCtx.createBufferSource();
+      srcWhine = audioCtx.createBufferSource();
+
+      if (extBuf) {
+        state.usingExternalSample = true;
+        srcIdle.buffer = extBuf;
+        srcMid.buffer = extBuf;
+        srcHigh.buffer = extBuf;
+      } else {
+        state.usingExternalSample = false;
+        srcIdle.buffer = baked.idleBuf;
+        srcMid.buffer = baked.midBuf;
+        srcHigh.buffer = baked.highBuf;
+      }
+      srcWhine.buffer = baked.whineBuf;
+
+      srcIdle.loop = true;
+      srcMid.loop = true;
+      srcHigh.loop = true;
+      srcWhine.loop = true;
+
+      srcIdle.connect(gainIdle);
+      srcMid.connect(gainMid);
+      srcHigh.connect(gainHigh);
+      srcWhine.connect(gainWhine);
+
+      srcIdle.start(0);
+      srcMid.start(0, 0.4);
+      srcHigh.start(0, 0.8);
+      srcWhine.start(0);
+
+      updateSampleBadgeUI();
+    }
+
+    // Automatically check if ./sounds/<presetKey>.mp3 exists (for Mac batch script users)
+    async function tryAutoLoadExternalSample(presetKey) {
+      if (externalAudioBufferCache[presetKey]) {
+        if (audioCtx && state.presetKey === presetKey) rebuildLoopingSampleSources();
+        return;
+      }
+      const candidates = [`./sounds/${presetKey}.mp3`, `./sounds/${presetKey}.wav`];
+      for (const url of candidates) {
+        try {
+          const res = await fetch(url, { method: 'GET' });
+          if (res.ok) {
+            const arrayBuf = await res.arrayBuffer();
+            if (!audioCtx) initAudioEngine();
+            const decoded = await audioCtx.decodeAudioData(arrayBuf);
+            externalAudioBufferCache[presetKey] = decoded;
+            state.externalSampleName = `${presetKey}.mp3`;
+            if (state.presetKey === presetKey) {
+              rebuildLoopingSampleSources();
+              showTelemetryNotice(`🟢 실제 음원 파일(${url})이 로드되어 샘플러 엔진으로 구동됩니다!`);
+            }
+            return;
+          }
+        } catch (err) {
+          // Silent fallback to built-in 48kHz 3-Layer PCM Bakery
+        }
+      }
+    }
+
+    function triggerCustomSampleUpload() {
+      document.getElementById('customSampleInput').click();
+    }
+
+    async function handleCustomSampleFile(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      await loadUserAudioFile(file);
+    }
+
+    async function loadUserAudioFile(file) {
+      try {
+        if (!audioCtx) initAudioEngine();
+        const arrayBuf = await file.arrayBuffer();
+        const decoded = await audioCtx.decodeAudioData(arrayBuf);
+        customUserBuffer = decoded;
+        state.externalSampleName = file.name;
+        rebuildLoopingSampleSources();
+        if (!state.engineRunning) toggleEngine();
+        document.getElementById('customSampleBtnText').textContent = `🎵 ${file.name.slice(0, 12)}`;
+        showTelemetryNotice(`🟢 커스텀 실제 배기음 샘플 [${file.name}] 로드 완료! RPM과 가속도에 맞춰 피치 시프팅됩니다.`);
+      } catch (err) {
+        showTelemetryNotice('⚠️ 오디오 파일 디코딩에 실패했습니다. (.wav 또는 .mp3 파일을 넣어주세요)');
+      }
+    }
+
+    function updateSampleBadgeUI() {
+      const badge = document.getElementById('sampleSourceBadge');
+      if (!badge) return;
+      if (state.usingExternalSample) {
+        badge.textContent = `🟢 REAL SAMPLE (${state.externalSampleName || state.presetKey})`;
+        badge.className = 'px-1.5 py-0.2 rounded bg-emerald-500/25 text-emerald-300 border border-emerald-400 font-bold';
+      } else {
+        badge.textContent = state.earphoneMastering
+          ? '🎧 48kHz 3-LAYER PCM + CABIN IR'
+          : '🎛️ 48kHz 3-LAYER PCM DIRECT';
+        badge.className = 'px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-bold';
+      }
+    }
+
+    function toggleEarphoneMastering(skipSave = false) {
+      if (!skipSave) state.earphoneMastering = !state.earphoneMastering;
+      const btn = document.getElementById('earphoneMasterBtn');
+      const txt = document.getElementById('earphoneMasterText');
+
+      if (state.earphoneMastering) {
+        btn.className = 'px-2.5 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-400 text-cyan-200 text-xs font-bold flex items-center gap-1 shadow transition active:scale-95';
+        txt.textContent = '이어폰 공간음 ON';
+      } else {
+        btn.className = 'px-2.5 py-1.5 rounded-xl bg-zinc-900 border border-white/15 text-zinc-400 text-xs font-bold flex items-center gap-1 shadow transition active:scale-95';
+        txt.textContent = '이어폰 공간음 OFF';
+      }
+
+      if (audioCtx) {
+        const now = audioCtx.currentTime;
+        earHarshnessNotch.gain.setTargetAtTime(state.earphoneMastering ? -11.5 : -2.0, now, 0.03);
+        dryMasteringGain.gain.setTargetAtTime(state.earphoneMastering ? 0.72 : 0.92, now, 0.03);
+        wetConvolverGain.gain.setTargetAtTime(state.earphoneMastering ? 0.52 : 0.18, now, 0.03);
+      }
+      updateSampleBadgeUI();
+      if (!skipSave) saveSettingsToStorage();
     }
 
     function applyPresetToAudioNodes() {
       if (!audioCtx) return;
-      const p = PRESETS[state.presetKey];
-      const now = audioCtx.currentTime;
-
-      oscFund.type = p.osc1Type;
-      oscHarm2.type = p.osc2Type;
-      oscHarm3.type = p.osc3Type;
-      oscSub.type = 'sine';
-      oscTurbo.type = 'sine';
-      oscTurbo2.type = 'triangle';
-
-      gainFund.gain.setTargetAtTime(p.midGainLevel, now, 0.03);
-      gainHarm2.gain.setTargetAtTime(p.midGainLevel * 0.85, now, 0.03);
-      gainHarm3.gain.setTargetAtTime(p.highGainLevel, now, 0.03);
-      gainSub.gain.setTargetAtTime(p.subGainLevel, now, 0.03);
-
-      resonatorFilter.frequency.setTargetAtTime(p.exhaustResonanceHz, now, 0.03);
-      resonatorFilter.Q.setTargetAtTime(p.exhaustQ, now, 0.03);
-      titaniumFilter1.frequency.setTargetAtTime(p.formant1Hz || 1420, now, 0.03);
-      titaniumFilter2.frequency.setTargetAtTime(p.formant2Hz || 2680, now, 0.03);
-      lfoNode.frequency.setTargetAtTime(p.lopeSpeedHz, now, 0.03);
-
-      const valveMult = state.exhaustValveOpen ? 1.0 : 0.18;
-      titaniumBusGain.gain.setTargetAtTime(p.titaniumGainLevel * valveMult, now, 0.03);
+      rebuildLoopingSampleSources();
     }
 
     // Starter Motor Crank + Cold-Start Roar Sequence
@@ -1865,212 +2075,102 @@
       const p = PRESETS[state.presetKey];
       state.cranking = true;
       state.engineRunning = true;
-      state.rpm = 320;
+      state.rpm = 380;
 
       const now = audioCtx.currentTime;
       engineBusGain.gain.cancelScheduledValues(now);
-      engineBusGain.gain.setValueAtTime(0.25, now);
-
-      for (let i = 0; i < 3; i++) {
-        const pulseTime = now + i * 0.13;
-        const starterOsc = audioCtx.createOscillator();
-        const starterGain = audioCtx.createGain();
-        starterOsc.type = 'sawtooth';
-        starterOsc.frequency.setValueAtTime(165, pulseTime);
-        starterOsc.frequency.linearRampToValueAtTime(235, pulseTime + 0.09);
-
-        starterGain.gain.setValueAtTime(0.01, pulseTime);
-        starterGain.gain.linearRampToValueAtTime(0.28, pulseTime + 0.04);
-        starterGain.gain.exponentialRampToValueAtTime(0.01, pulseTime + 0.12);
-
-        starterOsc.connect(starterGain);
-        starterGain.connect(masterGain);
-        starterOsc.start(pulseTime);
-        starterOsc.stop(pulseTime + 0.125);
-      }
+      engineBusGain.gain.setValueAtTime(0.35, now);
 
       setTimeout(() => {
         if (!state.engineRunning) return;
         state.cranking = false;
-        state.rpm = Math.min(p.redline * 0.44, Math.max(3200, p.idleRpm * 1.65));
-        engineBusGain.gain.setTargetAtTime(1.0, audioCtx.currentTime, 0.03);
-        triggerExhaustPop(1.3);
-        setTimeout(() => triggerExhaustPop(1.05), 90);
-        setTimeout(() => triggerExhaustPop(0.85), 180);
-      }, 410);
+        state.rpm = Math.min(p.redline * 0.42, Math.max(2800, p.idleRpm * 1.65));
+        engineBusGain.gain.setTargetAtTime(1.0, audioCtx.currentTime, 0.04);
+        if (p.acousticModel !== 'ev_weissach') {
+          triggerExhaustPop(1.2);
+          setTimeout(() => triggerExhaustPop(0.95), 95);
+        }
+      }, 320);
     }
 
-    // Upshift Sound per Vehicle Transmission Type
+    // Upshift Sound per Vehicle Transmission Type (Filtered through Cabin IR)
     function triggerUpshiftSound() {
       if (!audioCtx || !state.engineRunning) return;
       const now = audioCtx.currentTime;
       const p = PRESETS[state.presetKey];
       const valveScale = state.exhaustValveOpen ? 1.0 : 0.45;
 
-      if (p.shiftStyle === 'sonic_boom') {
+      if (p.shiftStyle === 'sonic_boom' || p.shiftStyle === 'ev_chord') {
+        // Deep Porsche Taycan / IONIQ 6 N 2-Speed / Virtual Gear Torque Thud
         const boomOsc = audioCtx.createOscillator();
         const boomGain = audioCtx.createGain();
         boomOsc.type = 'sine';
-        boomOsc.frequency.setValueAtTime(145, now);
-        boomOsc.frequency.exponentialRampToValueAtTime(26, now + 0.24);
-        boomGain.gain.setValueAtTime(1.1 * valveScale, now);
-        boomGain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+        boomOsc.frequency.setValueAtTime(160, now);
+        boomOsc.frequency.exponentialRampToValueAtTime(38, now + 0.18);
+        boomGain.gain.setValueAtTime(0.85 * valveScale, now);
+        boomGain.gain.exponentialRampToValueAtTime(0.01, now + 0.19);
         boomOsc.connect(boomGain);
-        boomGain.connect(masterGain);
+        boomGain.connect(earHarshnessNotch);
         boomOsc.start(now);
-        boomOsc.stop(now + 0.26);
-        triggerExhaustPop(1.3);
-      } else if (p.shiftStyle === 'ev_chord') {
-        // Porsche Taycan / IONIQ 6 N Lightspeed futuristic dual-inverter harmonic shift pulse
-        const chordOsc1 = audioCtx.createOscillator();
-        const chordOsc2 = audioCtx.createOscillator();
-        const chordGain = audioCtx.createGain();
-        chordOsc1.type = 'sine';
-        chordOsc2.type = 'triangle';
-        chordOsc1.frequency.setValueAtTime(520, now);
-        chordOsc1.frequency.exponentialRampToValueAtTime(190, now + 0.14);
-        chordOsc2.frequency.setValueAtTime(780, now);
-        chordOsc2.frequency.exponentialRampToValueAtTime(285, now + 0.14);
-        chordGain.gain.setValueAtTime(0.75 * valveScale, now);
-        chordGain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
-        chordOsc1.connect(chordGain);
-        chordOsc2.connect(chordGain);
-        chordGain.connect(masterGain);
-        chordOsc1.start(now);
-        chordOsc2.start(now);
-        chordOsc1.stop(now + 0.155);
-        chordOsc2.stop(now + 0.155);
-      } else if (p.shiftStyle === 'magma_vgs') {
-        // Genesis GV60 Magma Virtual Gear Shift deep bass thud + crisp metallic burble
-        triggerExhaustPop(1.25);
-        const vgsOsc = audioCtx.createOscillator();
-        const vgsGain = audioCtx.createGain();
-        vgsOsc.type = 'triangle';
-        vgsOsc.frequency.setValueAtTime(135, now);
-        vgsOsc.frequency.exponentialRampToValueAtTime(42, now + 0.11);
-        vgsGain.gain.setValueAtTime(0.90 * valveScale, now);
-        vgsGain.gain.exponentialRampToValueAtTime(0.01, now + 0.115);
-        vgsOsc.connect(vgsGain);
-        vgsGain.connect(masterGain);
-        vgsOsc.start(now);
-        vgsOsc.stop(now + 0.12);
-      } else if (p.shiftStyle === 'quickshifter_cut') {
-        // Superbike 35ms Shift Assistant Pro / KQS / DQS ignition cut + titanium pipe gunshot!
-        const isFullDecat = state.presetKey !== 's1000rr_gp1rs';
-        triggerExhaustPop(isFullDecat ? 1.65 : 1.25, true);
-        const qsOsc = audioCtx.createOscillator();
-        const qsGain = audioCtx.createGain();
-        qsOsc.type = 'sawtooth';
-        qsOsc.frequency.setValueAtTime(340, now);
-        qsOsc.frequency.exponentialRampToValueAtTime(95, now + 0.042);
-        qsGain.gain.setValueAtTime(0.85 * valveScale, now);
-        qsGain.gain.exponentialRampToValueAtTime(0.01, now + 0.045);
-        qsOsc.connect(qsGain);
-        qsGain.connect(masterGain);
-        qsOsc.start(now);
-        qsOsc.stop(now + 0.048);
-      } else if (p.shiftStyle === 'isr_brutal') {
-        // Aventador SVJ Single-Clutch ISR mechanical thud + gunshot flame
-        triggerExhaustPop(1.6, true);
+        boomOsc.stop(now + 0.20);
+      } else {
+        triggerExhaustPop(1.3, p.shiftStyle === 'quickshifter_cut' || p.shiftStyle === 'isr_brutal');
         const thudOsc = audioCtx.createOscillator();
         const thudGain = audioCtx.createGain();
         thudOsc.type = 'triangle';
-        thudOsc.frequency.setValueAtTime(110, now);
-        thudOsc.frequency.exponentialRampToValueAtTime(32, now + 0.14);
-        thudGain.gain.setValueAtTime(1.0 * valveScale, now);
-        thudGain.gain.exponentialRampToValueAtTime(0.01, now + 0.145);
+        thudOsc.frequency.setValueAtTime(115, now);
+        thudOsc.frequency.exponentialRampToValueAtTime(36, now + 0.10);
+        thudGain.gain.setValueAtTime(0.75 * valveScale, now);
+        thudGain.gain.exponentialRampToValueAtTime(0.01, now + 0.11);
         thudOsc.connect(thudGain);
-        thudGain.connect(masterGain);
+        thudGain.connect(earHarshnessNotch);
         thudOsc.start(now);
-        thudOsc.stop(now + 0.15);
-      } else if (p.shiftStyle === 'pdk_snap') {
-        // Porsche PDK / Ferrari F1 DCT 45ms crisp high-frequency snap
-        triggerExhaustPop(1.25, true);
-        const snapOsc = audioCtx.createOscillator();
-        const snapGain = audioCtx.createGain();
-        snapOsc.type = 'sawtooth';
-        snapOsc.frequency.setValueAtTime(220, now);
-        snapOsc.frequency.exponentialRampToValueAtTime(75, now + 0.055);
-        snapGain.gain.setValueAtTime(0.75 * valveScale, now);
-        snapGain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
-        snapOsc.connect(snapGain);
-        snapGain.connect(masterGain);
-        snapOsc.start(now);
-        snapOsc.stop(now + 0.065);
-      } else if (p.shiftStyle === 'n_eshift') {
-        triggerExhaustPop(1.4);
-        const bangOsc = audioCtx.createOscillator();
-        const bangGain = audioCtx.createGain();
-        bangOsc.type = 'square';
-        bangOsc.frequency.setValueAtTime(125, now);
-        bangOsc.frequency.exponentialRampToValueAtTime(48, now + 0.11);
-        bangGain.gain.setValueAtTime(0.85 * valveScale, now);
-        bangGain.gain.exponentialRampToValueAtTime(0.01, now + 0.115);
-        bangOsc.connect(bangGain);
-        bangGain.connect(masterGain);
-        bangOsc.start(now);
-        bangOsc.stop(now + 0.12);
-      } else if (p.shiftStyle === 'akra_crack') {
-        triggerExhaustPop(1.5, true);
-      } else {
-        const osc = audioCtx.createOscillator();
-        const filter = audioCtx.createBiquadFilter();
-        const gain = audioCtx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(98, now);
-        osc.frequency.exponentialRampToValueAtTime(50, now + 0.09);
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(520, now);
-        gain.gain.setValueAtTime(0.75 * valveScale, now);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.095);
-        osc.connect(filter);
-        filter.connect(gain);
-        gain.connect(masterGain);
-        osc.start(now);
-        osc.stop(now + 0.1);
+        thudOsc.stop(now + 0.12);
       }
     }
 
-    // Overrun Exhaust Popcorn / N-Ignition / Akra Titanium Gunshot Crack Synthesizer
+    // Warm Acoustic Exhaust Popcorn / Burble (Routed through Cabin IR & Sub-Bass Shelf)
     function triggerExhaustPop(intensityScale = 1.0, forceAkraCrack = false) {
       if (!audioCtx || !state.engineRunning) return;
+      const p = PRESETS[state.presetKey];
+      if (p.acousticModel === 'ev_weissach' && state.burbleMode !== 'akra_crack') return;
       if (state.burbleMode === 'off' && !forceAkraCrack) return;
 
       const now = audioCtx.currentTime;
-      const isAkraMode = forceAkraCrack || state.burbleMode === 'akra_crack' || state.presetKey === 'akrapovic' || state.presetKey === 'svj' || state.presetKey === 's1000rr';
+      const isAkraMode = forceAkraCrack || state.burbleMode === 'akra_crack' || p.category === 'superbike';
       const valveMult = state.exhaustValveOpen ? 1.0 : 0.35;
 
-      const duration = isAkraMode ? (0.032 + Math.random() * 0.025) : (0.048 + Math.random() * 0.045);
+      const duration = isAkraMode ? (0.045 + Math.random() * 0.030) : (0.065 + Math.random() * 0.050);
       const bufferSize = Math.floor(audioCtx.sampleRate * duration);
       const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
-        const env = Math.pow(1 - i / bufferSize, isAkraMode ? 2.6 : 1.7);
-        data[i] = (Math.random() * 2 - 1) * env;
+        const pt = i / audioCtx.sampleRate;
+        const env = Math.pow(1 - i / bufferSize, isAkraMode ? 2.4 : 1.8);
+        // Deep muffler thump wave + turbulent air pop
+        const mufflerThump = Math.sin(Math.PI * 2 * (95 + Math.random() * 45) * pt) * 0.65;
+        data[i] = ((Math.random() * 2 - 1) * 0.55 + mufflerThump) * env;
       }
 
       const noise = audioCtx.createBufferSource();
       noise.buffer = buffer;
 
       const bandpass = audioCtx.createBiquadFilter();
-      bandpass.type = 'bandpass';
-      const centerFreq = isAkraMode
-        ? (950 + Math.random() * 1400)
-        : (230 + Math.random() * 520);
-      bandpass.frequency.setValueAtTime(centerFreq, now);
-      bandpass.Q.setValueAtTime(isAkraMode ? 3.8 : 2.1, now);
+      bandpass.type = 'lowpass';
+      const cutoff = isAkraMode ? (1150 + Math.random() * 750) : (420 + Math.random() * 380);
+      bandpass.frequency.setValueAtTime(cutoff, now);
+      bandpass.Q.setValueAtTime(1.6, now);
 
       const popGain = audioCtx.createGain();
-      const modeBoost = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack' ? 1.15 : 0.78;
-      const ngbBoost = state.ngbActive ? 1.25 : 1.0;
-      const peakGain = Math.min(1.45, (0.55 + Math.random() * 0.45) * modeBoost * valveMult * ngbBoost * intensityScale);
+      const modeBoost = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack' ? 1.1 : 0.75;
+      const peakGain = Math.min(1.2, (0.50 + Math.random() * 0.35) * modeBoost * valveMult * intensityScale);
 
       popGain.gain.setValueAtTime(peakGain, now);
       popGain.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
       noise.connect(bandpass);
       bandpass.connect(popGain);
-      popGain.connect(masterGain);
+      popGain.connect(earHarshnessNotch);
       noise.start(now);
 
       const ind = document.getElementById('burbleIndicator');
@@ -2083,82 +2183,114 @@
     function triggerWastegateFlutter() {
       if (!audioCtx || !state.engineRunning) return;
       const p = PRESETS[state.presetKey];
-      if (p.turboWhineLevel < 0.35) return;
+      if (p.turboWhineLevel < 0.35 || p.acousticModel === 'ev_weissach') return;
 
       const now = audioCtx.currentTime;
       for (let i = 0; i < 4; i++) {
-        const t = now + i * 0.058;
-        const osc = audioCtx.createOscillator();
+        const t = now + i * 0.062;
+        const dur = 0.052;
+        const len = Math.floor(audioCtx.sampleRate * dur);
+        const buf = audioCtx.createBuffer(1, len, audioCtx.sampleRate);
+        const d = buf.getChannelData(0);
+        for (let k = 0; k < len; k++) {
+          const env = Math.sin((k / len) * Math.PI);
+          d[k] = (Math.random() * 2 - 1) * env;
+        }
+        const src = audioCtx.createBufferSource();
+        src.buffer = buf;
+        const bp = audioCtx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.setValueAtTime(1150 - i * 130, t);
+        bp.Q.setValueAtTime(3.2, t);
         const g = audioCtx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(1600 - i * 195, t);
-        osc.frequency.exponentialRampToValueAtTime(680, t + 0.048);
-
-        g.gain.setValueAtTime(0.22 * p.turboWhineLevel, t);
-        g.gain.exponentialRampToValueAtTime(0.005, t + 0.048);
-
-        osc.connect(g);
-        g.connect(masterGain);
-        osc.start(t);
-        osc.stop(t + 0.052);
+        g.gain.setValueAtTime(0.24 * p.turboWhineLevel, t);
+        src.connect(bp);
+        bp.connect(g);
+        g.connect(earHarshnessNotch);
+        src.start(t);
       }
     }
 
+    /**
+     * 60FPS Real-Time 3-Layer AudioBuffer Crossfade & Pitch-Shifting Engine
+     */
     function updateAudioSynthesizer() {
-      if (!audioCtx || !state.engineRunning) return;
+      if (!audioCtx || !state.engineRunning || !srcIdle || !srcMid || !srcHigh) return;
       const now = audioCtx.currentTime;
       const p = PRESETS[state.presetKey];
 
-      const safeRpm = Math.max(250, state.rpm);
+      const safeRpm = Math.max(p.idleRpm * 0.65, state.rpm);
       const pitchMult = 1 + state.pitchOffsetPct / 100;
-      const firingFreq = (safeRpm / 60) * (p.cylinders / 2) * pitchMult;
+      const rpmNorm = Math.min(1.0, Math.max(0.0, (safeRpm - p.idleRpm) / (p.redline - p.idleRpm)));
 
-      oscFund.frequency.setTargetAtTime(firingFreq, now, 0.012);
-      oscHarm2.frequency.setTargetAtTime(firingFreq * p.harmonic2Ratio, now, 0.012);
-      oscHarm3.frequency.setTargetAtTime(firingFreq * p.harmonic3Ratio, now, 0.012);
-      oscSub.frequency.setTargetAtTime(firingFreq * 0.5, now, 0.012);
-
-      const rpmNorm = Math.min(1, safeRpm / p.redline);
-
-      // Turbocharger Whine
-      const turboFreq = (980 + rpmNorm * 4800 + state.throttle * 850) * pitchMult;
-      oscTurbo.frequency.setTargetAtTime(turboFreq, now, 0.025);
-      oscTurbo2.frequency.setTargetAtTime(turboFreq * 1.414, now, 0.025);
-      const turboVol = p.turboWhineLevel * (0.04 + rpmNorm * 0.18 + state.throttle * 0.22);
-      gainTurbo.gain.setTargetAtTime(turboVol, now, 0.025);
-
-      // Hellcat Supercharger Whine (High-pitched gear-driven compressor scream)
-      const scFreq = (1150 + rpmNorm * 5600) * pitchMult;
-      oscSupercharger.frequency.setTargetAtTime(scFreq, now, 0.015);
-      const scVol = (p.scWhineLevel || 0) * (0.05 + rpmNorm * 0.22 + state.throttle * 0.28);
-      gainSupercharger.gain.setTargetAtTime(scVol, now, 0.02);
-
-      // Cam Lope / 4-Rotor Brap LFO Depth
-      const idleWindow = state.presetKey === 'rx7_4rotor' ? 1800 : 1050;
-      const idleFactor = Math.max(0, 1 - Math.max(0, safeRpm - p.idleRpm) / idleWindow);
-      lfoGain.gain.setTargetAtTime(p.lopeDepth * idleFactor, now, 0.035);
-
-      // Dynamic Exhaust Filter Cutoff
-      const valveCutoffScale = state.exhaustValveOpen ? 1.0 : 0.30;
-      const ngbGainBoost = state.ngbActive ? 1.25 : 1.0;
-      const cutoffHz = (420 + rpmNorm * 4600 + state.throttle * 3200) * valveCutoffScale;
-      lowPassFilter.frequency.setTargetAtTime(Math.max(240, cutoffHz), now, 0.02);
-
-      const tiGain = p.titaniumGainLevel * (state.exhaustValveOpen ? 1.0 : 0.15) * (0.4 + rpmNorm * 0.85);
-      titaniumBusGain.gain.setTargetAtTime(tiGain, now, 0.025);
-
-      exhaustNoiseFilter.frequency.setTargetAtTime(340 + rpmNorm * 2400, now, 0.025);
-      exhaustNoiseGain.gain.setTargetAtTime((0.05 + state.throttle * 0.26 + rpmNorm * 0.16) * valveCutoffScale, now, 0.02);
-
-      if (state.shiftCutTimer > 0) {
-        engineBusGain.gain.setTargetAtTime(0.06, now, 0.005);
+      // 1. Calculate PlaybackRate for each of the 3 PCM Sample Layers
+      if (state.usingExternalSample) {
+        // Real recorded .mp3/.wav loop pitch shifting across Idle / Mid / High bands
+        const baseRate = (0.68 + rpmNorm * 1.75) * pitchMult;
+        srcIdle.playbackRate.setTargetAtTime(baseRate * 0.85, now, 0.016);
+        srcMid.playbackRate.setTargetAtTime(baseRate * 1.0, now, 0.016);
+        srcHigh.playbackRate.setTargetAtTime(baseRate * 1.22, now, 0.016);
+      } else if (p.acousticModel === 'ev_weissach' || p.acousticModel === 'ev_magma') {
+        // Porsche Taycan / IONIQ 6 N / GV60 Magma smooth continuous pitch-shifting
+        const targetHz = (52 + rpmNorm * 310 + state.throttle * 28) * pitchMult;
+        srcIdle.playbackRate.setTargetAtTime(Math.max(0.45, targetHz / p.baseLoopsHz.idle), now, 0.018);
+        srcMid.playbackRate.setTargetAtTime(Math.max(0.40, targetHz / p.baseLoopsHz.mid), now, 0.018);
+        srcHigh.playbackRate.setTargetAtTime(Math.max(0.35, targetHz / p.baseLoopsHz.high), now, 0.018);
       } else {
-        const loadGain = (0.58 + state.throttle * 0.42 + rpmNorm * 0.16) * ngbGainBoost * (state.exhaustValveOpen ? 1.0 : 0.62);
-        engineBusGain.gain.setTargetAtTime(Math.min(1.2, loadGain), now, 0.018);
+        // Internal Combustion Engines: Match exact cylinder firing frequency to each PCM loop's baseLoopsHz
+        const firingFreq = (safeRpm / 60) * (p.cylinders / 2) * pitchMult;
+        srcIdle.playbackRate.setTargetAtTime(Math.max(0.45, Math.min(3.2, firingFreq / p.baseLoopsHz.idle)), now, 0.015);
+        srcMid.playbackRate.setTargetAtTime(Math.max(0.40, Math.min(3.2, firingFreq / p.baseLoopsHz.mid)), now, 0.015);
+        srcHigh.playbackRate.setTargetAtTime(Math.max(0.35, Math.min(3.5, firingFreq / p.baseLoopsHz.high)), now, 0.015);
       }
 
-      const dbEstimate = Math.round(72 + rpmNorm * 28 + state.throttle * 14 + (state.exhaustValveOpen ? 8 : 0));
-      document.getElementById('synthFreqReadout').textContent = `${Math.round(firingFreq)} Hz · ${dbEstimate} dB`;
+      // 2. Equal-Power 3-Band Crossfade (Idle <-> Mid <-> High)
+      let wIdle = 0, wMid = 0, wHigh = 0;
+      if (rpmNorm < 0.38) {
+        const t = rpmNorm / 0.38;
+        wIdle = Math.cos(t * Math.PI * 0.5);
+        wMid = Math.sin(t * Math.PI * 0.5);
+        wHigh = 0.0;
+      } else {
+        const t = (rpmNorm - 0.38) / 0.62;
+        wIdle = 0.0;
+        wMid = Math.cos(t * Math.PI * 0.5);
+        wHigh = Math.sin(t * Math.PI * 0.5);
+      }
+
+      // Throttle load boosts Mid & High presence organically
+      const loadFactor = 0.65 + state.throttle * 0.55;
+      gainIdle.gain.setTargetAtTime(wIdle * p.subGainLevel * 0.95, now, 0.02);
+      gainMid.gain.setTargetAtTime(wMid * p.midGainLevel * loadFactor, now, 0.02);
+      gainHigh.gain.setTargetAtTime(wHigh * p.highGainLevel * loadFactor, now, 0.02);
+
+      // 3. Forced Induction / EV Inverter Whine Sample Layer
+      const whineIntensity = Math.max(p.turboWhineLevel, p.scWhineLevel || 0);
+      srcWhine.playbackRate.setTargetAtTime((0.75 + rpmNorm * 2.4 + state.throttle * 0.35) * pitchMult, now, 0.02);
+      const whineGainVal = whineIntensity * (0.04 + rpmNorm * 0.16 + state.throttle * 0.18);
+      gainWhine.gain.setTargetAtTime(whineGainVal, now, 0.025);
+
+      // 4. Dynamic Acoustic Lowpass Filter (Warm under low load, opens up smoothly at WOT)
+      const valveScale = state.exhaustValveOpen ? 1.0 : 0.42;
+      const earphoneCeiling = state.earphoneMastering ? 2850 : 4800;
+      const targetCutoff = Math.min(
+        earphoneCeiling,
+        (520 + rpmNorm * 1950 + state.throttle * 1450) * valveScale
+      );
+      loadLowPass.frequency.setTargetAtTime(Math.max(280, targetCutoff), now, 0.02);
+
+      // 5. Shift Cut & Master Engine Load Envelope
+      const ngbGainBoost = state.ngbActive ? 1.22 : 1.0;
+      if (state.shiftCutTimer > 0) {
+        engineBusGain.gain.setTargetAtTime(0.08, now, 0.006);
+      } else {
+        const totalLoadGain = (0.64 + state.throttle * 0.38 + rpmNorm * 0.14) * ngbGainBoost * (state.exhaustValveOpen ? 1.0 : 0.65);
+        engineBusGain.gain.setTargetAtTime(Math.min(1.25, totalLoadGain), now, 0.018);
+      }
+
+      const displayFreq = Math.round((safeRpm / 60) * (p.cylinders / 2) * pitchMult);
+      const dbEstimate = Math.round(74 + rpmNorm * 26 + state.throttle * 12 + (state.exhaustValveOpen ? 6 : 0));
+      document.getElementById('synthFreqReadout').textContent = `${displayFreq} Hz · ${dbEstimate} dB`;
     }
 
     /***************************************************************************
@@ -2302,7 +2434,6 @@
             state.brake = Math.max(0.0, state.brake - dt * 6.5);
           }
         } else {
-          // Real Car Sensor Fusion Mode
           const inferredThrottle = Math.max(0, Math.min(1.0, (state.forwardG + 0.03) * 1.4));
           state.throttle = state.throttle * 0.62 + inferredThrottle * 0.38;
           state.brake = state.forwardG < -0.1 ? Math.min(1.0, Math.abs(state.forwardG)) : 0;
@@ -2356,8 +2487,8 @@
             triggerExhaustPop();
             const isAggressive = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack';
             state.burbleCooldown = isAggressive
-              ? (0.036 + Math.random() * 0.060)
-              : (0.085 + Math.random() * 0.135);
+              ? (0.045 + Math.random() * 0.070)
+              : (0.095 + Math.random() * 0.145);
           }
         }
       }
@@ -2375,7 +2506,7 @@
           const target = p.idleRpm + state.throttle * (p.redline - p.idleRpm);
           if (state.rpm >= p.redline * 0.985 && state.throttle > 0.8) {
             state.rpm = p.redline * 0.94;
-            triggerExhaustPop(1.3);
+            triggerExhaustPop(1.2);
           } else {
             const rate = state.throttle > 0.1 ? p.revInertia : 0.09;
             state.rpm += (target - state.rpm) * rate;
@@ -2409,7 +2540,7 @@
           } else {
             if (state.rpm >= p.redline && state.throttle > 0.5) {
               state.rpm = p.redline * 0.955;
-              triggerExhaustPop(1.25);
+              triggerExhaustPop(1.2);
             }
           }
         }
@@ -2441,7 +2572,7 @@
       } else {
         state.revMatchTimer = 0.13;
         state.rpm = Math.min(p.redline * 0.96, state.rpm * 1.32);
-        triggerExhaustPop(1.15);
+        triggerExhaustPop(1.1);
       }
     }
 
@@ -2460,7 +2591,7 @@
       if (e && e.cancelable) e.preventDefault();
       if (!state.engineRunning) toggleEngine();
       state.blipTimer = 0.32;
-      triggerExhaustPop(1.2);
+      triggerExhaustPop(1.1);
     }
 
     function toggleCruiseHold() {
@@ -2473,7 +2604,7 @@
         btn.className = 'pedal-btn py-2.5 rounded-xl bg-emerald-500/25 border-2 border-emerald-400 flex flex-col items-center justify-center shadow-lg';
         sub.textContent = '속도고정 ON';
         sub.className = 'text-[9px] font-mono-tech text-emerald-200 font-bold';
-        showTelemetryNotice('🟢 CRUISE HOLD 활성화: 현재 스로틀이 고정되었습니다. 아래 16종 배기음 프리셋을 눌러 비교해 보세요!');
+        showTelemetryNotice('🟢 CRUISE HOLD 활성화: 현재 스로틀이 고정되었습니다. 아래 24종 사운드 프리셋을 눌러 비교해 보세요!');
       } else {
         btn.className = 'pedal-btn py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/15 flex flex-col items-center justify-center';
         sub.textContent = '속도고정 OFF';
@@ -2491,7 +2622,7 @@
         state.launchDemoPhase = 'accel';
         btn.className = 'py-1.5 px-2 rounded-lg bg-red-600 text-[10px] font-bold text-white border border-white flex items-center justify-center gap-1 shadow-lg animate-pulse';
         btn.textContent = '⏹️ 런치데모 정지';
-        showTelemetryNotice('🚀 0→200km/h 런치컨트롤 자동 주행 데모 시작! 1단~6단 풀악셀 변속 및 감속 레브매칭을 감상하세요.');
+        showTelemetryNotice('🚀 0→200km/h 런치컨트롤 자동 주행 데모 시작! 3-레이어 PCM 샘플러 사운드를 감상하세요.');
       } else {
         state.throttle = 0;
         state.brake = 0;
@@ -2567,6 +2698,7 @@
       }
       renderPresetCards();
       applyPresetToAudioNodes();
+      tryAutoLoadExternalSample(key);
       if (!skipSave) saveSettingsToStorage();
     }
 
@@ -2581,7 +2713,7 @@
       if (!state.neutralRevMode && state.gear > 1 && state.rpm < PRESETS[state.presetKey].redline * 0.68) {
         performShift(-1);
       } else {
-        triggerExhaustPop(1.4);
+        triggerExhaustPop(1.3);
       }
 
       document.getElementById('ngbActiveBanner').classList.remove('hidden');
@@ -2618,7 +2750,6 @@
         statusText.className = 'text-zinc-400';
       }
 
-      applyPresetToAudioNodes();
       if (!skipSave) saveSettingsToStorage();
     }
 
@@ -2755,6 +2886,7 @@
       setInputMode(state.inputMode, true);
       setTransmissionMode(state.transMode, true);
       toggleExhaustValve(true);
+      toggleEarphoneMastering(true);
       setBurbleMode(state.burbleMode, true);
       updateSliders(true);
     }
@@ -2792,14 +2924,12 @@
       const endAngle = (405 * Math.PI) / 180;
       const totalSweep = endAngle - startAngle;
 
-      // 1. Outer Carbon Bezel Ring
       tachCtx.beginPath();
       tachCtx.arc(cx, cy, radius + 18, 0, Math.PI * 2);
       tachCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
       tachCtx.lineWidth = 2;
       tachCtx.stroke();
 
-      // 2. Background Track Arc
       tachCtx.beginPath();
       tachCtx.arc(cx, cy, radius, startAngle, endAngle);
       tachCtx.strokeStyle = '#181c26';
@@ -2807,7 +2937,6 @@
       tachCtx.lineCap = 'round';
       tachCtx.stroke();
 
-      // 3. Redline Danger Zone Arc
       const redlineRatio = shiftRpm / p.redline;
       const redStartAngle = startAngle + redlineRatio * totalSweep;
       tachCtx.beginPath();
@@ -2817,7 +2946,6 @@
       tachCtx.lineCap = 'butt';
       tachCtx.stroke();
 
-      // 4. Dynamic Active RPM Arc
       const rpmRatio = Math.min(1, Math.max(0.005, currentRpm / p.redline));
       const activeEndAngle = startAngle + rpmRatio * totalSweep;
 
@@ -2838,7 +2966,6 @@
       tachCtx.stroke();
       tachCtx.restore();
 
-      // 5. Tick Marks & Numbers (Automatically scaled to Preset Redline)
       const maxK = Math.ceil(p.redline / 1000);
       const stepK = maxK > 12 ? 2 : 1;
 
@@ -2868,7 +2995,6 @@
         tachCtx.fillText(String(k), xText, yText);
       }
 
-      // 6. Glowing Needle Tip Indicator
       const needleAngle = activeEndAngle;
       const nx1 = cx + Math.cos(needleAngle) * (radius - 18);
       const ny1 = cy + Math.sin(needleAngle) * (radius - 18);
@@ -2891,23 +3017,19 @@
     function renderDashboardUI(dynamicShiftRpm) {
       const p = PRESETS[state.presetKey];
 
-      // 1. Draw Canvas Tachometer
       drawCanvasTachometer(p, state.rpm, dynamicShiftRpm);
 
-      // 2. Digital Center Readouts
       document.getElementById('rpmDisplay').textContent = Math.round(state.rpm).toLocaleString();
       document.getElementById('speedDisplay').textContent = Math.round(state.fusedSpeedKmh);
 
       const gearText = !state.engineRunning ? 'P' : (state.neutralRevMode || state.gear === 0 ? 'N' : state.gear);
       document.getElementById('gearDisplay').textContent = gearText;
 
-      // 3. Top 15-LED Shift Lights
       const shiftStartRpm = p.redline * 0.42;
       const shiftProgress = Math.max(0, (state.rpm - shiftStartRpm) / (dynamicShiftRpm - shiftStartRpm));
       const activeLeds = Math.floor(shiftProgress * 15);
       const isShiftBlink = state.rpm >= dynamicShiftRpm;
 
-      // IONIQ 6 N / GV60 Magma Style "N Ambient Shift Light" on Cockpit Bezel
       const bezelEl = document.getElementById('cockpitBezel');
       const ambientEl = document.getElementById('clusterAmbientGlow');
       if (state.engineRunning && state.rpm >= p.redline * 0.85) {
@@ -2949,7 +3071,6 @@
         }
       }
 
-      // 4. Left Pod Telemetry Readouts
       document.getElementById('telGpsSpeed').textContent = state.rawGpsSpeedKmh.toFixed(0);
       document.getElementById('telFusedSpeed').textContent = state.fusedSpeedKmh.toFixed(0);
 
@@ -2964,7 +3085,6 @@
       const gy = Math.max(-32, Math.min(32, -state.forwardG * 22));
       gBall.style.transform = `translate(${gx}px, ${gy}px)`;
 
-      // 5. Throttle & Brake Telemetry Bars + Pedals
       const thrPct = Math.round(state.throttle * 100);
       const brkPct = Math.round(state.brake * 100);
 
@@ -2978,7 +3098,6 @@
       document.getElementById('brakeFill').style.height = `${brkPct}%`;
       document.getElementById('pedalBrakePct').textContent = `${brkPct}%`;
 
-      // 6. FFT Spectrum Analyzer & Waveform
       drawSpectrumAndWaveCanvas(p);
     }
 
@@ -3010,7 +3129,7 @@
     }
 
     /***************************************************************************
-     * 9. PEDAL & KEYBOARD BINDINGS + INITIALIZATION
+     * 9. PEDAL, KEYBOARD & DRAG-AND-DROP AUDIO FILE BINDINGS
      ***************************************************************************/
     function bindPedalsAndKeys() {
       const throttleBtn = document.getElementById('throttlePedal');
@@ -3050,6 +3169,17 @@
       window.addEventListener('mouseup', endBrake);
       brakeBtn.addEventListener('touchend', endBrake);
       brakeBtn.addEventListener('touchcancel', endBrake);
+
+      // Drag and drop .wav / .mp3 anywhere on the window
+      window.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+      window.addEventListener('drop', (e) => {
+        e.preventDefault();
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+          loadUserAudioFile(e.dataTransfer.files[0]);
+        }
+      });
 
       window.addEventListener('keydown', (e) => {
         if (e.repeat) return;
