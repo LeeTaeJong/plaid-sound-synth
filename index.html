@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Plaid Sound Synth Pro — N & Akrapovič Edition</title>
+  <title>Plaid Sound Synth Pro — Ultimate 16-Supercar Edition</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & Orbitron / JetBrains Mono for Motorsport Telemetry -->
@@ -17,8 +17,8 @@
       --plaid-cyan: #00f0ff;
       --n-blue: #6ca6ff;
       --plaid-amber: #ffb800;
-      --carbon-dark: #0a0b0e;
-      --carbon-panel: #12151c;
+      --carbon-dark: #07080b;
+      --carbon-panel: #10131a;
     }
 
     * {
@@ -31,12 +31,12 @@
     body {
       background-color: var(--carbon-dark);
       background-image: 
-        linear-gradient(27deg, #0d0f14 5px, transparent 5px),
-        linear-gradient(207deg, #0d0f14 5px, transparent 5px),
-        linear-gradient(27deg, #14171f 5px, transparent 5px),
-        linear-gradient(207deg, #14171f 5px, transparent 5px),
-        linear-gradient(90deg, #090a0d 10px, transparent 10px),
-        linear-gradient(#0c0e13 25%, #090a0d 25%, #090a0d 50%, transparent 50%, transparent 75%, #11131a 75%, #11131a);
+        linear-gradient(27deg, #0b0d12 5px, transparent 5px),
+        linear-gradient(207deg, #0b0d12 5px, transparent 5px),
+        linear-gradient(27deg, #12151e 5px, transparent 5px),
+        linear-gradient(207deg, #12151e 5px, transparent 5px),
+        linear-gradient(90deg, #07080b 10px, transparent 10px),
+        linear-gradient(#0a0c10 25%, #07080b 25%, #07080b 50%, transparent 50%, transparent 75%, #0f1219 75%, #0f1219);
       background-size: 20px 20px;
       color: #f3f4f6;
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -53,10 +53,16 @@
 
     /* Glass & Carbon Card */
     .carbon-card {
-      background: linear-gradient(145deg, rgba(22, 25, 34, 0.92), rgba(12, 14, 20, 0.96));
+      background: linear-gradient(145deg, rgba(20, 24, 33, 0.94), rgba(10, 12, 18, 0.98));
       border: 1px solid rgba(255, 255, 255, 0.08);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.06);
       backdrop-filter: blur(12px);
+    }
+
+    .cockpit-bezel {
+      background: radial-gradient(circle at 50% 25%, rgba(28, 33, 46, 0.95) 0%, rgba(9, 11, 16, 0.99) 75%);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 18px 48px rgba(0, 0, 0, 0.85), inset 0 2px 12px rgba(0, 240, 255, 0.06);
     }
 
     /* Custom Range Sliders */
@@ -64,8 +70,8 @@
       -webkit-appearance: none;
       appearance: none;
       width: 100%;
-      height: 8px;
-      background: #1f2430;
+      height: 7px;
+      background: #1c202b;
       border-radius: 999px;
       outline: none;
       border: 1px solid rgba(255,255,255,0.08);
@@ -74,12 +80,12 @@
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: linear-gradient(135deg, #ff2a36, #b8000b);
       border: 2px solid #ffffff;
-      box-shadow: 0 0 12px rgba(255, 30, 39, 0.8);
+      box-shadow: 0 0 10px rgba(255, 30, 39, 0.8);
       cursor: pointer;
       transition: transform 0.1s ease;
     }
@@ -90,95 +96,120 @@
 
     /* Shift Light LEDs */
     .shift-led {
-      transition: background-color 0.04s ease, box-shadow 0.04s ease, transform 0.04s ease;
+      transition: background-color 0.03s ease, box-shadow 0.03s ease, transform 0.03s ease;
     }
 
     @keyframes redlineFlash {
-      0%, 100% { opacity: 1; transform: scale(1.06); }
-      50% { opacity: 0.25; transform: scale(0.95); }
+      0%, 100% { opacity: 1; transform: scale(1.03); }
+      50% { opacity: 0.28; transform: scale(0.97); }
     }
 
     .redline-blink {
-      animation: redlineFlash 0.11s infinite;
+      animation: redlineFlash 0.10s infinite;
     }
 
-    /* Pedal Active Press State */
+    /* Pedal & Paddle Active Press State */
     .pedal-btn {
       transition: transform 0.06s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.06s ease, border-color 0.06s ease;
       touch-action: none;
     }
     .pedal-btn:active, .pedal-btn.active-press {
-      transform: perspective(400px) rotateX(8deg) scale(0.97);
+      transform: perspective(400px) rotateX(7deg) scale(0.96);
     }
 
     /* Engine Start & NGB Pulse */
     @keyframes pulseGlow {
-      0%, 100% { box-shadow: 0 0 18px rgba(255, 30, 39, 0.45), inset 0 0 12px rgba(255, 30, 39, 0.25); }
-      50% { box-shadow: 0 0 32px rgba(255, 30, 39, 0.85), inset 0 0 20px rgba(255, 30, 39, 0.45); }
+      0%, 100% { box-shadow: 0 0 16px rgba(255, 30, 39, 0.45), inset 0 0 10px rgba(255, 30, 39, 0.25); }
+      50% { box-shadow: 0 0 30px rgba(255, 30, 39, 0.85), inset 0 0 18px rgba(255, 30, 39, 0.45); }
     }
     .engine-running-glow {
       animation: pulseGlow 2s infinite;
     }
 
     @keyframes ngbFlash {
-      0%, 100% { box-shadow: 0 0 25px rgba(255, 30, 39, 0.9), inset 0 0 18px rgba(255, 184, 0, 0.5); border-color: #ff1e27; }
-      50% { box-shadow: 0 0 40px rgba(0, 240, 255, 0.9), inset 0 0 22px rgba(0, 240, 255, 0.5); border-color: #00f0ff; }
+      0%, 100% { box-shadow: 0 0 24px rgba(255, 30, 39, 0.9), inset 0 0 16px rgba(255, 184, 0, 0.5); border-color: #ff1e27; }
+      50% { box-shadow: 0 0 36px rgba(0, 240, 255, 0.9), inset 0 0 20px rgba(0, 240, 255, 0.5); border-color: #00f0ff; }
     }
     .ngb-active-glow {
       animation: ngbFlash 0.35s infinite;
     }
+
+    /* Custom Scrollbar for Preset Grid on Small Screens */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090b10;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #272c3a;
+      border-radius: 999px;
+    }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-2 sm:p-3.5 md:p-4 select-none">
+<body class="min-h-screen flex flex-col justify-between p-2 sm:p-3 md:p-4 select-none">
 
-  <!-- TOP HEADER & F1 / N SHIFT LIGHT ARRAY -->
-  <header class="w-full max-w-7xl mx-auto mb-2.5">
-    <!-- 15-LED Shift Light Bar -->
-    <div id="shiftLightBar" class="carbon-card rounded-2xl p-2 mb-2 flex items-center justify-between gap-1.5 sm:gap-2 border border-white/10">
-      <!-- 15 Dynamic LEDs populated by JS -->
-    </div>
-
-    <!-- Brand & Status Bar -->
-    <div class="flex flex-wrap items-center justify-between gap-2 px-1">
+  <!-- =========================================================================
+       TOP COMPACT HEADER BAR (STATUS LEDS, MANUAL MODAL, NGB, VALVE, START)
+       ========================================================================= -->
+  <header class="w-full max-w-7xl mx-auto mb-2">
+    <div class="carbon-card rounded-2xl px-3 py-2 flex flex-wrap items-center justify-between gap-2">
+      <!-- Brand Logo & Status LEDs -->
       <div class="flex items-center gap-2.5">
-        <!-- Tesla Plaid + N/Akra Inspired Badge SVG -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-red-600/30 via-zinc-900 to-black border border-red-500/40 flex items-center justify-center shadow-lg">
-          <svg class="w-6 h-6" viewBox="0 0 40 40" fill="none">
-            <rect x="2" y="2" width="36" height="36" rx="6" stroke="#ff1e27" stroke-width="1.5" stroke-opacity="0.7"/>
-            <path d="M6 14H34M6 20H34M6 26H34" stroke="#ff1e27" stroke-width="2" stroke-linecap="round"/>
-            <path d="M14 6V34M20 6V34M26 6V34" stroke="#00f0ff" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.75"/>
-            <path d="M9 9L31 31M31 9L9 31" stroke="#ffffff" stroke-width="1" stroke-opacity="0.35"/>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600/35 via-zinc-900 to-black border border-red-500/50 flex items-center justify-center shadow-md shrink-0">
+          <svg class="w-5 h-5" viewBox="0 0 40 40" fill="none">
+            <rect x="2" y="2" width="36" height="36" rx="6" stroke="#ff1e27" stroke-width="1.8"/>
+            <path d="M6 14H34M6 20H34M6 26H34" stroke="#ff1e27" stroke-width="2.2" stroke-linecap="round"/>
+            <path d="M14 6V34M20 6V34M26 6V34" stroke="#00f0ff" stroke-width="1.6" stroke-linecap="round" stroke-opacity="0.8"/>
           </svg>
         </div>
         <div>
-          <div class="flex flex-wrap items-center gap-1.5">
-            <h1 class="font-display text-sm sm:text-lg font-extrabold tracking-wider text-white">
-              PLAID <span class="text-red-500">SOUND SYNTH</span> <span class="text-cyan-400">PRO</span>
+          <div class="flex items-center gap-2">
+            <h1 class="font-display text-xs sm:text-base font-black tracking-wider text-white">
+              PLAID <span class="text-red-500">SOUND SYNTH</span> <span class="text-cyan-400">ULTIMATE</span>
             </h1>
-            <span class="text-[10px] font-mono-tech uppercase px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-400/30 font-bold">
-              N &amp; AKRAPOVIČ EDITION
+            <span id="saveToastBadge" class="text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 transition-all duration-300">
+              💾 AUTO-SAVED
             </span>
           </div>
-          <p class="text-[11px] text-zinc-400 hidden sm:block">
-            아이오닉 5 N e-Shift · 아크라포빅 티타늄 공명 필터 · 60Hz 가속도계 + GPS 센서 퓨전
-          </p>
+          <!-- Hardware Status LEDs -->
+          <div class="flex flex-wrap items-center gap-2.5 mt-0.5 text-[10px] font-mono-tech text-zinc-400">
+            <span class="flex items-center gap-1">
+              <span id="ledAudio" class="w-2 h-2 rounded-full bg-zinc-600"></span>AUDIO
+            </span>
+            <span class="flex items-center gap-1">
+              <span id="ledGps" class="w-2 h-2 rounded-full bg-zinc-600"></span>GPS
+            </span>
+            <span class="flex items-center gap-1">
+              <span id="ledGSensor" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>60Hz G-SENSOR
+            </span>
+          </div>
         </div>
       </div>
 
-      <!-- Mode Switcher & Engine Start Button -->
-      <div class="flex items-center gap-2 ml-auto">
-        <!-- Input Mode Toggle -->
-        <div class="carbon-card rounded-xl p-1 flex items-center border border-white/10">
-          <button id="modeSimBtn" onclick="setInputMode('sim')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-red-600 text-white shadow">
-            🕹️ 실내 시뮬레이터
-          </button>
-          <button id="modeRealBtn" onclick="setInputMode('real')" class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-zinc-400 hover:text-white">
-            📡 실차 주행 (센서 퓨전)
-          </button>
-        </div>
+      <!-- Quick Action Bar: User Manual, NGB, Exhaust Valve, Engine Start -->
+      <div class="flex flex-wrap items-center gap-1.5 sm:gap-2 ml-auto">
+        <!-- User Manual Popup Button -->
+        <button onclick="openManualModal()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-zinc-100 border border-cyan-400/40 text-xs font-bold flex items-center gap-1.5 shadow transition active:scale-95">
+          <span>📖</span>
+          <span>사용 설명서</span>
+        </button>
 
-        <!-- Master Engine Start/Stop -->
-        <button id="engineStartBtn" onclick="toggleEngine()" class="relative px-3.5 sm:px-4 py-2 rounded-xl font-display font-bold text-xs tracking-wider uppercase transition-all bg-gradient-to-br from-zinc-800 to-zinc-900 text-zinc-200 border border-red-500/50 hover:border-red-500 flex items-center gap-2 shadow-lg">
+        <!-- NGB 10s Overboost Button -->
+        <button id="ngbBtn" onclick="activateNGB()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white font-display font-black text-xs tracking-wider border border-red-300/50 flex items-center gap-1 shadow transition active:scale-95">
+          <span>🔥</span>
+          <span id="ngbBtnSub">NGB 10s</span>
+        </button>
+
+        <!-- Variable Exhaust Valve Button -->
+        <button id="valveToggleBtn" onclick="toggleExhaustValve()" class="px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-500/20 border border-red-500 text-white font-display font-bold text-xs flex items-center gap-1 shadow transition active:scale-95">
+          <span id="valveIcon">🔊</span>
+          <span id="valveTitle">VALVE: OPEN</span>
+        </button>
+
+        <!-- Master Engine Start / Stop -->
+        <button id="engineStartBtn" onclick="toggleEngine()" class="px-3.5 sm:px-4 py-1.5 rounded-xl font-display font-black text-xs tracking-wider uppercase transition-all bg-gradient-to-br from-zinc-800 to-zinc-950 text-white border-2 border-red-500/70 hover:border-red-400 flex items-center gap-1.5 shadow-lg active:scale-95">
           <span id="engineStatusDot" class="w-2.5 h-2.5 rounded-full bg-zinc-500 transition-all"></span>
           <span id="engineBtnText">ENGINE START</span>
         </button>
@@ -186,547 +217,978 @@
     </div>
   </header>
 
-  <!-- MAIN TELEMETRY & INSTRUMENT CLUSTER -->
-  <main class="w-full max-w-7xl mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+  <!-- =========================================================================
+       SECTION 1 (TOP MAIN VIEW): REALISTIC SUPERCAR DIGITAL INSTRUMENT CLUSTER
+       ========================================================================= -->
+  <section class="w-full max-w-7xl mx-auto mb-3">
+    <div class="cockpit-bezel rounded-3xl p-2.5 sm:p-4 relative overflow-hidden">
 
-    <!-- LEFT COLUMN: 6 SOUND PRESETS & SENSOR FUSION TELEMETRY (4 COLS) -->
-    <section class="lg:col-span-4 flex flex-col gap-3">
-      
-      <!-- 1. 6-Preset Sound Synthesizer Selector -->
-      <div class="carbon-card rounded-2xl p-3 flex flex-col gap-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] font-mono-tech uppercase tracking-wider text-zinc-300 font-bold flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-            6 EXHAUST SOUND PRESETS (사운드 맵)
-          </span>
-          <span id="redlineBadge" class="text-[11px] font-mono-tech text-cyan-400 font-bold">REDLINE 8,000 RPM</span>
-        </div>
+      <!-- Ambient Dynamic Glow Behind Cluster -->
+      <div id="clusterAmbientGlow" class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-56 rounded-full bg-red-600/20 blur-3xl transition-all duration-300"></div>
 
-        <!-- 2x3 Grid for 6 Distinct Sound Presets -->
-        <div class="grid grid-cols-2 gap-1.5">
-          <!-- 1. IONIQ 5 N Ignition -->
-          <button onclick="selectPreset('ioniq_ignition')" id="preset-ioniq_ignition" class="preset-btn text-left p-2 rounded-xl border transition-all bg-sky-500/20 border-sky-400 text-white flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-sky-300">🏁 IONIQ 5 N</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-sky-500/30 text-sky-200">ACTIVE</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">Ignition (2.0T N Rally)</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">N e-Shift 변속 폭발음 · 연쇄 팝콘</p>
-          </button>
-
-          <!-- 2. Akrapovič Evolution Titanium -->
-          <button onclick="selectPreset('akrapovic')" id="preset-akrapovic" class="preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-red-400">🦂 AKRAPOVIČ</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">9.5K</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">Evolution Titanium</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">금속성 티타늄 파이프 공명 · 총성 백파이어</p>
-          </button>
-
-          <!-- 3. IONIQ 5 N Supersonic -->
-          <button onclick="selectPreset('ioniq_supersonic')" id="preset-ioniq_supersonic" class="preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-cyan-300">✈️ IONIQ 5 N</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">8.5K</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">Supersonic (Jet)</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">트윈 애프터버너 · 변속 소닉붐 충격파</p>
-          </button>
-
-          <!-- 4. V10 Supercar -->
-          <button onclick="selectPreset('v10')" id="preset-v10" class="preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-amber-400">🏎️ V10 NA</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">9.0K</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">5.2L Supercar Screamer</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">우라칸 / LFA 스타일 칼날 고주파</p>
-          </button>
-
-          <!-- 5. V8 Twin-Turbo AMG -->
-          <button onclick="selectPreset('v8')" id="preset-v8" class="preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-orange-400">🔥 V8 BITURBO</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">7.2K</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">AMG Crossplane</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">묵직한 북소리 럼블 · 터보 스투투투</p>
-          </button>
-
-          <!-- 6. F1 V10 19,000 RPM -->
-          <button onclick="selectPreset('f1_v10')" id="preset-f1_v10" class="preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between">
-            <div class="flex items-center justify-between w-full">
-              <span class="font-bold text-xs text-fuchsia-400">🏆 F1 V10 ERA</span>
-              <span class="preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400">19K!</span>
-            </div>
-            <div class="text-[11px] font-semibold text-white mt-0.5">19,000 RPM Screamer</div>
-            <p class="text-[10px] text-zinc-400 leading-tight mt-0.5">초고주파 배음 · 40ms 시퀀셜 변속</p>
-          </button>
-        </div>
+      <!-- TOP 15-LED F1 / GT3 SHIFT LIGHT STRIP INTEGRATED INTO CLUSTER HOOD -->
+      <div id="shiftLightBar" class="bg-black/80 rounded-2xl p-1.5 sm:p-2 mb-2.5 flex items-center justify-between gap-1 sm:gap-1.5 border border-white/10 shadow-inner">
+        <!-- Populated dynamically with 15 LEDs -->
       </div>
 
-      <!-- 2. Sensor Fusion Telemetry Panel -->
-      <div class="carbon-card rounded-2xl p-3 flex-1 flex flex-col justify-between gap-2.5">
-        <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
-          <div class="flex items-center gap-1.5">
-            <span id="sensorPulseDot" class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-            <span class="text-[11px] font-mono-tech uppercase tracking-wider text-cyan-400 font-bold">
-              SENSOR FUSION TELEMETRY (계측기)
-            </span>
-          </div>
-          <span id="sensorStateLabel" class="text-[10px] font-mono-tech px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
-            SIMULATION 60Hz
-          </span>
-        </div>
-
-        <!-- 3 Core Sensor Fusion Readouts -->
-        <div class="grid grid-cols-3 gap-1.5 text-center">
-          <div class="bg-black/45 rounded-xl p-2 border border-white/5">
-            <div class="text-[9px] font-mono-tech text-zinc-400">RAW GPS (1Hz)</div>
-            <div id="telGpsSpeed" class="font-display text-base sm:text-lg font-bold text-zinc-200 mt-0.5">0.0</div>
-            <div id="telGpsStatus" class="text-[9px] font-mono-tech text-zinc-500">km/h (대기)</div>
-          </div>
-
-          <div class="bg-black/45 rounded-xl p-2 border border-cyan-500/20">
-            <div class="text-[9px] font-mono-tech text-cyan-300">ACCEL G (60Hz)</div>
-            <div id="telForwardG" class="font-display text-base sm:text-lg font-bold text-cyan-400 mt-0.5">+0.00</div>
-            <div class="text-[9px] font-mono-tech text-zinc-400">Longitudinal G</div>
-          </div>
-
-          <div class="bg-black/45 rounded-xl p-2 border border-red-500/25">
-            <div class="text-[9px] font-mono-tech text-red-300">FUSED SPEED</div>
-            <div id="telFusedSpeed" class="font-display text-base sm:text-lg font-bold text-white mt-0.5">0.0</div>
-            <div class="text-[9px] font-mono-tech text-red-400">km/h (보정됨)</div>
-          </div>
-        </div>
-
-        <!-- G-Force Bar & Calibration Controls -->
-        <div class="space-y-1.5">
-          <div class="flex justify-between text-[10px] font-mono-tech text-zinc-400">
-            <span>감속 (-G)</span>
-            <span id="pitchOffsetText" class="text-cyan-400">거치 각도 영점: 0.0°</span>
-            <span>가속 (+G)</span>
-          </div>
-          <div class="w-full h-2.5 bg-zinc-900 rounded-full overflow-hidden relative border border-white/10">
-            <div class="absolute left-1/2 top-0 bottom-0 w-0.5 bg-white/40 z-10"></div>
-            <div id="gForceBarFill" class="h-full bg-gradient-to-r from-cyan-400 to-red-500 transition-all duration-75" style="width: 0%; margin-left: 50%;"></div>
-          </div>
-
-          <div class="grid grid-cols-2 gap-1.5 pt-0.5">
-            <button onclick="calibrateZeroG()" class="py-1.5 px-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 text-[11px] font-semibold text-cyan-300 border border-cyan-500/30 flex items-center justify-center gap-1 transition active:scale-95">
-              <span>🎯</span> 거치대 영점 조절
-            </button>
-            <button onclick="requestRealSensors()" class="py-1.5 px-2.5 rounded-xl bg-cyan-500/15 hover:bg-cyan-500/25 text-[11px] font-semibold text-white border border-cyan-400/40 flex items-center justify-center gap-1 transition active:scale-95">
-              <span>📲</span> 센서 권한 요청
-            </button>
-          </div>
-        </div>
-
-        <div id="telemetryNotice" class="text-[10px] text-zinc-400 bg-black/40 rounded-lg px-2.5 py-1.5 border border-white/5">
-          <span>💡 아이오닉 5 N / 아크라포빅 프리셋을 클릭해 실시간 배기음 변화를 비교해 보세요!</span>
-        </div>
-      </div>
-
-    </section>
-
-    <!-- CENTER COLUMN: PLAID / N DIGITAL TACHOMETER, NGB BOOST & WAVEFORM (5 COLS) -->
-    <section class="lg:col-span-5 carbon-card rounded-2xl p-3.5 flex flex-col items-center justify-between relative overflow-hidden">
-      
-      <!-- Top Ambient Glow -->
-      <div id="gaugeAmbientGlow" class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-48 rounded-full bg-sky-500/20 blur-3xl transition-all duration-300"></div>
-
-      <!-- Top Cluster Info Bar -->
-      <div class="w-full flex flex-wrap items-center justify-between gap-1.5 z-10">
-        <div class="flex items-center gap-1.5">
-          <span id="activePresetBadge" class="px-2.5 py-1 rounded-lg bg-sky-500/20 border border-sky-400/40 font-display text-[11px] font-bold text-sky-300">
-            IONIQ 5 N · IGNITION
-          </span>
-          <span id="shiftModeBadge" class="px-2 py-1 rounded-lg bg-zinc-800 border border-white/10 font-mono-tech text-[11px] text-zinc-300">
-            N e-SHIFT 8-SPD
-          </span>
-        </div>
-
-        <!-- Exhaust Popcorn / Titanium Crack Active Indicator -->
-        <div id="burbleIndicator" class="px-2.5 py-1 rounded-lg bg-amber-500/15 border border-amber-500/30 font-mono-tech text-[11px] text-amber-300 opacity-30 transition-opacity">
-          💥 POPS &amp; BANGS
-        </div>
-      </div>
-
-      <!-- NGB (N GRIN BOOST) OVERBOOST COUNTDOWN BANNER (Hidden unless active) -->
-      <div id="ngbActiveBanner" class="hidden w-full mt-1.5 py-1 px-3 rounded-xl bg-gradient-to-r from-red-600/80 via-amber-500/80 to-red-600/80 border border-white/40 flex items-center justify-between z-20 shadow-lg">
+      <!-- NGB Overboost Active Banner -->
+      <div id="ngbActiveBanner" class="hidden w-full mb-2.5 py-1 px-3 rounded-xl bg-gradient-to-r from-red-600/90 via-amber-500/90 to-red-600/90 border border-white/40 flex items-center justify-between z-20 shadow-lg">
         <span class="font-display text-xs font-black tracking-wider text-white flex items-center gap-1.5">
-          🔥 N GRIN BOOST OVERBOOST ACTIVE!
+          🔥 N GRIN BOOST / OVERBOOST MAXIMUM ATTACK! (배기 밸브 강제 개방 + 가속도 1.35x)
         </span>
         <span id="ngbTimerText" class="font-mono-tech text-sm font-black text-white">10.0s</span>
       </div>
 
-      <!-- MAIN CIRCULAR / ARC SVG TACHOMETER -->
-      <div class="relative w-full max-w-[335px] aspect-square flex items-center justify-center my-0.5">
-        <svg id="tachSvg" viewBox="0 0 300 300" class="w-full h-full drop-shadow-2xl">
-          <defs>
-            <linearGradient id="rpmArcGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00f0ff" />
-              <stop offset="50%" stop-color="#38bdf8" />
-              <stop offset="78%" stop-color="#ffb800" />
-              <stop offset="100%" stop-color="#ff1e27" />
-            </linearGradient>
-            <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="4" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-          </defs>
+      <!-- MAIN 3-POD DIGITAL COCKPIT CLUSTER GRID -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch relative z-10">
 
-          <!-- Outer Subtle Ring -->
-          <circle cx="150" cy="150" r="136" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="2" />
-
-          <!-- Background Track Arc -->
-          <path id="tachBgArc" fill="none" stroke="#1b1f2a" stroke-width="18" stroke-linecap="round" />
-
-          <!-- Redline Danger Zone Arc -->
-          <path id="tachRedlineArc" fill="none" stroke="rgba(255, 30, 39, 0.32)" stroke-width="18" stroke-linecap="butt" />
-
-          <!-- Active Dynamic RPM Arc -->
-          <path id="tachActiveArc" fill="none" stroke="url(#rpmArcGrad)" stroke-width="18" stroke-linecap="round" filter="url(#neonGlow)" />
-
-          <!-- Dynamic Tick Marks Group populated by JS per preset Redline -->
-          <g id="tachTicks"></g>
-        </svg>
-
-        <!-- Center Readout Overlay inside Tachometer -->
-        <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pt-3">
-          <div id="gearSubLabel" class="text-[10px] font-mono-tech uppercase tracking-widest text-sky-400 font-bold">N e-SHIFT GEAR</div>
-          <!-- Giant Gear Indicator -->
-          <div id="gearDisplay" class="font-display text-6xl sm:text-7xl font-black text-white leading-none tracking-tight drop-shadow-[0_0_20px_rgba(255,30,39,0.55)] transition-transform duration-75">
-            P
+        <!-- LEFT POD (3 COLS): G-FORCE RADAR, BOOST GAUGE & SENSOR FUSION TELEMETRY -->
+        <div class="lg:col-span-3 bg-black/55 rounded-2xl p-3 border border-white/10 flex flex-col justify-between gap-2.5">
+          <div class="flex items-center justify-between border-b border-white/10 pb-1.5">
+            <span class="text-[10px] font-mono-tech uppercase tracking-wider text-cyan-400 font-bold flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+              G-METER &amp; TELEMETRY
+            </span>
+            <span id="sensorStateLabel" class="text-[10px] font-mono-tech px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">
+              SIM 60Hz
+            </span>
           </div>
 
-          <!-- Digital RPM Readout -->
-          <div class="mt-1.5 flex items-baseline gap-1">
-            <span id="rpmDisplay" class="font-mono-tech text-2xl sm:text-3xl font-extrabold text-cyan-400">0</span>
-            <span class="text-xs font-mono-tech text-zinc-400">RPM</span>
+          <!-- G-Ball Radar + Live G / Boost Readouts -->
+          <div class="grid grid-cols-2 gap-2 items-center my-auto">
+            <!-- Interactive 2D G-Force Radar Circle -->
+            <div class="flex flex-col items-center">
+              <div class="relative w-24 h-24 rounded-full border border-zinc-700 bg-zinc-950/90 flex items-center justify-center shadow-inner">
+                <div class="w-16 h-16 rounded-full border border-dashed border-zinc-800"></div>
+                <div class="w-8 h-8 rounded-full border border-dotted border-zinc-800"></div>
+                <div class="absolute inset-x-0 h-[1px] bg-zinc-800"></div>
+                <div class="absolute inset-y-0 w-[1px] bg-zinc-800"></div>
+                <span class="absolute top-1 text-[8px] font-mono-tech text-zinc-500">+1.5G</span>
+                <div id="gBallDot" class="w-3.5 h-3.5 rounded-full bg-red-500 shadow-[0_0_12px_#ff1e27] border border-white transition-transform duration-75"></div>
+              </div>
+              <span id="pitchOffsetText" class="text-[9px] font-mono-tech text-zinc-400 mt-1">영점 각도: 0°</span>
+            </div>
+
+            <!-- Numeric Telemetry Stack -->
+            <div class="flex flex-col gap-1.5">
+              <div class="bg-zinc-900/90 rounded-xl p-1.5 border border-white/5 text-center">
+                <div class="text-[9px] font-mono-tech text-cyan-300">LONGITUDINAL G</div>
+                <div id="telForwardG" class="font-display text-base font-black text-cyan-400">+0.00 G</div>
+              </div>
+              <div class="bg-zinc-900/90 rounded-xl p-1.5 border border-white/5 text-center">
+                <div class="text-[9px] font-mono-tech text-amber-300">TURBO / SC BOOST</div>
+                <div id="telBoostBar" class="font-display text-base font-black text-amber-400">+0.00 BAR</div>
+              </div>
+              <div class="bg-zinc-900/90 rounded-xl p-1.5 border border-white/5 text-center">
+                <div class="text-[9px] font-mono-tech text-zinc-400">RAW GPS / FUSED</div>
+                <div class="font-mono-tech text-xs font-bold text-white">
+                  <span id="telGpsSpeed">0.0</span> / <span id="telFusedSpeed" class="text-red-400">0.0</span> <span class="text-[9px] text-zinc-400">km/h</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <!-- Digital Speedometer Readout -->
-          <div class="mt-1.5 px-4 py-1 rounded-xl bg-black/65 border border-white/10 flex items-baseline gap-1.5">
-            <span id="speedDisplay" class="font-display text-2xl sm:text-3xl font-black text-white">0</span>
-            <span class="text-xs font-mono-tech text-zinc-400">km/h</span>
+          <!-- Throttle / Brake Telemetry Bars & Zero-G Calibration -->
+          <div class="space-y-1.5 pt-1 border-t border-white/10">
+            <div class="flex items-center gap-2 text-[10px] font-mono-tech">
+              <span class="w-12 text-red-400 font-bold">THR <span id="throttlePctText">0%</span></span>
+              <div class="flex-1 h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/10">
+                <div id="throttleBarHoriz" class="h-full bg-gradient-to-r from-amber-500 to-red-500 transition-all duration-75" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 text-[10px] font-mono-tech">
+              <span class="w-12 text-cyan-400 font-bold">BRK <span id="brakePctText">0%</span></span>
+              <div class="flex-1 h-2 bg-zinc-900 rounded-full overflow-hidden border border-white/10">
+                <div id="brakeBarHoriz" class="h-full bg-cyan-400 transition-all duration-75" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 pt-1">
+              <button onclick="calibrateZeroG()" class="py-1.5 px-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-[10px] font-bold text-cyan-300 border border-cyan-500/30 flex items-center justify-center gap-1 active:scale-95">
+                🎯 거치대 영점 조절
+              </button>
+              <button onclick="toggleAutoLaunchDemo()" id="launchDemoBtn" class="py-1.5 px-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-[10px] font-bold text-amber-300 border border-amber-400/40 flex items-center justify-center gap-1 active:scale-95">
+                🚀 0→200 런치데모
+              </button>
+            </div>
           </div>
+        </div>
+
+        <!-- CENTER POD (5 COLS): HIGH-PRECISION HTML5 CANVAS SUPERCAR TACHOMETER & FFT SPECTRUM -->
+        <div class="lg:col-span-5 bg-black/70 rounded-2xl p-3 border border-white/15 flex flex-col items-center justify-between relative shadow-2xl">
+          <!-- Top Active Supercar Info Header inside Center Gauge -->
+          <div class="w-full flex items-center justify-between gap-1 z-10">
+            <div class="flex items-center gap-1.5">
+              <span id="activeCarEmoji" class="text-lg">🐸</span>
+              <div>
+                <div id="activePresetBadge" class="font-display text-xs sm:text-sm font-black text-white tracking-wide">
+                  PORSCHE 911 GT3 RS (992)
+                </div>
+                <div id="activeEngineSpec" class="text-[10px] font-mono-tech text-cyan-400">
+                  4.0L Flat-6 NA · REDLINE 9,000 RPM
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col items-end">
+              <span id="shiftModeBadge" class="px-2 py-0.5 rounded bg-red-500/20 border border-red-500/40 font-mono-tech text-[10px] text-red-300 font-bold">
+                AUTO PDK 8-SPD
+              </span>
+              <span id="burbleIndicator" class="text-[10px] font-mono-tech text-amber-400 opacity-30 transition-opacity mt-0.5">
+                💥 OVERRUN POPS
+              </span>
+            </div>
+          </div>
+
+          <!-- Center High-FPS Canvas Tachometer + Central Readout Overlay -->
+          <div class="relative w-full max-w-[310px] sm:max-w-[340px] aspect-square flex items-center justify-center my-1">
+            <canvas id="tachometerCanvas" width="380" height="380" class="w-full h-full"></canvas>
+
+            <!-- Central Digital Gear, RPM & Speed Overlay -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none pt-5">
+              <div id="gearSubLabel" class="text-[9px] font-mono-tech uppercase tracking-widest text-zinc-400 font-bold">
+                GEAR
+              </div>
+              <div id="gearDisplay" class="font-display text-6xl sm:text-7xl font-black text-white leading-none tracking-tight drop-shadow-[0_0_24px_rgba(255,30,39,0.75)] transition-transform duration-75">
+                P
+              </div>
+              <div class="mt-1 flex items-baseline gap-1">
+                <span id="rpmDisplay" class="font-mono-tech text-xl sm:text-2xl font-extrabold text-cyan-400">0</span>
+                <span class="text-[10px] font-mono-tech text-zinc-400">RPM</span>
+              </div>
+              <div class="mt-1.5 px-3.5 py-0.5 rounded-xl bg-zinc-950/90 border border-white/15 flex items-baseline gap-1 shadow-lg">
+                <span id="speedDisplay" class="font-display text-2xl sm:text-3xl font-black text-white">0</span>
+                <span class="text-[10px] font-mono-tech text-zinc-400">km/h</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Live FFT Spectrum & Exhaust Frequency Readout -->
+          <div class="w-full bg-zinc-950/90 rounded-xl p-2 border border-white/10 z-10">
+            <div class="flex justify-between items-center text-[10px] font-mono-tech text-zinc-400 mb-1">
+              <span id="exhaustValveStatusText" class="text-red-400 font-bold">🔊 VALVE: OPEN (직관 풀배기)</span>
+              <span id="synthFreqReadout" class="text-cyan-400 font-bold">0 Hz · 0 dB</span>
+            </div>
+            <canvas id="audioWaveCanvas" class="w-full h-11 rounded bg-black"></canvas>
+          </div>
+        </div>
+
+        <!-- RIGHT POD (4 COLS): INTEGRATED COCKPIT DRIVING CONTROLS (PADDLES, REV BLIP, CRUISE, PEDALS) -->
+        <div class="lg:col-span-4 bg-black/55 rounded-2xl p-3 border border-white/10 flex flex-col justify-between gap-2">
+          <!-- Mode Switcher (Simulator vs Real Sensor Fusion) & Transmission Selector -->
+          <div class="flex flex-col gap-1.5">
+            <div class="grid grid-cols-2 gap-1.5 bg-zinc-950 p-1 rounded-xl border border-white/10">
+              <button id="modeSimBtn" onclick="setInputMode('sim')" class="py-1.5 rounded-lg text-[11px] font-bold transition-all bg-red-600 text-white shadow">
+                🕹️ 실내 시뮬레이터
+              </button>
+              <button id="modeRealBtn" onclick="setInputMode('real')" class="py-1.5 rounded-lg text-[11px] font-bold transition-all text-zinc-400 hover:text-white">
+                📡 실차 주행 (GPS+G)
+              </button>
+            </div>
+
+            <!-- Transmission Mode Bar: AUTO (D) / MANUAL (M) / NEUTRAL (N) -->
+            <div class="grid grid-cols-3 gap-1 bg-zinc-950 p-1 rounded-xl border border-white/10">
+              <button id="transAutoBtn" onclick="setTransmissionMode('auto')" class="py-1 rounded-lg text-[11px] font-display font-bold bg-red-600 text-white transition">
+                AUTO (D)
+              </button>
+              <button id="transManualBtn" onclick="setTransmissionMode('manual')" class="py-1 rounded-lg text-[11px] font-display font-bold text-zinc-400 hover:text-white transition">
+                MANUAL (M)
+              </button>
+              <button id="neutralToggleBtn" onclick="toggleNeutralRevMode()" class="py-1 rounded-lg text-[11px] font-display font-bold text-amber-400 hover:bg-amber-500/15 transition">
+                NEUTRAL (N)
+              </button>
+            </div>
+          </div>
+
+          <!-- Paddle Shifters + Rev Blip + Cruise Hold Row -->
+          <div class="grid grid-cols-4 gap-1.5">
+            <button onclick="manualShift(-1)" class="pedal-btn py-2.5 rounded-xl bg-zinc-800/95 hover:bg-zinc-700 border border-cyan-500/40 flex flex-col items-center justify-center">
+              <span class="font-display text-sm font-black text-cyan-400">- DOWN</span>
+              <span class="text-[9px] font-mono-tech text-zinc-300">패들 [A]</span>
+            </button>
+
+            <button onmousedown="triggerRevBlip()" ontouchstart="triggerRevBlip(event)" class="pedal-btn py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 flex flex-col items-center justify-center">
+              <span class="font-display text-xs font-black text-amber-300">⚡ BLIP</span>
+              <span class="text-[9px] font-mono-tech text-amber-200">공회전 [Space]</span>
+            </button>
+
+            <button id="cruiseHoldBtn" onclick="toggleCruiseHold()" class="pedal-btn py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/15 flex flex-col items-center justify-center">
+              <span class="font-display text-xs font-black text-emerald-400">CRUISE</span>
+              <span id="cruiseSubText" class="text-[9px] font-mono-tech text-zinc-400">속도고정 OFF</span>
+            </button>
+
+            <button onclick="manualShift(1)" class="pedal-btn py-2.5 rounded-xl bg-zinc-800/95 hover:bg-zinc-700 border border-red-500/40 flex flex-col items-center justify-center">
+              <span class="font-display text-sm font-black text-red-400">+ UP</span>
+              <span class="text-[9px] font-mono-tech text-zinc-300">패들 [D]</span>
+            </button>
+          </div>
+
+          <!-- Large Ergonomic Cockpit Pedals (BRAKE & THROTTLE) -->
+          <div class="grid grid-cols-5 gap-2 flex-1 min-h-[120px]">
+            <!-- Brake Pedal -->
+            <button id="brakePedal"
+              class="pedal-btn col-span-2 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 border-2 border-cyan-500/50 hover:border-cyan-400 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-lg">
+              <div id="brakeFill" class="absolute bottom-0 inset-x-0 bg-cyan-500/30 transition-all duration-75" style="height: 0%;"></div>
+              <span class="text-[9px] font-mono-tech text-cyan-300 uppercase z-10">KEY: S / ↓</span>
+              <div class="z-10 text-center">
+                <div class="font-display text-sm sm:text-base font-black text-white">BRAKE</div>
+                <div class="text-[10px] text-cyan-200">감속 · 팝콘 후적음</div>
+              </div>
+              <span id="pedalBrakePct" class="text-xs font-mono-tech text-cyan-400 font-bold z-10">0%</span>
+            </button>
+
+            <!-- Wide Throttle Pedal -->
+            <button id="throttlePedal"
+              class="pedal-btn col-span-3 rounded-2xl bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-2 border-red-500/75 hover:border-red-400 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-xl">
+              <div id="throttleFill" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-red-600/50 to-amber-500/25 transition-all duration-75" style="height: 0%;"></div>
+              <span class="text-[9px] font-mono-tech text-red-300 uppercase z-10">KEY: W / ↑ (HOLD)</span>
+              <div class="z-10 text-center">
+                <div class="font-display text-base sm:text-lg font-black text-white tracking-wider">THROTTLE</div>
+                <div class="text-[11px] text-red-300 font-semibold">풀악셀 가속 &amp; 배기음</div>
+              </div>
+              <span id="pedalThrottlePct" class="text-xs font-mono-tech text-red-400 font-bold z-10">0%</span>
+            </button>
+          </div>
+
+          <!-- Status Notice Bar -->
+          <div id="telemetryNotice" class="text-[11px] text-zinc-300 bg-zinc-950/90 rounded-xl px-2.5 py-1.5 border border-white/10 truncate">
+            💡 상단 계기판의 THROTTLE 버튼을 누르거나 [🚀 0→200 런치데모]를 눌러 사운드를 체험하세요!
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       SECTION 2 (BOTTOM DECK): 16 SUPERCAR SOUND PRESETS & FINE-TUNING SETTINGS
+       ========================================================================= -->
+  <main class="w-full max-w-7xl mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
+
+    <!-- LEFT/CENTER (8 COLS): 16 SUPERCAR / PORSCHE / N / SPECIAL SOUND PRESET SELECTOR -->
+    <section class="lg:col-span-8 carbon-card rounded-2xl p-3 sm:p-4 flex flex-col justify-between gap-2.5">
+      <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#ff1e27]"></span>
+          <h2 class="font-display text-xs sm:text-sm font-black tracking-wider text-white uppercase">
+            16 SUPERCAR &amp; EXHAUST SOUND PRESETS (실시간 파형 합성 엔진)
+          </h2>
+        </div>
+
+        <!-- Category Filter Tabs -->
+        <div class="flex flex-wrap gap-1">
+          <button onclick="setCategoryFilter('all')" id="cat-all" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white transition">
+            전체 (16)
+          </button>
+          <button onclick="setCategoryFilter('supercar')" id="cat-supercar" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
+            포르쉐 · 슈퍼카 (7)
+          </button>
+          <button onclick="setCategoryFilter('n_turbo')" id="cat-n_turbo" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
+            N · 아크라 · 머슬 (5)
+          </button>
+          <button onclick="setCategoryFilter('special')" id="cat-special" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
+            스페셜 · F1 · 바이크 (4)
+          </button>
         </div>
       </div>
 
-      <!-- Bottom Real-Time Exhaust Sound Waveform Visualizer & G-Ball -->
-      <div class="w-full grid grid-cols-12 gap-2 items-center z-10">
-        <div class="col-span-8 bg-black/60 rounded-xl p-2 border border-white/10 flex flex-col">
-          <div class="flex justify-between items-center text-[10px] font-mono-tech text-zinc-400 mb-1">
-            <span id="exhaustValveStatusText" class="text-red-400 font-bold">🔊 VALVE: OPEN (직관 풀배기)</span>
-            <span id="synthFreqReadout" class="text-cyan-400">0 Hz</span>
-          </div>
-          <canvas id="audioWaveCanvas" class="w-full h-14 rounded bg-zinc-950/80"></canvas>
-        </div>
-
-        <div class="col-span-4 bg-black/60 rounded-xl p-2 border border-white/10 flex flex-col items-center justify-center">
-          <div class="text-[10px] font-mono-tech text-zinc-400 mb-1">G-METER</div>
-          <div class="relative w-14 h-14 rounded-full border border-zinc-700 bg-zinc-950 flex items-center justify-center">
-            <div class="w-7 h-7 rounded-full border border-dashed border-zinc-700"></div>
-            <div class="absolute inset-x-0 h-[1px] bg-zinc-800"></div>
-            <div class="absolute inset-y-0 w-[1px] bg-zinc-800"></div>
-            <div id="gBallDot" class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_#ff1e27] transition-transform duration-75"></div>
-          </div>
-        </div>
+      <!-- 16 Presets Responsive Grid -->
+      <div id="presetGridContainer" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2">
+        <!-- Dynamically populated by renderPresetCards() -->
       </div>
     </section>
 
-    <!-- RIGHT COLUMN: NGB BOOST, EXHAUST VALVE, POPS & BANGS, PEDALS (3 COLS) -->
-    <section class="lg:col-span-3 flex flex-col gap-2.5">
-      
-      <!-- 1. NGB Boost, Exhaust Valve & Pops & Bangs Mode Box -->
-      <div class="carbon-card rounded-2xl p-3 flex flex-col gap-2.5">
-        <!-- NGB Overboost & Exhaust Valve Row -->
-        <div class="grid grid-cols-2 gap-2">
-          <!-- NGB (N Grin Boost) 10s Button -->
-          <button id="ngbBtn" onclick="activateNGB()" class="pedal-btn py-2.5 px-2 rounded-xl bg-gradient-to-br from-red-600 via-red-700 to-amber-600 text-white font-display font-black text-xs tracking-wider border border-red-400 shadow-lg flex flex-col items-center justify-center">
-            <div class="flex items-center gap-1">
-              <span>🔥 NGB</span>
-              <span class="text-[9px] font-mono-tech px-1 rounded bg-black/40">KEY: B</span>
-            </div>
-            <span id="ngbBtnSub" class="text-[10px] font-sans font-semibold text-red-100 mt-0.5">10초 풀부스트</span>
-          </button>
+    <!-- RIGHT (4 COLS): LOWER SETTINGS, POPS & BANGS, SLIDERS & STORAGE RESET -->
+    <section class="lg:col-span-4 carbon-card rounded-2xl p-3 sm:p-4 flex flex-col justify-between gap-3">
+      <div class="flex items-center justify-between border-b border-white/10 pb-2">
+        <span class="font-display text-xs sm:text-sm font-black tracking-wider text-cyan-400 uppercase flex items-center gap-1.5">
+          ⚙️ EXHAUST &amp; SENSOR TUNING
+        </span>
+        <button onclick="requestRealSensors()" class="px-2.5 py-1 rounded-lg bg-cyan-500/15 hover:bg-cyan-500/25 text-[11px] font-bold text-cyan-300 border border-cyan-400/40 transition active:scale-95">
+          📲 GPS/센서 권한 요청
+        </button>
+      </div>
 
-          <!-- Variable Exhaust Valve Toggle -->
-          <button id="valveToggleBtn" onclick="toggleExhaustValve()" class="pedal-btn py-2.5 px-2 rounded-xl bg-red-500/20 border-2 border-red-500 text-white font-display font-bold text-xs flex flex-col items-center justify-center shadow-lg">
-            <div class="flex items-center gap-1">
-              <span id="valveIcon">🔊</span>
-              <span id="valveTitle">VALVE OPEN</span>
-            </div>
-            <span id="valveSub" class="text-[10px] font-sans text-red-300 mt-0.5">직관 티타늄 풀배기 (V)</span>
-          </button>
+      <!-- Pops & Bangs (후적음 / 팝콘) 4-Stage Selector -->
+      <div>
+        <div class="flex justify-between items-center text-[11px] font-mono-tech text-zinc-300 mb-1.5">
+          <span>💥 POPS &amp; BANGS (오버런 팝콘 강도)</span>
+          <span id="burbleModeLabel" class="text-amber-400 font-bold">N-IGNITION</span>
         </div>
-
-        <!-- Pops & Bangs (후적음 / 팝콘) 4-Mode Selector -->
-        <div>
-          <div class="flex justify-between items-center text-[10px] font-mono-tech text-zinc-400 mb-1">
-            <span>💥 POPS &amp; BANGS (오버런 후적음 모드)</span>
-            <span id="burbleModeLabel" class="text-amber-400 font-bold">N-IGNITION</span>
-          </div>
-          <div class="grid grid-cols-4 gap-1">
-            <button onclick="setBurbleMode('off')" id="bmode-off" class="py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
-              OFF
-            </button>
-            <button onclick="setBurbleMode('sport')" id="bmode-sport" class="py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
-              SPORT
-            </button>
-            <button onclick="setBurbleMode('n_ignition')" id="bmode-n_ignition" class="py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-amber-500/25 text-amber-300 border border-amber-400">
-              N-POP
-            </button>
-            <button onclick="setBurbleMode('akra_crack')" id="bmode-akra_crack" class="py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
-              AKRA총성
-            </button>
-          </div>
-        </div>
-
-        <!-- Sliders: G-Sensor Sensitivity & Master Volume -->
-        <div class="space-y-1.5 pt-0.5 border-t border-white/10">
-          <div>
-            <div class="flex justify-between text-[11px] mb-0.5">
-              <span class="text-zinc-300">가속도 반응 민감도 (G-Sens)</span>
-              <span id="valGSens" class="font-mono-tech text-cyan-400 font-bold">1.6x</span>
-            </div>
-            <input id="sliderGSens" type="range" min="0.5" max="3.0" step="0.1" value="1.6" oninput="updateSliders()" />
-          </div>
-
-          <div>
-            <div class="flex justify-between text-[11px] mb-0.5">
-              <span class="text-zinc-300">마스터 볼륨 (Master Vol)</span>
-              <span id="valVolume" class="font-mono-tech text-red-400 font-bold">85%</span>
-            </div>
-            <input id="sliderVolume" type="range" min="0" max="100" step="1" value="85" oninput="updateSliders()" />
-          </div>
+        <div class="grid grid-cols-4 gap-1.5">
+          <button onclick="setBurbleMode('off')" id="bmode-off" class="py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
+            OFF
+          </button>
+          <button onclick="setBurbleMode('sport')" id="bmode-sport" class="py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
+            SPORT
+          </button>
+          <button onclick="setBurbleMode('n_ignition')" id="bmode-n_ignition" class="py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-amber-500/25 text-amber-300 border border-amber-400">
+            N-POP
+          </button>
+          <button onclick="setBurbleMode('akra_crack')" id="bmode-akra_crack" class="py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10">
+            🔥AKRA총성
+          </button>
         </div>
       </div>
 
-      <!-- 2. 8-Speed N e-Shift / DCT Gearbox & Pedals -->
-      <div class="carbon-card rounded-2xl p-3 flex-1 flex flex-col justify-between gap-2">
-        <div class="flex items-center justify-between">
-          <span class="text-[11px] font-mono-tech uppercase tracking-wider text-zinc-400">
-            8-SPEED N e-SHIFT / DCT
-          </span>
-          <div class="flex rounded-lg bg-zinc-900 p-0.5 border border-white/10">
-            <button id="transAutoBtn" onclick="setTransmissionMode('auto')" class="px-2 py-0.5 rounded text-[11px] font-bold bg-red-600 text-white transition">
-              AUTO
-            </button>
-            <button id="transManualBtn" onclick="setTransmissionMode('manual')" class="px-2 py-0.5 rounded text-[11px] font-bold text-zinc-400 hover:text-white transition">
-              MANUAL
-            </button>
+      <!-- 4 Precision Tuning Sliders (Auto-Saved to localStorage) -->
+      <div class="space-y-2.5 my-auto py-1">
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-zinc-300 font-medium">마스터 볼륨 (Master Volume)</span>
+            <span id="valVolume" class="font-mono-tech text-red-400 font-bold">85%</span>
           </div>
+          <input id="sliderVolume" type="range" min="0" max="100" step="1" value="85" oninput="updateSliders()" />
         </div>
 
-        <!-- Paddle Shifters & Neutral Rev Toggle -->
-        <div class="grid grid-cols-3 gap-1.5">
-          <button onclick="manualShift(-1)" class="pedal-btn py-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 border border-white/15 flex flex-col items-center justify-center active:border-cyan-400">
-            <span class="font-display text-base font-black text-cyan-400">- DOWN</span>
-            <span class="text-[9px] font-mono-tech text-zinc-300">레브매칭 (A)</span>
-          </button>
-
-          <button id="neutralToggleBtn" onclick="toggleNeutralRevMode()" class="pedal-btn py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-amber-500/30 flex flex-col items-center justify-center">
-            <span class="font-display text-sm font-black text-amber-400">N 공회전</span>
-            <span class="text-[9px] font-mono-tech text-zinc-400">배기음 테스트 (N)</span>
-          </button>
-
-          <button onclick="manualShift(1)" class="pedal-btn py-2.5 rounded-xl bg-zinc-800/90 hover:bg-zinc-700 border border-white/15 flex flex-col items-center justify-center active:border-red-400">
-            <span class="font-display text-base font-black text-red-400">+ UP</span>
-            <span class="text-[9px] font-mono-tech text-zinc-300">e-Shift 뱅 (D)</span>
-          </button>
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-zinc-300 font-medium">실차 가속도 센서 민감도 (G-Sensitivity)</span>
+            <span id="valGSens" class="font-mono-tech text-cyan-400 font-bold">1.6x</span>
+          </div>
+          <input id="sliderGSens" type="range" min="0.5" max="3.0" step="0.1" value="1.6" oninput="updateSliders()" />
         </div>
 
-        <!-- Throttle & Brake Pedals -->
-        <div class="grid grid-cols-5 gap-2 pt-0.5 flex-1 min-h-[125px]">
-          <button id="brakePedal"
-            class="pedal-btn col-span-2 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 border-2 border-cyan-500/40 hover:border-cyan-400 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-lg">
-            <div id="brakeFill" class="absolute bottom-0 inset-x-0 bg-cyan-500/25 transition-all duration-75" style="height: 0%;"></div>
-            <span class="text-[9px] font-mono-tech text-cyan-300 uppercase z-10">S / DOWN</span>
-            <div class="z-10 text-center">
-              <div class="font-display text-sm font-black text-white">BRAKE</div>
-              <div class="text-[10px] text-zinc-400">감속 · 팝콘유발</div>
-            </div>
-            <span id="brakePctText" class="text-xs font-mono-tech text-cyan-400 z-10">0%</span>
-          </button>
-
-          <button id="throttlePedal"
-            class="pedal-btn col-span-3 rounded-2xl bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-2 border-red-500/60 hover:border-red-500 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-xl">
-            <div id="throttleFill" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-red-600/45 to-amber-500/20 transition-all duration-75" style="height: 0%;"></div>
-            <span class="text-[9px] font-mono-tech text-red-300 uppercase z-10">W / UP / HOLD</span>
-            <div class="z-10 text-center">
-              <div class="font-display text-base font-black text-white tracking-wider">THROTTLE</div>
-              <div class="text-[11px] text-red-300 font-semibold">엑셀 (가속 &amp; 배기음)</div>
-            </div>
-            <span id="throttlePctText" class="text-xs font-mono-tech text-red-400 font-bold z-10">0%</span>
-          </button>
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-zinc-300 font-medium">배기음 피치 튜닝 (Exhaust Pitch Offset)</span>
+            <span id="valPitchOffset" class="font-mono-tech text-amber-400 font-bold">0%</span>
+          </div>
+          <input id="sliderPitchOffset" type="range" min="-20" max="20" step="1" value="0" oninput="updateSliders()" />
         </div>
 
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-zinc-300 font-medium">자동 변속 RPM 시점 (Shift Point %)</span>
+            <span id="valShiftPoint" class="font-mono-tech text-emerald-400 font-bold">92%</span>
+          </div>
+          <input id="sliderShiftPoint" type="range" min="65" max="98" step="1" value="92" oninput="updateSliders()" />
+        </div>
+      </div>
+
+      <!-- Web Storage Auto-Save Info & Reset Button -->
+      <div class="pt-2 border-t border-white/10 flex items-center justify-between gap-2">
+        <div class="text-[10px] text-zinc-400 leading-tight">
+          <div class="text-emerald-400 font-mono-tech font-bold">💾 LocalStorage 자동 저장 활성화됨</div>
+          <div>선택한 차종·밸브·볼륨·영점이 차에서도 유지됩니다.</div>
+        </div>
+        <button onclick="resetSavedSettings()" class="px-2.5 py-1.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-[11px] font-semibold text-zinc-300 border border-white/10 shrink-0 transition active:scale-95">
+          🔄 설정 초기화
+        </button>
       </div>
     </section>
 
   </main>
 
-  <!-- FOOTER KEYBOARD & USAGE HINTS -->
-  <footer class="w-full max-w-7xl mx-auto mt-2 px-1 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 gap-2">
+  <!-- FOOTER SHORTCUTS BAR -->
+  <footer class="w-full max-w-7xl mx-auto mt-2.5 px-1 flex flex-wrap items-center justify-between text-[11px] text-zinc-500 gap-2">
     <div>
       <span class="text-zinc-300 font-semibold">단축키:</span>
       <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">W</kbd> 엑셀 ·
       <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">S</kbd> 브레이크 ·
       <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">A</kbd>/<kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">D</kbd> 패들 변속 ·
-      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">B</kbd> NGB 10초 부스트 ·
-      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">V</kbd> 가변 배기 밸브 ·
-      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">N</kbd> 중립 공회전
+      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">Space</kbd> 공회전 블립 ·
+      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">B</kbd> NGB 부스트 ·
+      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">V</kbd> 배기 밸브 ·
+      <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">N</kbd> 중립
     </div>
     <div class="font-mono-tech text-zinc-400">
-      Plaid Sound Synth Pro · 100% Web Audio Procedural Engine
+      Plaid Sound Synth Pro v3.0 · 16-Preset Procedural Audio &amp; Sensor Fusion
     </div>
   </footer>
 
-  <!-- APPLICATION LOGIC -->
+  <!-- =========================================================================
+       INTERACTIVE USER MANUAL MODAL POPUP (📖 사용 설명서)
+       ========================================================================= -->
+  <div id="manualModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-4 bg-black/80 backdrop-blur-md">
+    <div class="carbon-card rounded-3xl max-w-2xl w-full max-h-[88vh] flex flex-col border border-cyan-500/40 shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="px-5 py-4 bg-zinc-950/90 border-b border-white/10 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📖</span>
+          <div>
+            <h3 class="font-display text-sm sm:text-base font-black text-white">
+              PLAID SOUND SYNTH PRO — 사용 설명서 &amp; 주행 가이드
+            </h3>
+            <p class="text-[11px] text-cyan-400 font-mono-tech">
+              2023 Tesla Model S Plaid · GPS + 60Hz Accelerometer Sensor Fusion
+            </p>
+          </div>
+        </div>
+        <button onclick="closeManualModal()" class="w-8 h-8 rounded-xl bg-zinc-800 hover:bg-red-600 text-white font-bold text-sm flex items-center justify-center transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Scrollable Content -->
+      <div class="p-5 overflow-y-auto space-y-4 text-xs sm:text-sm text-zinc-300 leading-relaxed">
+        
+        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-cyan-500/30">
+          <h4 class="font-bold text-cyan-300 text-sm mb-2 flex items-center gap-1.5">
+            🚗 1. 실차 주행 (센서 퓨전) 완벽 세팅 순서
+          </h4>
+          <ol class="list-decimal list-inside space-y-1.5 text-zinc-200">
+            <li><strong class="text-white">블루투스 연결 &amp; 거치:</strong> 스마트폰을 테슬라 블루투스 오디오에 연결하고, 대시보드/송풍구 거치대에 흔들리지 않게 고정합니다.</li>
+            <li><strong class="text-white">시동 켜기:</strong> 우측 상단의 <span class="px-1.5 py-0.5 rounded bg-red-600/30 text-red-300 font-mono-tech text-xs">ENGINE START</span> 버튼을 눌러 사운드 엔진을 켭니다.</li>
+            <li><strong class="text-white">실차 주행 모드 전환:</strong> 계기판 우측의 <span class="px-1.5 py-0.5 rounded bg-cyan-600/30 text-cyan-300 font-mono-tech text-xs">📡 실차 주행 (GPS+G)</span> 버튼을 누르고 위치(GPS) 및 동작 센서 권한을 <strong>허용</strong>합니다.</li>
+            <li><strong class="text-white">🎯 거치대 영점 조절 (가장 중요!):</strong> 차량이 평지에 정차(P 또는 D 정지)한 상태에서 좌측의 <span class="px-1.5 py-0.5 rounded bg-zinc-800 text-cyan-300 font-mono-tech text-xs">🎯 거치대 영점 조절</span> 버튼을 한 번 누릅니다. 거치대에 꽂힌 스마트폰 기울기를 <code>0.00G</code> 기준점으로 잡아줍니다.</li>
+            <li><strong class="text-white">주행 시작:</strong> 이제 엑셀을 밟으면 실제 가속도와 속도에 맞춰 1단~8단 변속과 배기음이 실시간으로 터져 나옵니다!</li>
+          </ol>
+        </div>
+
+        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-white/10">
+          <h4 class="font-bold text-amber-300 text-sm mb-2 flex items-center gap-1.5">
+            ⚡ 2. 왜 딜레이가 없을까? (GPS + 60Hz 가속도계 센서 퓨전 원리)
+          </h4>
+          <ul class="list-disc list-inside space-y-1.5 text-zinc-300">
+            <li><strong class="text-white">60Hz 가속도 센서 (0.01초 즉각 반응):</strong> GPS 속도는 1초에 1번만 갱신되어 급가속 시 박자가 늦습니다. 이 앱은 스마트폰 가속도계로 플래드가 튀어나갈 때의 중력가속도(<code>+G</code>)를 초당 60회 감지해 엑셀을 밟는 즉시 RPM과 배기음 볼륨을 끌어올립니다.</li>
+            <li><strong class="text-white">회생제동 팝콘 후적음 연동:</strong> 엑셀에서 발을 떼어 회생제동 감속(<code>-G</code>)이 걸리면 즉시 스로틀 오프로 인식하여 <strong>오버런 팝콘(Pops &amp; Bangs)</strong>과 터보 블로우오프 사운드를 터뜨립니다.</li>
+            <li><strong class="text-white">1Hz GPS 실속도 보정:</strong> 가속도 적분 오차는 매초 들어오는 GPS 실제 주행 속도(km/h)로 부드럽게 보정하여 실제 속도에 맞는 기어 단수(1~8단)를 유지합니다.</li>
+          </ul>
+        </div>
+
+        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-white/10">
+          <h4 class="font-bold text-red-400 text-sm mb-2 flex items-center gap-1.5">
+            🎮 3. 실내 시뮬레이터 &amp; 🚀 0→200km/h 런치컨트롤 데모
+          </h4>
+          <ul class="list-disc list-inside space-y-1.5 text-zinc-300">
+            <li><strong class="text-white">🚀 0→200 런치데모:</strong> 차에 타지 않고도 손대지 않고 1단부터 6단까지 풀악셀 변속과 감속 다운시프트 레브매칭 사운드를 감상할 수 있는 자동 주행 데모입니다.</li>
+            <li><strong class="text-white">⚡ BLIP (공회전 악셀):</strong> 정차 중이거나 주행 중 언제든 누르면 순간적으로 RPM을 튕겨 카랑카랑한 배기음과 후적음을 들어볼 수 있습니다.</li>
+            <li><strong class="text-white">CRUISE (속도 고정):</strong> 원하는 속도와 RPM에서 크루즈를 켜고 하단 16개 차종 카드를 차례대로 눌러보며 주행 배기음 차이를 즉시 비교해 보세요.</li>
+          </ul>
+        </div>
+
+        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-emerald-500/30">
+          <h4 class="font-bold text-emerald-400 text-sm mb-1.5 flex items-center gap-1.5">
+            💾 4. 웹 저장소 (LocalStorage) 자동 저장 안내
+          </h4>
+          <p class="text-zinc-300">
+            마지막으로 선택한 <strong>배기음 프리셋(16종), 배기 밸브(OPEN/QUIET), 팝콘 모드, 마스터 볼륨, 가속도 민감도, 피치 튜닝, 변속 시점, 거치대 영점 값</strong>은 브라우저의 <code>localStorage</code>에 즉시 자동 저장됩니다. 다음에 차에 타서 페이지를 열면 설정해 둔 값 그대로 바로 작동합니다.
+          </p>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="px-5 py-3 bg-zinc-950/90 border-t border-white/10 flex justify-end">
+        <button onclick="closeManualModal()" class="px-5 py-2 rounded-xl bg-red-600 hover:bg-red-500 text-white font-display font-bold text-xs shadow-lg transition">
+          확인 (닫기)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       APPLICATION JAVASCRIPT: 16-ENGINE PROCEDURAL SYNTH, SENSOR FUSION & STORAGE
+       ========================================================================= -->
   <script>
     /***************************************************************************
-     * 1. 6 DISTINCT VEHICLE & EXHAUST SOUND PRESET PROFILES
+     * 1. 16 DISTINCT SUPERCAR, PORSCHE, N, MUSCLE & SPECIAL SOUND PROFILES
      ***************************************************************************/
     const PRESETS = {
-      ioniq_ignition: {
-        name: 'IONIQ 5 N · IGNITION',
-        badgeColor: 'sky',
-        redline: 8000,
-        shiftRpm: 7450,
-        idleRpm: 920,
-        cylinders: 4,            // 2.0T Inline-4 WRC Rally Engine Profile
+      gt3rs: {
+        id: 'gt3rs',
+        category: 'supercar',
+        emoji: '🐸',
+        shortName: '911 GT3 RS (992)',
+        name: 'PORSCHE 911 GT3 RS (992)',
+        spec: '4.0L Flat-6 NA · 9,000 RPM · PDK',
+        redline: 9000,
+        shiftRpm: 8650,
+        idleRpm: 950,
+        cylinders: 6,            // Boxer-6 (3 firings per rev)
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'square',
+        harmonic2Ratio: 1.5,     // Flat-6 bank resonance
+        harmonic3Ratio: 3.0,     // Iconic Boxer metallic chainsaw rasp
+        subGainLevel: 0.42,
+        midGainLevel: 0.82,
+        highGainLevel: 0.92,
+        turboWhineLevel: 0.05,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.88, // High metallic flat-6 rasp
+        formant1Hz: 1180,
+        formant2Hz: 2480,
+        exhaustResonanceHz: 460,
+        exhaustQ: 4.4,
+        lopeSpeedHz: 8.5,
+        lopeDepth: 22,
+        revInertia: 0.26,        // Light single-mass flywheel
+        shiftCutDuration: 0.045, // 45ms lightning PDK shift
+        shiftStyle: 'pdk_snap',
+        defaultBurble: 'sport'
+      },
+      svj: {
+        id: 'svj',
+        category: 'supercar',
+        emoji: '🐂',
+        shortName: 'Aventador SVJ V12',
+        name: 'LAMBORGHINI AVENTADOR SVJ',
+        spec: '6.5L V12 NA (Gintani F1) · 8,700 RPM',
+        redline: 8700,
+        shiftRpm: 8400,
+        idleRpm: 1050,
+        cylinders: 12,           // 6 firings per rev V12 scream
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'triangle',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.0,     // Piercing Gintani F1 high-order V12 wail
+        subGainLevel: 0.48,
+        midGainLevel: 0.78,
+        highGainLevel: 0.96,
+        turboWhineLevel: 0.08,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.92,
+        formant1Hz: 1520,
+        formant2Hz: 2950,
+        exhaustResonanceHz: 580,
+        exhaustQ: 4.8,
+        lopeSpeedHz: 9.0,
+        lopeDepth: 30,
+        revInertia: 0.22,
+        shiftCutDuration: 0.095, // Brutal ISR single-clutch interruption bang
+        shiftStyle: 'isr_brutal',
+        defaultBurble: 'akra_crack'
+      },
+      f458: {
+        id: 'f458',
+        category: 'supercar',
+        emoji: '🐎',
+        shortName: 'Ferrari 458 Speciale',
+        name: 'FERRARI 458 SPECIALE',
+        spec: '4.5L Flat-Plane V8 NA · 9,000 RPM',
+        redline: 9000,
+        shiftRpm: 8700,
+        idleRpm: 1000,
+        cylinders: 8,
         osc1Type: 'sawtooth',
         osc2Type: 'square',
         osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,     // Strong 2nd order 4-cyl rally growl
-        harmonic3Ratio: 3.0,     // Aggressive upper midrange rasp
-        subGainLevel: 0.65,
+        harmonic2Ratio: 2.0,     // 180-deg flat-plane even firing shriek
+        harmonic3Ratio: 3.5,
+        subGainLevel: 0.35,
+        midGainLevel: 0.85,
+        highGainLevel: 0.92,
+        turboWhineLevel: 0.04,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.80,
+        formant1Hz: 1380,
+        formant2Hz: 2720,
+        exhaustResonanceHz: 540,
+        exhaustQ: 4.6,
+        lopeSpeedHz: 8.0,
+        lopeDepth: 20,
+        revInertia: 0.27,
+        shiftCutDuration: 0.050,
+        shiftStyle: 'pdk_snap',
+        defaultBurble: 'sport'
+      },
+      f812: {
+        id: 'f812',
+        category: 'supercar',
+        emoji: '🎺',
+        shortName: 'Ferrari 812 Novitec',
+        name: 'FERRARI 812 SUPERFAST (NOVITEC)',
+        spec: '6.5L V12 NA · 8,900 RPM · F1 DCT',
+        redline: 8900,
+        shiftRpm: 8600,
+        idleRpm: 1020,
+        cylinders: 12,
+        osc1Type: 'sawtooth',
+        osc2Type: 'triangle',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.5,
+        harmonic3Ratio: 3.0,     // Pure brass-trumpet V12 overtones
+        subGainLevel: 0.40,
         midGainLevel: 0.80,
-        highGainLevel: 0.55,
-        turboWhineLevel: 0.58,   // Pronounced WRC turbocharger whistle
-        titaniumGainLevel: 0.25, // Mild metallic tailpipe ring
-        exhaustResonanceHz: 290,
-        exhaustQ: 3.5,
+        highGainLevel: 0.95,
+        turboWhineLevel: 0.05,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.86,
+        formant1Hz: 1620,
+        formant2Hz: 3100,
+        exhaustResonanceHz: 620,
+        exhaustQ: 5.0,
+        lopeSpeedHz: 9.5,
+        lopeDepth: 18,
+        revInertia: 0.25,
+        shiftCutDuration: 0.050,
+        shiftStyle: 'pdk_snap',
+        defaultBurble: 'sport'
+      },
+      lfa: {
+        id: 'lfa',
+        category: 'supercar',
+        emoji: '👼',
+        shortName: 'Lexus LFA (Yamaha)',
+        name: 'LEXUS LFA — YAMAHA V10',
+        spec: '4.8L 72° V10 NA · 9,500 RPM',
+        redline: 9500,
+        shiftRpm: 9100,
+        idleRpm: 1100,
+        cylinders: 10,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'sine',
+        harmonic2Ratio: 2.0,     // Yamaha acoustic octaves
+        harmonic3Ratio: 4.0,
+        subGainLevel: 0.30,
+        midGainLevel: 0.78,
+        highGainLevel: 0.98,
+        turboWhineLevel: 0.08,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.96, // Titanium muffler acoustic resonance
+        formant1Hz: 1480,
+        formant2Hz: 2960,
+        exhaustResonanceHz: 680,
+        exhaustQ: 5.8,
+        lopeSpeedHz: 9.2,
+        lopeDepth: 16,
+        revInertia: 0.32,        // Revs from idle to 9k in 0.6 seconds!
+        shiftCutDuration: 0.065,
+        shiftStyle: 'akra_crack',
+        defaultBurble: 'sport'
+      },
+      mclaren765: {
+        id: 'mclaren765',
+        category: 'supercar',
+        emoji: '🔥',
+        shortName: 'McLaren 765LT',
+        name: 'McLAREN 765LT TITANIUM',
+        spec: '4.0L V8 Twin-Turbo · 8,200 RPM',
+        redline: 8200,
+        shiftRpm: 7850,
+        idleRpm: 920,
+        cylinders: 8,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.5,
+        harmonic3Ratio: 3.0,
+        subGainLevel: 0.58,
+        midGainLevel: 0.82,
+        highGainLevel: 0.80,
+        turboWhineLevel: 0.65,   // Aggressive twin-turbo spool
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.78,
+        formant1Hz: 1320,
+        formant2Hz: 2540,
+        exhaustResonanceHz: 410,
+        exhaustQ: 4.0,
+        lopeSpeedHz: 7.5,
+        lopeDepth: 28,
+        revInertia: 0.24,
+        shiftCutDuration: 0.055,
+        shiftStyle: 'akra_crack',
+        defaultBurble: 'akra_crack'
+      },
+      huracan: {
+        id: 'huracan',
+        category: 'supercar',
+        emoji: '🦄',
+        shortName: 'Huracán STO V10',
+        name: 'LAMBORGHINI HURACÁN STO',
+        spec: '5.2L V10 NA · 8,500 RPM · LDF',
+        redline: 8500,
+        shiftRpm: 8200,
+        idleRpm: 950,
+        cylinders: 10,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'triangle',
+        harmonic2Ratio: 1.5,     // Odd-firing 90° V10 interval howl
+        harmonic3Ratio: 2.5,
+        subGainLevel: 0.45,
+        midGainLevel: 0.78,
+        highGainLevel: 0.85,
+        turboWhineLevel: 0.05,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.65,
+        formant1Hz: 1280,
+        formant2Hz: 2420,
+        exhaustResonanceHz: 440,
+        exhaustQ: 3.8,
+        lopeSpeedHz: 7.8,
+        lopeDepth: 32,
+        revInertia: 0.21,
+        shiftCutDuration: 0.060,
+        shiftStyle: 'dct_fart',
+        defaultBurble: 'n_ignition'
+      },
+      amg_v8: {
+        id: 'amg_v8',
+        category: 'n_turbo',
+        emoji: '🔨',
+        shortName: 'AMG V8 BiTurbo',
+        name: 'MERCEDES-AMG C63 / GT V8',
+        spec: '4.0L V8 BiTurbo · 7,200 RPM',
+        redline: 7200,
+        shiftRpm: 6750,
+        idleRpm: 720,
+        cylinders: 8,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 0.5,     // Deep Crossplane V8 Sub-bass rumble
+        harmonic3Ratio: 1.5,
+        subGainLevel: 0.98,
+        midGainLevel: 0.78,
+        highGainLevel: 0.38,
+        turboWhineLevel: 0.55,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.25,
+        formant1Hz: 880,
+        formant2Hz: 1850,
+        exhaustResonanceHz: 170,
+        exhaustQ: 4.3,
+        lopeSpeedHz: 5.6,
+        lopeDepth: 68,
+        revInertia: 0.16,
+        shiftCutDuration: 0.080,
+        shiftStyle: 'dct_fart',
+        defaultBurble: 'n_ignition'
+      },
+      ioniq5n_ignition: {
+        id: 'ioniq5n_ignition',
+        category: 'n_turbo',
+        emoji: '🏁',
+        shortName: 'IONIQ 5 N Ignition',
+        name: 'HYUNDAI IONIQ 5 N · IGNITION',
+        spec: '2.0T WRC Rally · 8,000 RPM · N e-Shift',
+        redline: 8000,
+        shiftRpm: 7500,
+        idleRpm: 920,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 3.0,
+        subGainLevel: 0.68,
+        midGainLevel: 0.84,
+        highGainLevel: 0.58,
+        turboWhineLevel: 0.62,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.35,
+        formant1Hz: 1150,
+        formant2Hz: 2300,
+        exhaustResonanceHz: 285,
+        exhaustQ: 3.6,
         lopeSpeedHz: 6.5,
         lopeDepth: 28,
-        revInertia: 0.20,
+        revInertia: 0.21,
         shiftCutDuration: 0.085,
-        shiftStyle: 'n_eshift',  // Aggressive N e-Shift Ignition Cut Bang
+        shiftStyle: 'n_eshift',
         defaultBurble: 'n_ignition'
       },
       akrapovic: {
-        name: 'AKRAPOVIČ TITANIUM',
-        badgeColor: 'red',
-        redline: 9500,
-        shiftRpm: 8900,
-        idleRpm: 1050,
-        cylinders: 8,            // Flat-plane / Exotic high-revving profile
+        id: 'akrapovic',
+        category: 'n_turbo',
+        emoji: '🦂',
+        shortName: 'Akrapovič Titanium',
+        name: 'AKRAPOVIČ EVOLUTION TITANIUM',
+        spec: 'Full Titanium Exhaust · 9,200 RPM',
+        redline: 9200,
+        shiftRpm: 8750,
+        idleRpm: 1020,
+        cylinders: 8,
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
         osc3Type: 'triangle',
         harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.5,     // Thin-walled titanium high-order harmonics
-        subGainLevel: 0.45,
-        midGainLevel: 0.75,
-        highGainLevel: 0.90,
-        turboWhineLevel: 0.20,
-        titaniumGainLevel: 0.95, // Maximum Dual Titanium Formant Resonance (1420Hz & 2680Hz)
-        exhaustResonanceHz: 520,
-        exhaustQ: 5.2,
+        harmonic3Ratio: 3.5,
+        subGainLevel: 0.46,
+        midGainLevel: 0.78,
+        highGainLevel: 0.92,
+        turboWhineLevel: 0.25,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.98, // Maximum Dual Titanium Formant Resonance
+        formant1Hz: 1420,
+        formant2Hz: 2680,
+        exhaustResonanceHz: 510,
+        exhaustQ: 5.4,
         lopeSpeedHz: 8.2,
-        lopeDepth: 38,
-        revInertia: 0.24,        // Razor-sharp throttle response
+        lopeDepth: 36,
+        revInertia: 0.25,
         shiftCutDuration: 0.060,
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
       },
-      ioniq_supersonic: {
-        name: 'IONIQ 5 N · SUPERSONIC',
-        badgeColor: 'cyan',
+      ioniq5n_supersonic: {
+        id: 'ioniq5n_supersonic',
+        category: 'n_turbo',
+        emoji: '✈️',
+        shortName: 'IONIQ 5 N Supersonic',
+        name: 'HYUNDAI IONIQ 5 N · SUPERSONIC',
+        spec: 'Twin-Turbine Jet Fighter · Sonic Boom',
         redline: 8500,
-        shiftRpm: 7900,
+        shiftRpm: 8000,
         idleRpm: 1100,
         cylinders: 10,
         osc1Type: 'triangle',
         osc2Type: 'sine',
         osc3Type: 'sawtooth',
         harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.2,     // Twin-turbine afterburner whine harmonics
-        subGainLevel: 0.70,
-        midGainLevel: 0.50,
-        highGainLevel: 0.85,
-        turboWhineLevel: 0.95,   // Jet fighter turbine scream
-        titaniumGainLevel: 0.40,
+        harmonic3Ratio: 4.2,
+        subGainLevel: 0.72,
+        midGainLevel: 0.55,
+        highGainLevel: 0.88,
+        turboWhineLevel: 0.96,   // Jet fighter afterburner whine
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.45,
+        formant1Hz: 1600,
+        formant2Hz: 3200,
         exhaustResonanceHz: 640,
         exhaustQ: 4.5,
         lopeSpeedHz: 10.0,
         lopeDepth: 12,
         revInertia: 0.25,
         shiftCutDuration: 0.070,
-        shiftStyle: 'sonic_boom', // Sonic Boom Shockwave on Upshift!
+        shiftStyle: 'sonic_boom',
         defaultBurble: 'sport'
       },
-      v10: {
-        name: 'V10 5.2L SUPERCAR',
-        badgeColor: 'amber',
-        redline: 9000,
-        shiftRpm: 8450,
-        idleRpm: 950,
-        cylinders: 10,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'triangle',
-        harmonic2Ratio: 1.5,     // Odd-firing V10 bank interval
-        harmonic3Ratio: 2.5,     // Iconic 5th-order V10 howl
-        subGainLevel: 0.38,
-        midGainLevel: 0.70,
-        highGainLevel: 0.72,
-        turboWhineLevel: 0.06,
-        titaniumGainLevel: 0.45,
-        exhaustResonanceHz: 430,
-        exhaustQ: 3.4,
-        lopeSpeedHz: 7.5,
-        lopeDepth: 32,
-        revInertia: 0.18,
-        shiftCutDuration: 0.065,
-        shiftStyle: 'dct_fart',
-        defaultBurble: 'sport'
-      },
-      v8: {
-        name: 'V8 BITURBO AMG',
-        badgeColor: 'orange',
-        redline: 7200,
-        shiftRpm: 6650,
-        idleRpm: 750,
+      hellcat: {
+        id: 'hellcat',
+        category: 'n_turbo',
+        emoji: '😈',
+        shortName: 'Dodge Hellcat Redeye',
+        name: 'DODGE CHALLENGER HELLCAT REDEYE',
+        spec: '6.2L Supercharged HEMI V8 · 6,500 RPM',
+        redline: 6500,
+        shiftRpm: 6200,
+        idleRpm: 680,
         cylinders: 8,
         osc1Type: 'sawtooth',
         osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 0.5,     // Deep Crossplane V8 Sub-rumble
+        osc3Type: 'triangle',
+        harmonic2Ratio: 0.5,     // Deep American Pushrod V8 chop
         harmonic3Ratio: 1.5,
-        subGainLevel: 0.95,
-        midGainLevel: 0.75,
-        highGainLevel: 0.32,
-        turboWhineLevel: 0.52,   // Strong twin-turbo spool + wastegate flutter
-        titaniumGainLevel: 0.20,
-        exhaustResonanceHz: 175,
-        exhaustQ: 4.2,
-        lopeSpeedHz: 5.5,
-        lopeDepth: 70,           // Heavy muscle cam lope at idle
-        revInertia: 0.14,
-        shiftCutDuration: 0.080,
+        subGainLevel: 1.0,
+        midGainLevel: 0.82,
+        highGainLevel: 0.45,
+        turboWhineLevel: 0.0,
+        scWhineLevel: 0.96,      // Iconic screaming IHI Supercharger Whine!
+        titaniumGainLevel: 0.18,
+        formant1Hz: 750,
+        formant2Hz: 1650,
+        exhaustResonanceHz: 155,
+        exhaustQ: 4.6,
+        lopeSpeedHz: 4.8,
+        lopeDepth: 82,           // Heavy cam lope chop at idle
+        revInertia: 0.16,
+        shiftCutDuration: 0.085,
+        shiftStyle: 'dct_fart',
+        defaultBurble: 'sport'
+      },
+      rx7_4rotor: {
+        id: 'rx7_4rotor',
+        category: 'special',
+        emoji: '🌀',
+        shortName: 'RX-7 4-Rotor (26B)',
+        name: 'MAZDA RX-7 787B 4-ROTOR (26B)',
+        spec: 'Peripheral Port 4-Rotor · 9,500 RPM',
+        redline: 9500,
+        shiftRpm: 9100,
+        idleRpm: 1350,
+        cylinders: 8,            // 4-Rotor high firing density
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 3.0,
+        subGainLevel: 0.35,
+        midGainLevel: 0.90,
+        highGainLevel: 0.96,
+        turboWhineLevel: 0.15,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.85,
+        formant1Hz: 1350,
+        formant2Hz: 2750,
+        exhaustResonanceHz: 590,
+        exhaustQ: 5.2,
+        lopeSpeedHz: 11.2,       // Iconic "Brap-Brap-Brap-Brap" rotary idle pulse!
+        lopeDepth: 115,
+        revInertia: 0.29,
+        shiftCutDuration: 0.055,
+        shiftStyle: 'akra_crack',
+        defaultBurble: 'akra_crack'
+      },
+      chiron: {
+        id: 'chiron',
+        category: 'special',
+        emoji: '👑',
+        shortName: 'Bugatti Chiron W16',
+        name: 'BUGATTI CHIRON PUR SPORT',
+        spec: '8.0L Quad-Turbo W16 · 6,900 RPM',
+        redline: 6900,
+        shiftRpm: 6600,
+        idleRpm: 800,
+        cylinders: 16,           // Massive 16-cylinder wall of thunder
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 0.5,
+        harmonic3Ratio: 1.5,
+        subGainLevel: 1.0,
+        midGainLevel: 0.85,
+        highGainLevel: 0.55,
+        turboWhineLevel: 0.88,   // 4 Turbochargers spooling simultaneously
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.45,
+        formant1Hz: 920,
+        formant2Hz: 1980,
+        exhaustResonanceHz: 190,
+        exhaustQ: 3.9,
+        lopeSpeedHz: 6.2,
+        lopeDepth: 40,
+        revInertia: 0.18,
+        shiftCutDuration: 0.065,
         shiftStyle: 'dct_fart',
         defaultBurble: 'n_ignition'
       },
+      s1000rr: {
+        id: 's1000rr',
+        category: 'special',
+        emoji: '🏍️',
+        shortName: 'BMW S1000RR (Austin)',
+        name: 'BMW S1000RR — AUSTIN RACING GP1R',
+        spec: '999cc ShiftCam I4 · 14,500 RPM · Quickshifter',
+        redline: 14500,
+        shiftRpm: 13900,
+        idleRpm: 1250,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'square',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.0,     // Shorty titanium GP1R open can scream
+        subGainLevel: 0.28,
+        midGainLevel: 0.85,
+        highGainLevel: 0.98,
+        turboWhineLevel: 0.12,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.96,
+        formant1Hz: 1580,
+        formant2Hz: 3150,
+        exhaustResonanceHz: 780,
+        exhaustQ: 5.5,
+        lopeSpeedHz: 9.8,
+        lopeDepth: 34,
+        revInertia: 0.36,        // Instantaneous superbike throttle snap
+        shiftCutDuration: 0.038, // 38ms Up/Down Quickshifter Ignition Cut
+        shiftStyle: 'akra_crack',
+        defaultBurble: 'akra_crack'
+      },
       f1_v10: {
-        name: 'F1 V10 19,000 RPM',
-        badgeColor: 'fuchsia',
+        id: 'f1_v10',
+        category: 'special',
+        emoji: '🏆',
+        shortName: 'F1 V10 19,000 RPM',
+        name: 'FORMULA 1 V10 ERA SCREAMER',
+        spec: '3.0L V10 NA · 19,000 RPM · Seamless Shift',
         redline: 19000,
-        shiftRpm: 18200,
-        idleRpm: 3800,           // High pneumatic F1 idle
+        shiftRpm: 18300,
+        idleRpm: 3800,
         cylinders: 10,
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
@@ -734,49 +1196,58 @@
         harmonic2Ratio: 1.5,
         harmonic3Ratio: 2.0,
         subGainLevel: 0.20,
-        midGainLevel: 0.75,
-        highGainLevel: 0.95,
-        turboWhineLevel: 0.15,
-        titaniumGainLevel: 0.85, // Extreme Inconel/Titanium header scream
+        midGainLevel: 0.78,
+        highGainLevel: 1.0,
+        turboWhineLevel: 0.12,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.92,
+        formant1Hz: 1750,
+        formant2Hz: 3450,
         exhaustResonanceHz: 980,
-        exhaustQ: 4.8,
+        exhaustQ: 5.0,
         lopeSpeedHz: 14.0,
         lopeDepth: 45,
-        revInertia: 0.32,        // Zero-inertia F1 flywheel
-        shiftCutDuration: 0.040, // 40ms seamless F1 sequential shift
+        revInertia: 0.38,
+        shiftCutDuration: 0.035,
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
       }
     };
 
-    // 8-Speed N e-Shift / DCT Gear Max Speeds (km/h at Redline)
+    // 8-Speed Gearbox Max Speeds (km/h at Redline)
     const GEAR_MAX_SPEEDS = [0, 58, 96, 136, 178, 220, 262, 300, 338];
+    const STORAGE_KEY = 'plaid_sound_synth_v3_settings';
 
     /***************************************************************************
-     * 2. REAL-TIME STATE VARIABLES
+     * 2. REAL-TIME APPLICATION STATE
      ***************************************************************************/
     const state = {
       engineRunning: false,
       cranking: false,
-      presetKey: 'ioniq_ignition',
+      presetKey: 'gt3rs',
+      categoryFilter: 'all',
       inputMode: 'sim',          // 'sim' | 'real'
       transMode: 'auto',         // 'auto' | 'manual'
       neutralRevMode: false,
+      cruiseHold: false,
+      autoLaunchDemo: false,
+      launchDemoPhase: 'accel',  // 'accel' | 'decel'
 
-      // N-Style & Akrapovič Sound Controls
-      exhaustValveOpen: true,    // true = OPEN (직관 풀배기), false = QUIET
-      burbleMode: 'n_ignition',  // 'off' | 'sport' | 'n_ignition' | 'akra_crack'
+      // Exhaust & Boost Controls
+      exhaustValveOpen: true,
+      burbleMode: 'sport',       // 'off' | 'sport' | 'n_ignition' | 'akra_crack'
       ngbActive: false,
       ngbRemainingSec: 0,
 
       // Telemetry & Kinematics
       rpm: 0,
-      gear: 1,                   // 0 = Neutral, 1..8 = Forward Gears
+      gear: 1,
       fusedSpeedKmh: 0,
       rawGpsSpeedKmh: 0,
       gpsActive: false,
       forwardG: 0,
       lateralG: 0,
+      boostBar: 0,
       rawSensorG: { x: 0, y: 0, z: 0 },
       zeroGOffset: { x: 0, y: 0, z: 0 },
       calibratedPitchDeg: 0,
@@ -787,6 +1258,7 @@
       brake: 0,
       pedalThrottlePressed: false,
       pedalBrakePressed: false,
+      blipTimer: 0,
 
       // Shift & Overrun Timers
       shiftCutTimer: 0,
@@ -794,26 +1266,126 @@
       burbleCooldown: 0,
       wastegateTimer: 0,
 
-      // Live Tuning Sliders
+      // User Fine-Tuning Sliders (Persisted in localStorage)
+      masterVolume: 0.85,
       gSensitivity: 1.6,
-      masterVolume: 0.85
+      pitchOffsetPct: 0,         // -20% to +20%
+      shiftPointPct: 92          // 65% to 98% of Redline
     };
 
     /***************************************************************************
-     * 3. WEB AUDIO API PROCEDURAL ENGINE SYNTHESIZER (WITH TITANIUM FORMANTS)
+     * 3. WEB STORAGE (localStorage) AUTO-SAVE & RESTORE
+     ***************************************************************************/
+    let saveToastTimeout = null;
+
+    function saveSettingsToStorage() {
+      try {
+        const payload = {
+          presetKey: state.presetKey,
+          categoryFilter: state.categoryFilter,
+          inputMode: state.inputMode,
+          transMode: state.transMode,
+          exhaustValveOpen: state.exhaustValveOpen,
+          burbleMode: state.burbleMode,
+          masterVolume: state.masterVolume,
+          gSensitivity: state.gSensitivity,
+          pitchOffsetPct: state.pitchOffsetPct,
+          shiftPointPct: state.shiftPointPct,
+          zeroGOffset: state.zeroGOffset,
+          calibratedPitchDeg: state.calibratedPitchDeg
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+        flashSaveBadge();
+      } catch (err) {
+        // Ignore storage quota errors in restricted frames
+      }
+    }
+
+    function loadSettingsFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const data = JSON.parse(raw);
+
+        if (data.presetKey && PRESETS[data.presetKey]) state.presetKey = data.presetKey;
+        if (data.categoryFilter) state.categoryFilter = data.categoryFilter;
+        if (data.inputMode === 'sim' || data.inputMode === 'real') state.inputMode = data.inputMode;
+        if (data.transMode === 'auto' || data.transMode === 'manual') state.transMode = data.transMode;
+        if (typeof data.exhaustValveOpen === 'boolean') state.exhaustValveOpen = data.exhaustValveOpen;
+        if (data.burbleMode) state.burbleMode = data.burbleMode;
+        if (typeof data.masterVolume === 'number') state.masterVolume = data.masterVolume;
+        if (typeof data.gSensitivity === 'number') state.gSensitivity = data.gSensitivity;
+        if (typeof data.pitchOffsetPct === 'number') state.pitchOffsetPct = data.pitchOffsetPct;
+        if (typeof data.shiftPointPct === 'number') state.shiftPointPct = data.shiftPointPct;
+        if (data.zeroGOffset) state.zeroGOffset = data.zeroGOffset;
+        if (typeof data.calibratedPitchDeg === 'number') state.calibratedPitchDeg = data.calibratedPitchDeg;
+
+        // Sync Slider DOM Elements
+        document.getElementById('sliderVolume').value = Math.round(state.masterVolume * 100);
+        document.getElementById('sliderGSens').value = state.gSensitivity;
+        document.getElementById('sliderPitchOffset').value = state.pitchOffsetPct;
+        document.getElementById('sliderShiftPoint').value = state.shiftPointPct;
+        document.getElementById('pitchOffsetText').textContent = `영점 각도: ${state.calibratedPitchDeg}°`;
+      } catch (err) {
+        // Fallback to defaults
+      }
+    }
+
+    function resetSavedSettings() {
+      try {
+        localStorage.removeItem(STORAGE_KEY);
+      } catch (e) {}
+      state.presetKey = 'gt3rs';
+      state.categoryFilter = 'all';
+      state.inputMode = 'sim';
+      state.transMode = 'auto';
+      state.exhaustValveOpen = true;
+      state.burbleMode = 'sport';
+      state.masterVolume = 0.85;
+      state.gSensitivity = 1.6;
+      state.pitchOffsetPct = 0;
+      state.shiftPointPct = 92;
+      state.zeroGOffset = { x: 0, y: 0, z: 0 };
+      state.calibratedPitchDeg = 0;
+
+      document.getElementById('sliderVolume').value = 85;
+      document.getElementById('sliderGSens').value = 1.6;
+      document.getElementById('sliderPitchOffset').value = 0;
+      document.getElementById('sliderShiftPoint').value = 92;
+      document.getElementById('pitchOffsetText').textContent = '영점 각도: 0°';
+
+      syncAllUIFromState();
+      saveSettingsToStorage();
+      showTelemetryNotice('🔄 모든 사운드 및 센서 설정이 초기값(911 GT3 RS)으로 복원되었습니다.');
+    }
+
+    function flashSaveBadge() {
+      const badge = document.getElementById('saveToastBadge');
+      if (!badge) return;
+      badge.textContent = '💾 설정 자동저장됨';
+      badge.className = 'text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-200 border border-emerald-400 scale-105 transition-all duration-200';
+      if (saveToastTimeout) clearTimeout(saveToastTimeout);
+      saveToastTimeout = setTimeout(() => {
+        badge.textContent = '💾 AUTO-SAVED';
+        badge.className = 'text-[10px] font-mono-tech px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 transition-all duration-300';
+      }, 1100);
+    }
+
+    /***************************************************************************
+     * 4. WEB AUDIO API PROCEDURAL ENGINE SYNTHESIZER (16 PROFILES + SUPERCHARGER)
      ***************************************************************************/
     let audioCtx = null;
     let analyserNode = null;
     let masterGain = null;
     let engineBusGain = null;
 
-    // Continuous Engine Oscillators
     let oscFund = null;
     let oscHarm2 = null;
     let oscHarm3 = null;
     let oscSub = null;
     let oscTurbo = null;
-    let oscTurbo2 = null;        // Twin-turbine second harmonic for Supersonic
+    let oscTurbo2 = null;
+    let oscSupercharger = null;  // Dedicated Supercharger Whine Oscillator (Hellcat)
     let lfoNode = null;
     let lfoGain = null;
 
@@ -822,24 +1394,22 @@
     let gainHarm3 = null;
     let gainSub = null;
     let gainTurbo = null;
+    let gainSupercharger = null;
 
-    // Titanium Metallic Formant Resonator Filters (1420Hz & 2680Hz)
     let titaniumFilter1 = null;
     let titaniumFilter2 = null;
     let titaniumBusGain = null;
 
-    // Noise Generator for Exhaust Breath / Jet Afterburner Rush
     let exhaustNoiseNode = null;
     let exhaustNoiseFilter = null;
     let exhaustNoiseGain = null;
 
-    // Distortion & Exhaust Pipe Filters
     let waveShaper = null;
     let lowPassFilter = null;
     let resonatorFilter = null;
 
-    function makeDistortionCurve(amount = 60) {
-      const k = typeof amount === 'number' ? amount : 60;
+    function makeDistortionCurve(amount = 65) {
+      const k = typeof amount === 'number' ? amount : 65;
       const nSamples = 44100;
       const curve = new Float32Array(nSamples);
       const deg = Math.PI / 180;
@@ -859,25 +1429,23 @@
       masterGain.gain.value = state.masterVolume;
 
       analyserNode = audioCtx.createAnalyser();
-      analyserNode.fftSize = 512;
-      analyserNode.smoothingTimeConstant = 0.75;
+      analyserNode.fftSize = 256;
+      analyserNode.smoothingTimeConstant = 0.72;
 
       engineBusGain = audioCtx.createGain();
       engineBusGain.gain.value = 0.0;
 
-      // Exhaust Main Resonator & Dynamic Valve Low-pass Filter
       resonatorFilter = audioCtx.createBiquadFilter();
       resonatorFilter.type = 'peaking';
-      resonatorFilter.frequency.value = 320;
-      resonatorFilter.Q.value = 3.2;
+      resonatorFilter.frequency.value = 420;
+      resonatorFilter.Q.value = 3.5;
       resonatorFilter.gain.value = 9.5;
 
       lowPassFilter = audioCtx.createBiquadFilter();
       lowPassFilter.type = 'lowpass';
-      lowPassFilter.frequency.value = 1200;
+      lowPassFilter.frequency.value = 1400;
       lowPassFilter.Q.value = 1.6;
 
-      // Akrapovič Thin-Walled Titanium Formant Bandpass Filters
       titaniumFilter1 = audioCtx.createBiquadFilter();
       titaniumFilter1.type = 'bandpass';
       titaniumFilter1.frequency.value = 1420;
@@ -889,36 +1457,36 @@
       titaniumFilter2.Q.value = 6.5;
 
       titaniumBusGain = audioCtx.createGain();
-      titaniumBusGain.gain.value = 0.35;
+      titaniumBusGain.gain.value = 0.5;
 
       waveShaper = audioCtx.createWaveShaper();
-      waveShaper.curve = makeDistortionCurve(65);
+      waveShaper.curve = makeDistortionCurve(68);
       waveShaper.oversample = '2x';
 
-      // Create Oscillators
       oscFund = audioCtx.createOscillator();
       oscHarm2 = audioCtx.createOscillator();
       oscHarm3 = audioCtx.createOscillator();
       oscSub = audioCtx.createOscillator();
       oscTurbo = audioCtx.createOscillator();
       oscTurbo2 = audioCtx.createOscillator();
+      oscSupercharger = audioCtx.createOscillator();
 
       gainFund = audioCtx.createGain();
       gainHarm2 = audioCtx.createGain();
       gainHarm3 = audioCtx.createGain();
       gainSub = audioCtx.createGain();
       gainTurbo = audioCtx.createGain();
+      gainSupercharger = audioCtx.createGain();
 
-      // Cam Lope LFO
+      // Cam Lope / Rotary Brap LFO
       lfoNode = audioCtx.createOscillator();
       lfoGain = audioCtx.createGain();
-      lfoNode.frequency.value = 7.0;
-      lfoGain.gain.value = 30;
+      lfoNode.frequency.value = 8.0;
+      lfoGain.gain.value = 25;
       lfoNode.connect(lfoGain);
       lfoGain.connect(oscFund.frequency);
       lfoGain.connect(oscHarm2.frequency);
 
-      // Connect Oscillators
       oscFund.connect(gainFund);
       oscHarm2.connect(gainHarm2);
       oscHarm3.connect(gainHarm3);
@@ -929,12 +1497,15 @@
       gainHarm3.connect(waveShaper);
       gainSub.connect(resonatorFilter);
 
-      // Twin-Turbo / Supersonic Whine
       oscTurbo.connect(gainTurbo);
       oscTurbo2.connect(gainTurbo);
       gainTurbo.connect(engineBusGain);
 
-      // Continuous Exhaust / Afterburner Noise
+      oscSupercharger.type = 'sawtooth';
+      oscSupercharger.connect(gainSupercharger);
+      gainSupercharger.connect(engineBusGain);
+
+      // Continuous Exhaust / Intake / Afterburner Rush Noise
       const bufferSize = audioCtx.sampleRate * 2;
       const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
       const output = noiseBuffer.getChannelData(0);
@@ -947,22 +1518,20 @@
 
       exhaustNoiseFilter = audioCtx.createBiquadFilter();
       exhaustNoiseFilter.type = 'bandpass';
-      exhaustNoiseFilter.frequency.value = 450;
-      exhaustNoiseFilter.Q.value = 1.6;
+      exhaustNoiseFilter.frequency.value = 480;
+      exhaustNoiseFilter.Q.value = 1.8;
 
       exhaustNoiseGain = audioCtx.createGain();
-      exhaustNoiseGain.gain.value = 0.10;
+      exhaustNoiseGain.gain.value = 0.12;
 
       exhaustNoiseNode.connect(exhaustNoiseFilter);
       exhaustNoiseFilter.connect(exhaustNoiseGain);
       exhaustNoiseGain.connect(waveShaper);
 
-      // Main Exhaust Path + Parallel Titanium Formant Path
       waveShaper.connect(resonatorFilter);
       resonatorFilter.connect(lowPassFilter);
       lowPassFilter.connect(engineBusGain);
 
-      // Parallel Titanium Metallic Pipe Resonance Path
       waveShaper.connect(titaniumFilter1);
       waveShaper.connect(titaniumFilter2);
       titaniumFilter1.connect(titaniumBusGain);
@@ -979,6 +1548,7 @@
       oscSub.start();
       oscTurbo.start();
       oscTurbo2.start();
+      oscSupercharger.start();
       lfoNode.start();
       exhaustNoiseNode.start();
 
@@ -997,17 +1567,19 @@
       oscTurbo.type = 'sine';
       oscTurbo2.type = 'triangle';
 
-      gainFund.gain.setTargetAtTime(p.midGainLevel, now, 0.04);
-      gainHarm2.gain.setTargetAtTime(p.midGainLevel * 0.85, now, 0.04);
-      gainHarm3.gain.setTargetAtTime(p.highGainLevel, now, 0.04);
-      gainSub.gain.setTargetAtTime(p.subGainLevel, now, 0.04);
+      gainFund.gain.setTargetAtTime(p.midGainLevel, now, 0.03);
+      gainHarm2.gain.setTargetAtTime(p.midGainLevel * 0.85, now, 0.03);
+      gainHarm3.gain.setTargetAtTime(p.highGainLevel, now, 0.03);
+      gainSub.gain.setTargetAtTime(p.subGainLevel, now, 0.03);
 
-      resonatorFilter.frequency.setTargetAtTime(p.exhaustResonanceHz, now, 0.04);
-      resonatorFilter.Q.setTargetAtTime(p.exhaustQ, now, 0.04);
-      lfoNode.frequency.setTargetAtTime(p.lopeSpeedHz, now, 0.04);
+      resonatorFilter.frequency.setTargetAtTime(p.exhaustResonanceHz, now, 0.03);
+      resonatorFilter.Q.setTargetAtTime(p.exhaustQ, now, 0.03);
+      titaniumFilter1.frequency.setTargetAtTime(p.formant1Hz || 1420, now, 0.03);
+      titaniumFilter2.frequency.setTargetAtTime(p.formant2Hz || 2680, now, 0.03);
+      lfoNode.frequency.setTargetAtTime(p.lopeSpeedHz, now, 0.03);
 
       const valveMult = state.exhaustValveOpen ? 1.0 : 0.18;
-      titaniumBusGain.gain.setTargetAtTime(p.titaniumGainLevel * valveMult, now, 0.04);
+      titaniumBusGain.gain.setTargetAtTime(p.titaniumGainLevel * valveMult, now, 0.03);
     }
 
     // Starter Motor Crank + Cold-Start Roar Sequence
@@ -1018,43 +1590,42 @@
       const p = PRESETS[state.presetKey];
       state.cranking = true;
       state.engineRunning = true;
-      state.rpm = 300;
+      state.rpm = 320;
 
       const now = audioCtx.currentTime;
       engineBusGain.gain.cancelScheduledValues(now);
       engineBusGain.gain.setValueAtTime(0.25, now);
 
       for (let i = 0; i < 3; i++) {
-        const pulseTime = now + i * 0.14;
+        const pulseTime = now + i * 0.13;
         const starterOsc = audioCtx.createOscillator();
         const starterGain = audioCtx.createGain();
         starterOsc.type = 'sawtooth';
-        starterOsc.frequency.setValueAtTime(160, pulseTime);
-        starterOsc.frequency.linearRampToValueAtTime(220, pulseTime + 0.10);
+        starterOsc.frequency.setValueAtTime(165, pulseTime);
+        starterOsc.frequency.linearRampToValueAtTime(235, pulseTime + 0.09);
 
         starterGain.gain.setValueAtTime(0.01, pulseTime);
         starterGain.gain.linearRampToValueAtTime(0.28, pulseTime + 0.04);
-        starterGain.gain.exponentialRampToValueAtTime(0.01, pulseTime + 0.13);
+        starterGain.gain.exponentialRampToValueAtTime(0.01, pulseTime + 0.12);
 
         starterOsc.connect(starterGain);
         starterGain.connect(masterGain);
         starterOsc.start(pulseTime);
-        starterOsc.stop(pulseTime + 0.135);
+        starterOsc.stop(pulseTime + 0.125);
       }
 
-      // Ignition Bark Flare!
       setTimeout(() => {
         if (!state.engineRunning) return;
         state.cranking = false;
-        state.rpm = Math.min(p.redline * 0.45, Math.max(3100, p.idleRpm * 1.6));
+        state.rpm = Math.min(p.redline * 0.44, Math.max(3200, p.idleRpm * 1.65));
         engineBusGain.gain.setTargetAtTime(1.0, audioCtx.currentTime, 0.03);
-        triggerExhaustPop(1.25);
-        setTimeout(() => triggerExhaustPop(1.0), 95);
-        setTimeout(() => triggerExhaustPop(0.85), 190);
-      }, 430);
+        triggerExhaustPop(1.3);
+        setTimeout(() => triggerExhaustPop(1.05), 90);
+        setTimeout(() => triggerExhaustPop(0.85), 180);
+      }, 410);
     }
 
-    // Preset-Specific Upshift Sound (N e-Shift Bang, Akra Crack, Sonic Boom, DCT Fart)
+    // Upshift Sound per Vehicle Transmission Type
     function triggerUpshiftSound() {
       if (!audioCtx || !state.engineRunning) return;
       const now = audioCtx.currentTime;
@@ -1062,57 +1633,72 @@
       const valveScale = state.exhaustValveOpen ? 1.0 : 0.45;
 
       if (p.shiftStyle === 'sonic_boom') {
-        // IONIQ 5 N Supersonic: Deep Sonic Boom Shockwave + High Mach Crack
         const boomOsc = audioCtx.createOscillator();
         const boomGain = audioCtx.createGain();
         boomOsc.type = 'sine';
-        boomOsc.frequency.setValueAtTime(140, now);
-        boomOsc.frequency.exponentialRampToValueAtTime(28, now + 0.24);
-
+        boomOsc.frequency.setValueAtTime(145, now);
+        boomOsc.frequency.exponentialRampToValueAtTime(26, now + 0.24);
         boomGain.gain.setValueAtTime(1.1 * valveScale, now);
         boomGain.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-
         boomOsc.connect(boomGain);
         boomGain.connect(masterGain);
         boomOsc.start(now);
         boomOsc.stop(now + 0.26);
-
         triggerExhaustPop(1.3);
+      } else if (p.shiftStyle === 'isr_brutal') {
+        // Aventador SVJ Single-Clutch ISR mechanical thud + gunshot flame
+        triggerExhaustPop(1.6, true);
+        const thudOsc = audioCtx.createOscillator();
+        const thudGain = audioCtx.createGain();
+        thudOsc.type = 'triangle';
+        thudOsc.frequency.setValueAtTime(110, now);
+        thudOsc.frequency.exponentialRampToValueAtTime(32, now + 0.14);
+        thudGain.gain.setValueAtTime(1.0 * valveScale, now);
+        thudGain.gain.exponentialRampToValueAtTime(0.01, now + 0.145);
+        thudOsc.connect(thudGain);
+        thudGain.connect(masterGain);
+        thudOsc.start(now);
+        thudOsc.stop(now + 0.15);
+      } else if (p.shiftStyle === 'pdk_snap') {
+        // Porsche PDK / Ferrari F1 DCT 45ms crisp high-frequency snap
+        triggerExhaustPop(1.25, true);
+        const snapOsc = audioCtx.createOscillator();
+        const snapGain = audioCtx.createGain();
+        snapOsc.type = 'sawtooth';
+        snapOsc.frequency.setValueAtTime(220, now);
+        snapOsc.frequency.exponentialRampToValueAtTime(75, now + 0.055);
+        snapGain.gain.setValueAtTime(0.75 * valveScale, now);
+        snapGain.gain.exponentialRampToValueAtTime(0.01, now + 0.06);
+        snapOsc.connect(snapGain);
+        snapGain.connect(masterGain);
+        snapOsc.start(now);
+        snapOsc.stop(now + 0.065);
       } else if (p.shiftStyle === 'n_eshift') {
-        // IONIQ 5 N Ignition: Sharp N e-Shift Ignition Cut Cylinder Bang + Burble
         triggerExhaustPop(1.4);
         const bangOsc = audioCtx.createOscillator();
         const bangGain = audioCtx.createGain();
         bangOsc.type = 'square';
         bangOsc.frequency.setValueAtTime(125, now);
         bangOsc.frequency.exponentialRampToValueAtTime(48, now + 0.11);
-
         bangGain.gain.setValueAtTime(0.85 * valveScale, now);
         bangGain.gain.exponentialRampToValueAtTime(0.01, now + 0.115);
-
         bangOsc.connect(bangGain);
         bangGain.connect(masterGain);
         bangOsc.start(now);
         bangOsc.stop(now + 0.12);
       } else if (p.shiftStyle === 'akra_crack') {
-        // Akrapovič / F1: Razor-sharp metallic titanium gunshot shift crack
         triggerExhaustPop(1.5, true);
       } else {
-        // Classic DCT Upshift Braaap
         const osc = audioCtx.createOscillator();
         const filter = audioCtx.createBiquadFilter();
         const gain = audioCtx.createGain();
-
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(98, now);
         osc.frequency.exponentialRampToValueAtTime(50, now + 0.09);
-
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(520, now);
-
         gain.gain.setValueAtTime(0.75 * valveScale, now);
         gain.gain.exponentialRampToValueAtTime(0.01, now + 0.095);
-
         osc.connect(filter);
         filter.connect(gain);
         gain.connect(masterGain);
@@ -1127,7 +1713,7 @@
       if (state.burbleMode === 'off' && !forceAkraCrack) return;
 
       const now = audioCtx.currentTime;
-      const isAkraMode = forceAkraCrack || state.burbleMode === 'akra_crack' || state.presetKey === 'akrapovic';
+      const isAkraMode = forceAkraCrack || state.burbleMode === 'akra_crack' || state.presetKey === 'akrapovic' || state.presetKey === 'svj' || state.presetKey === 's1000rr';
       const valveMult = state.exhaustValveOpen ? 1.0 : 0.35;
 
       const duration = isAkraMode ? (0.032 + Math.random() * 0.025) : (0.048 + Math.random() * 0.045);
@@ -1144,17 +1730,16 @@
 
       const bandpass = audioCtx.createBiquadFilter();
       bandpass.type = 'bandpass';
-      // Akrapovič Titanium Cracks resonate higher & sharper (900Hz–2200Hz) vs deep N-Popcorn (240Hz–720Hz)
       const centerFreq = isAkraMode
-        ? (950 + Math.random() * 1350)
+        ? (950 + Math.random() * 1400)
         : (230 + Math.random() * 520);
       bandpass.frequency.setValueAtTime(centerFreq, now);
       bandpass.Q.setValueAtTime(isAkraMode ? 3.8 : 2.1, now);
 
       const popGain = audioCtx.createGain();
-      const modeBoost = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack' ? 1.15 : 0.75;
+      const modeBoost = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack' ? 1.15 : 0.78;
       const ngbBoost = state.ngbActive ? 1.25 : 1.0;
-      const peakGain = Math.min(1.4, (0.55 + Math.random() * 0.45) * modeBoost * valveMult * ngbBoost * intensityScale);
+      const peakGain = Math.min(1.45, (0.55 + Math.random() * 0.45) * modeBoost * valveMult * ngbBoost * intensityScale);
 
       popGain.gain.setValueAtTime(peakGain, now);
       popGain.gain.exponentialRampToValueAtTime(0.01, now + duration);
@@ -1164,7 +1749,6 @@
       popGain.connect(masterGain);
       noise.start(now);
 
-      // Flash UI Burble Indicator
       const ind = document.getElementById('burbleIndicator');
       if (ind) {
         ind.style.opacity = '1';
@@ -1172,7 +1756,6 @@
       }
     }
 
-    // Turbo Wastegate Flutter ("Stututu") on high-RPM throttle lift-off
     function triggerWastegateFlutter() {
       if (!audioCtx || !state.engineRunning) return;
       const p = PRESETS[state.presetKey];
@@ -1180,88 +1763,92 @@
 
       const now = audioCtx.currentTime;
       for (let i = 0; i < 4; i++) {
-        const t = now + i * 0.060;
+        const t = now + i * 0.058;
         const osc = audioCtx.createOscillator();
         const g = audioCtx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(1550 - i * 190, t);
-        osc.frequency.exponentialRampToValueAtTime(680, t + 0.050);
+        osc.frequency.setValueAtTime(1600 - i * 195, t);
+        osc.frequency.exponentialRampToValueAtTime(680, t + 0.048);
 
         g.gain.setValueAtTime(0.22 * p.turboWhineLevel, t);
-        g.gain.exponentialRampToValueAtTime(0.005, t + 0.050);
+        g.gain.exponentialRampToValueAtTime(0.005, t + 0.048);
 
         osc.connect(g);
         g.connect(masterGain);
         osc.start(t);
-        osc.stop(t + 0.055);
+        osc.stop(t + 0.052);
       }
     }
 
-    // Update Web Audio Synthesis Nodes at 60 FPS
     function updateAudioSynthesizer() {
       if (!audioCtx || !state.engineRunning) return;
       const now = audioCtx.currentTime;
       const p = PRESETS[state.presetKey];
 
       const safeRpm = Math.max(250, state.rpm);
-      const firingFreq = (safeRpm / 60) * (p.cylinders / 2);
+      const pitchMult = 1 + state.pitchOffsetPct / 100;
+      const firingFreq = (safeRpm / 60) * (p.cylinders / 2) * pitchMult;
 
       oscFund.frequency.setTargetAtTime(firingFreq, now, 0.012);
       oscHarm2.frequency.setTargetAtTime(firingFreq * p.harmonic2Ratio, now, 0.012);
       oscHarm3.frequency.setTargetAtTime(firingFreq * p.harmonic3Ratio, now, 0.012);
       oscSub.frequency.setTargetAtTime(firingFreq * 0.5, now, 0.012);
 
-      // Twin-Turbine / WRC Turbo Spool Whine Pitch
       const rpmNorm = Math.min(1, safeRpm / p.redline);
-      const turboFreq = 980 + rpmNorm * 4800 + state.throttle * 850;
-      oscTurbo.frequency.setTargetAtTime(turboFreq, now, 0.025);
-      oscTurbo2.frequency.setTargetAtTime(turboFreq * 1.414, now, 0.025); // Jet dual-spool interval
 
+      // Turbocharger Whine
+      const turboFreq = (980 + rpmNorm * 4800 + state.throttle * 850) * pitchMult;
+      oscTurbo.frequency.setTargetAtTime(turboFreq, now, 0.025);
+      oscTurbo2.frequency.setTargetAtTime(turboFreq * 1.414, now, 0.025);
       const turboVol = p.turboWhineLevel * (0.04 + rpmNorm * 0.18 + state.throttle * 0.22);
       gainTurbo.gain.setTargetAtTime(turboVol, now, 0.025);
 
-      // Cam Lope LFO Depth
-      const idleFactor = Math.max(0, 1 - Math.max(0, safeRpm - p.idleRpm) / 950);
-      lfoGain.gain.setTargetAtTime(p.lopeDepth * idleFactor, now, 0.04);
+      // Hellcat Supercharger Whine (High-pitched gear-driven compressor scream)
+      const scFreq = (1150 + rpmNorm * 5600) * pitchMult;
+      oscSupercharger.frequency.setTargetAtTime(scFreq, now, 0.015);
+      const scVol = (p.scWhineLevel || 0) * (0.05 + rpmNorm * 0.22 + state.throttle * 0.28);
+      gainSupercharger.gain.setTargetAtTime(scVol, now, 0.02);
 
-      // Dynamic Exhaust Filter Cutoff (Controlled by Variable Exhaust Valve & NGB Boost)
-      const valveCutoffScale = state.exhaustValveOpen ? 1.0 : 0.32;
+      // Cam Lope / 4-Rotor Brap LFO Depth
+      const idleWindow = state.presetKey === 'rx7_4rotor' ? 1800 : 1050;
+      const idleFactor = Math.max(0, 1 - Math.max(0, safeRpm - p.idleRpm) / idleWindow);
+      lfoGain.gain.setTargetAtTime(p.lopeDepth * idleFactor, now, 0.035);
+
+      // Dynamic Exhaust Filter Cutoff
+      const valveCutoffScale = state.exhaustValveOpen ? 1.0 : 0.30;
       const ngbGainBoost = state.ngbActive ? 1.25 : 1.0;
-      const cutoffHz = (380 + rpmNorm * 4200 + state.throttle * 3100) * valveCutoffScale;
+      const cutoffHz = (420 + rpmNorm * 4600 + state.throttle * 3200) * valveCutoffScale;
       lowPassFilter.frequency.setTargetAtTime(Math.max(240, cutoffHz), now, 0.02);
 
-      // Titanium Metallic Formant Gain
-      const tiGain = p.titaniumGainLevel * (state.exhaustValveOpen ? 1.0 : 0.15) * (0.4 + rpmNorm * 0.8);
+      const tiGain = p.titaniumGainLevel * (state.exhaustValveOpen ? 1.0 : 0.15) * (0.4 + rpmNorm * 0.85);
       titaniumBusGain.gain.setTargetAtTime(tiGain, now, 0.025);
 
-      // Exhaust / Jet Afterburner Rush Noise
-      exhaustNoiseFilter.frequency.setTargetAtTime(320 + rpmNorm * 2200, now, 0.025);
+      exhaustNoiseFilter.frequency.setTargetAtTime(340 + rpmNorm * 2400, now, 0.025);
       exhaustNoiseGain.gain.setTargetAtTime((0.05 + state.throttle * 0.26 + rpmNorm * 0.16) * valveCutoffScale, now, 0.02);
 
       if (state.shiftCutTimer > 0) {
-        engineBusGain.gain.setTargetAtTime(0.08, now, 0.006);
+        engineBusGain.gain.setTargetAtTime(0.06, now, 0.005);
       } else {
-        const loadGain = (0.58 + state.throttle * 0.42 + rpmNorm * 0.15) * ngbGainBoost * (state.exhaustValveOpen ? 1.0 : 0.65);
-        engineBusGain.gain.setTargetAtTime(Math.min(1.15, loadGain), now, 0.018);
+        const loadGain = (0.58 + state.throttle * 0.42 + rpmNorm * 0.16) * ngbGainBoost * (state.exhaustValveOpen ? 1.0 : 0.62);
+        engineBusGain.gain.setTargetAtTime(Math.min(1.2, loadGain), now, 0.018);
       }
 
-      document.getElementById('synthFreqReadout').textContent = `${Math.round(firingFreq)} Hz`;
+      const dbEstimate = Math.round(72 + rpmNorm * 28 + state.throttle * 14 + (state.exhaustValveOpen ? 8 : 0));
+      document.getElementById('synthFreqReadout').textContent = `${Math.round(firingFreq)} Hz · ${dbEstimate} dB`;
     }
 
     /***************************************************************************
-     * 4. SENSOR FUSION (60Hz ACCELEROMETER + 1Hz GPS)
+     * 5. SENSOR FUSION (60Hz ACCELEROMETER + 1Hz GPS)
      ***************************************************************************/
     function handleDeviceMotion(event) {
       const acc = event.acceleration && event.acceleration.y !== null
         ? event.acceleration
         : event.accelerationIncludingGravity;
-
       if (!acc) return;
 
       const rx = acc.x || 0;
       const ry = acc.y || 0;
       const rz = acc.z || 0;
-
       state.rawSensorG = { x: rx, y: ry, z: rz };
 
       const dx = (rx - state.zeroGOffset.x) / 9.80665;
@@ -1280,8 +1867,9 @@
       state.zeroGOffset = { ...state.rawSensorG };
       const pitchRad = Math.atan2(state.zeroGOffset.z, state.zeroGOffset.y || 0.01);
       state.calibratedPitchDeg = Math.round((pitchRad * 180) / Math.PI);
-      document.getElementById('pitchOffsetText').textContent = `거치 각도 영점: ${state.calibratedPitchDeg}°`;
-      showTelemetryNotice('✅ 거치대 0G 영점 보정 완료! 이제 플래드 엑셀 가속 G값에 즉각 반응합니다.');
+      document.getElementById('pitchOffsetText').textContent = `영점 각도: ${state.calibratedPitchDeg}°`;
+      saveSettingsToStorage();
+      showTelemetryNotice('✅ 거치대 0G 영점 보정 및 자동 저장 완료! 이제 플래드 가속 G값에 즉각 반응합니다.');
     }
 
     function requestRealSensors() {
@@ -1306,14 +1894,14 @@
         navigator.geolocation.watchPosition(
           pos => {
             state.gpsActive = true;
+            document.getElementById('ledGps').className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]';
             const speedMs = pos.coords.speed;
             if (speedMs !== null && !isNaN(speedMs)) {
               state.rawGpsSpeedKmh = Math.max(0, speedMs * 3.6);
             }
-            document.getElementById('telGpsStatus').textContent = `km/h (±${Math.round(pos.coords.accuracy || 5)}m)`;
           },
           () => {
-            document.getElementById('telGpsStatus').textContent = 'GPS 신호 대기중';
+            document.getElementById('ledGps').className = 'w-2 h-2 rounded-full bg-amber-400';
           },
           { enableHighAccuracy: true, maximumAge: 500, timeout: 5000 }
         );
@@ -1322,11 +1910,11 @@
 
     function showTelemetryNotice(msg) {
       const el = document.getElementById('telemetryNotice');
-      if (el) el.innerHTML = `<span>${msg}</span>`;
+      if (el) el.textContent = msg;
     }
 
     /***************************************************************************
-     * 5. MAIN 60FPS PHYSICS, 8-SPEED N e-SHIFT & NGB OVERBOOST LOOP
+     * 6. 60FPS PHYSICS, 0->200 LAUNCH DEMO, REV BLIP & GEARBOX LOOP
      ***************************************************************************/
     let lastFrameTime = performance.now();
 
@@ -1335,51 +1923,82 @@
       lastFrameTime = now;
 
       const p = PRESETS[state.presetKey];
+      const dynamicShiftRpm = Math.round(p.redline * (state.shiftPointPct / 100));
 
-      // 0. Update NGB (N Grin Boost) 10-second Timer
+      // 0. NGB Overboost 10-second Timer
       if (state.ngbActive) {
         state.ngbRemainingSec = Math.max(0, state.ngbRemainingSec - dt);
         document.getElementById('ngbTimerText').textContent = `${state.ngbRemainingSec.toFixed(1)}s`;
-        document.getElementById('ngbBtnSub').textContent = `BOOST ${state.ngbRemainingSec.toFixed(1)}s`;
+        document.getElementById('ngbBtnSub').textContent = `${state.ngbRemainingSec.toFixed(1)}s`;
         if (state.ngbRemainingSec <= 0) {
           deactivateNGB();
         }
       }
 
-      // 1. Driver Throttle & Brake Kinematics
+      // 1. Auto 0->200km/h Launch Control Demo Mode
+      if (state.autoLaunchDemo) {
+        if (!state.engineRunning) toggleEngine();
+        if (state.launchDemoPhase === 'accel') {
+          state.throttle = Math.min(1.0, state.throttle + dt * 6.0);
+          state.brake = 0;
+          if (state.fusedSpeedKmh >= 225) {
+            state.launchDemoPhase = 'decel';
+            showTelemetryNotice('🚀 225km/h 도달! 풀 브레이킹 & 자동 레브매칭 다운시프트 감속 구간입니다.');
+          }
+        } else {
+          state.throttle = 0;
+          state.brake = 0.72;
+          if (state.fusedSpeedKmh <= 15) {
+            state.launchDemoPhase = 'accel';
+            showTelemetryNotice('🚀 0→200km/h 런치컨트롤 재발진!');
+          }
+        }
+      }
+
+      // 2. Driver Throttle & Brake Kinematics
       state.prevThrottle = state.throttle;
       const ngbAccelBoost = state.ngbActive ? 1.35 : 1.0;
 
-      if (state.inputMode === 'sim' || state.pedalThrottlePressed || state.pedalBrakePressed) {
-        if (state.pedalThrottlePressed) {
-          state.throttle = Math.min(1.0, state.throttle + dt * 5.0 * ngbAccelBoost);
-        } else {
-          state.throttle = Math.max(0.0, state.throttle - dt * 6.5);
-        }
+      if (state.blipTimer > 0) {
+        state.blipTimer = Math.max(0, state.blipTimer - dt);
+      }
 
-        if (state.pedalBrakePressed) {
-          state.brake = Math.min(1.0, state.brake + dt * 5.5);
-        } else {
-          state.brake = Math.max(0.0, state.brake - dt * 6.5);
-        }
+      if (!state.autoLaunchDemo) {
+        if (state.inputMode === 'sim' || state.pedalThrottlePressed || state.pedalBrakePressed || state.blipTimer > 0) {
+          if (state.pedalThrottlePressed || state.blipTimer > 0) {
+            state.throttle = Math.min(1.0, state.throttle + dt * 5.8 * ngbAccelBoost);
+          } else if (!state.cruiseHold) {
+            state.throttle = Math.max(0.0, state.throttle - dt * 6.5);
+          }
 
-        const accelG = state.neutralRevMode ? 0 : (state.throttle * 1.18 * ngbAccelBoost - state.brake * 1.15 - (state.fusedSpeedKmh / 350) * 0.25);
+          if (state.pedalBrakePressed) {
+            state.brake = Math.min(1.0, state.brake + dt * 5.8);
+            if (state.cruiseHold) toggleCruiseHold();
+          } else {
+            state.brake = Math.max(0.0, state.brake - dt * 6.5);
+          }
+        } else {
+          // Real Car Sensor Fusion Mode
+          const inferredThrottle = Math.max(0, Math.min(1.0, (state.forwardG + 0.03) * 1.4));
+          state.throttle = state.throttle * 0.62 + inferredThrottle * 0.38;
+          state.brake = state.forwardG < -0.1 ? Math.min(1.0, Math.abs(state.forwardG)) : 0;
+        }
+      }
+
+      // Calculate Longitudinal G & Speed in Sim / Demo Mode
+      if (state.inputMode === 'sim' || state.autoLaunchDemo || state.pedalThrottlePressed || state.pedalBrakePressed) {
+        const accelG = state.neutralRevMode ? 0 : (state.throttle * 1.22 * ngbAccelBoost - state.brake * 1.18 - (state.fusedSpeedKmh / 350) * 0.25);
         state.forwardG = state.forwardG * 0.80 + accelG * 0.20;
 
         if (!state.neutralRevMode && state.engineRunning) {
-          const deltaSpeed = state.forwardG * 36.0 * dt;
-          const drag = (state.fusedSpeedKmh * 0.045 + 1.8) * dt;
+          const deltaSpeed = state.forwardG * 37.5 * dt;
+          const drag = state.cruiseHold ? 0 : (state.fusedSpeedKmh * 0.045 + 1.8) * dt;
           state.fusedSpeedKmh = Math.max(0, Math.min(338, state.fusedSpeedKmh + deltaSpeed - (state.throttle < 0.05 ? drag : 0)));
           state.rawGpsSpeedKmh = state.fusedSpeedKmh;
         } else if (state.neutralRevMode) {
-          state.fusedSpeedKmh = Math.max(0, state.fusedSpeedKmh - 16 * dt);
+          state.fusedSpeedKmh = Math.max(0, state.fusedSpeedKmh - 18 * dt);
         }
       } else {
-        // Real Car Sensor Fusion Mode
-        const inferredThrottle = Math.max(0, Math.min(1.0, (state.forwardG + 0.03) * 1.4));
-        state.throttle = state.throttle * 0.62 + inferredThrottle * 0.38;
-        state.brake = state.forwardG < -0.1 ? Math.min(1.0, Math.abs(state.forwardG)) : 0;
-
         const accelSpeedDelta = state.forwardG * 35.3 * dt;
         const predictedSpeed = Math.max(0, state.fusedSpeedKmh + accelSpeedDelta);
         if (state.gpsActive) {
@@ -1389,10 +2008,17 @@
         }
       }
 
-      // 2. High-RPM Lift-Off Overrun Pops & Bangs + Wastegate Flutter
+      // Turbo / Supercharger Boost Pressure Calculation (BAR)
+      const hasForcedInduction = p.turboWhineLevel > 0.2 || (p.scWhineLevel || 0) > 0.2;
+      const targetBoost = state.engineRunning
+        ? (hasForcedInduction ? (-0.3 + state.throttle * 1.85 + (state.rpm / p.redline) * 0.65) : (-0.4 + state.throttle * 0.4))
+        : 0;
+      state.boostBar = state.boostBar * 0.82 + targetBoost * 0.18;
+
+      // 3. Overrun Pops & Bangs + Wastegate Flutter
       if (state.engineRunning && !state.cranking) {
         const throttleDrop = state.prevThrottle - state.throttle;
-        const minPopRpm = p.redline * 0.34; // e.g., ~2,700 RPM for Ioniq 5 N, ~6,400 RPM for F1
+        const minPopRpm = p.redline * 0.33;
 
         if (throttleDrop > 0.08 && state.rpm > minPopRpm && state.wastegateTimer <= 0) {
           triggerWastegateFlutter();
@@ -1406,13 +2032,13 @@
             triggerExhaustPop();
             const isAggressive = state.burbleMode === 'n_ignition' || state.burbleMode === 'akra_crack';
             state.burbleCooldown = isAggressive
-              ? (0.038 + Math.random() * 0.065)
-              : (0.090 + Math.random() * 0.140);
+              ? (0.036 + Math.random() * 0.060)
+              : (0.085 + Math.random() * 0.135);
           }
         }
       }
 
-      // 3. 8-Speed N e-Shift / DCT Gearbox & Virtual RPM Calculation
+      // 4. 8-Speed Gearbox & Virtual RPM Calculation
       if (!state.engineRunning) {
         state.rpm = Math.max(0, state.rpm - (p.redline * 0.35) * dt);
         state.gear = 0;
@@ -1420,14 +2046,14 @@
         if (state.shiftCutTimer > 0) state.shiftCutTimer = Math.max(0, state.shiftCutTimer - dt);
         if (state.revMatchTimer > 0) state.revMatchTimer = Math.max(0, state.revMatchTimer - dt);
 
-        if (state.neutralRevMode) {
-          state.gear = 0;
+        if (state.neutralRevMode || state.blipTimer > 0) {
+          if (state.neutralRevMode) state.gear = 0;
           const target = p.idleRpm + state.throttle * (p.redline - p.idleRpm);
           if (state.rpm >= p.redline * 0.985 && state.throttle > 0.8) {
             state.rpm = p.redline * 0.94;
             triggerExhaustPop(1.3);
           } else {
-            const rate = state.throttle > 0.1 ? p.revInertia : 0.085;
+            const rate = state.throttle > 0.1 ? p.revInertia : 0.09;
             state.rpm += (target - state.rpm) * rate;
           }
         } else {
@@ -1440,36 +2066,33 @@
 
           let baseRpm = p.idleRpm + (speedInGear / speedSpan) * (p.redline - p.idleRpm);
 
-          // Instantaneous G-force / pedal flare scaled to preset Redline
           const flareScale = p.redline / 8000;
           const instantTorqueFlare = (state.throttle * 1150 + Math.max(0, state.forwardG) * 680) * flareScale;
           let targetRpm = Math.min(p.redline * 1.02, Math.max(p.idleRpm, baseRpm + instantTorqueFlare));
 
           if (state.revMatchTimer > 0) {
-            targetRpm = Math.min(p.redline, targetRpm + 1650 * flareScale);
+            targetRpm = Math.min(p.redline, targetRpm + 1700 * flareScale);
           }
 
           state.rpm += (targetRpm - state.rpm) * p.revInertia;
 
-          // Automatic 8-Speed Shifting Logic
-          if (state.transMode === 'auto') {
-            if (state.rpm >= p.shiftRpm && state.gear < 8 && state.shiftCutTimer <= 0) {
+          if (state.transMode === 'auto' || state.autoLaunchDemo) {
+            if (state.rpm >= dynamicShiftRpm && state.gear < 8 && state.shiftCutTimer <= 0) {
               performShift(1);
-            } else if (state.rpm < p.redline * 0.31 && state.gear > 1 && state.fusedSpeedKmh < GEAR_MAX_SPEEDS[state.gear - 1] * 0.72) {
+            } else if (state.rpm < p.redline * 0.34 && state.gear > 1 && state.fusedSpeedKmh < GEAR_MAX_SPEEDS[state.gear - 1] * 0.74) {
               performShift(-1);
             }
           } else {
-            // Manual Mode Redline Limiter Bounce!
             if (state.rpm >= p.redline && state.throttle > 0.5) {
               state.rpm = p.redline * 0.955;
-              triggerExhaustPop(1.2);
+              triggerExhaustPop(1.25);
             }
           }
         }
       }
 
       updateAudioSynthesizer();
-      renderDashboardUI();
+      renderDashboardUI(dynamicShiftRpm);
       requestAnimationFrame(updatePhysicsAndEngine);
     }
 
@@ -1492,9 +2115,9 @@
         state.rpm = Math.max(p.idleRpm, state.rpm * 0.70);
         triggerUpshiftSound();
       } else {
-        state.revMatchTimer = 0.12;
-        state.rpm = Math.min(p.redline * 0.96, state.rpm * 1.30);
-        triggerExhaustPop(1.1);
+        state.revMatchTimer = 0.13;
+        state.rpm = Math.min(p.redline * 0.96, state.rpm * 1.32);
+        triggerExhaustPop(1.15);
       }
     }
 
@@ -1509,19 +2132,127 @@
       performShift(direction);
     }
 
+    function triggerRevBlip(e) {
+      if (e && e.cancelable) e.preventDefault();
+      if (!state.engineRunning) toggleEngine();
+      state.blipTimer = 0.32;
+      triggerExhaustPop(1.2);
+    }
+
+    function toggleCruiseHold() {
+      state.cruiseHold = !state.cruiseHold;
+      const btn = document.getElementById('cruiseHoldBtn');
+      const sub = document.getElementById('cruiseSubText');
+      if (state.cruiseHold) {
+        if (!state.engineRunning) toggleEngine();
+        if (state.throttle < 0.35) state.throttle = 0.48;
+        btn.className = 'pedal-btn py-2.5 rounded-xl bg-emerald-500/25 border-2 border-emerald-400 flex flex-col items-center justify-center shadow-lg';
+        sub.textContent = '속도고정 ON';
+        sub.className = 'text-[9px] font-mono-tech text-emerald-200 font-bold';
+        showTelemetryNotice('🟢 CRUISE HOLD 활성화: 현재 스로틀이 고정되었습니다. 아래 16종 배기음 프리셋을 눌러 비교해 보세요!');
+      } else {
+        btn.className = 'pedal-btn py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/15 flex flex-col items-center justify-center';
+        sub.textContent = '속도고정 OFF';
+        sub.className = 'text-[9px] font-mono-tech text-zinc-400';
+      }
+    }
+
+    function toggleAutoLaunchDemo() {
+      state.autoLaunchDemo = !state.autoLaunchDemo;
+      const btn = document.getElementById('launchDemoBtn');
+      if (state.autoLaunchDemo) {
+        if (!state.engineRunning) toggleEngine();
+        state.neutralRevMode = false;
+        updateNeutralButtonUI();
+        state.launchDemoPhase = 'accel';
+        btn.className = 'py-1.5 px-2 rounded-lg bg-red-600 text-[10px] font-bold text-white border border-white flex items-center justify-center gap-1 shadow-lg animate-pulse';
+        btn.textContent = '⏹️ 런치데모 정지';
+        showTelemetryNotice('🚀 0→200km/h 런치컨트롤 자동 주행 데모 시작! 1단~6단 풀악셀 변속 및 감속 레브매칭을 감상하세요.');
+      } else {
+        state.throttle = 0;
+        state.brake = 0;
+        btn.className = 'py-1.5 px-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 text-[10px] font-bold text-amber-300 border border-amber-400/40 flex items-center justify-center gap-1 active:scale-95';
+        btn.textContent = '🚀 0→200 런치데모';
+        showTelemetryNotice('⏹️ 런치컨트롤 자동 데모가 종료되었습니다.');
+      }
+    }
+
     /***************************************************************************
-     * 6. NGB BOOST, EXHAUST VALVE, POPS & BANGS & PRESET HANDLERS
+     * 7. UI CONTROLS, PRESET CARDS & MODAL HANDLERS
      ***************************************************************************/
+    function openManualModal() {
+      document.getElementById('manualModal').classList.remove('hidden');
+    }
+
+    function closeManualModal() {
+      document.getElementById('manualModal').classList.add('hidden');
+    }
+
+    function setCategoryFilter(cat) {
+      state.categoryFilter = cat;
+      ['all', 'supercar', 'n_turbo', 'special'].forEach(c => {
+        const btn = document.getElementById(`cat-${c}`);
+        if (c === cat) {
+          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white transition shadow';
+        } else {
+          btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition';
+        }
+      });
+      renderPresetCards();
+      saveSettingsToStorage();
+    }
+
+    function renderPresetCards() {
+      const container = document.getElementById('presetGridContainer');
+      container.innerHTML = '';
+
+      Object.values(PRESETS).forEach(p => {
+        if (state.categoryFilter !== 'all' && p.category !== state.categoryFilter) return;
+
+        const isActive = p.id === state.presetKey;
+        const card = document.createElement('button');
+        card.onclick = () => selectPreset(p.id);
+        card.className = isActive
+          ? 'text-left p-2.5 rounded-xl border-2 transition-all bg-gradient-to-br from-red-600/25 via-zinc-900 to-black border-red-500 text-white flex flex-col justify-between shadow-lg scale-[1.01]'
+          : 'text-left p-2.5 rounded-xl border transition-all bg-zinc-900/75 border-white/10 text-zinc-300 hover:border-white/30 hover:bg-zinc-800/70 flex flex-col justify-between';
+
+        const maxK = (p.redline / 1000).toFixed(1).replace('.0', '') + 'K';
+        card.innerHTML = `
+          <div class="flex items-center justify-between w-full gap-1">
+            <span class="font-bold text-xs truncate ${isActive ? 'text-red-300' : 'text-white'}">${p.emoji} ${p.shortName}</span>
+            <span class="text-[9px] font-mono-tech px-1.5 py-0.5 rounded shrink-0 ${isActive ? 'bg-red-500 text-white font-bold' : 'bg-zinc-800 text-cyan-300'}">${isActive ? 'ACTIVE' : maxK}</span>
+          </div>
+          <p class="text-[10px] text-zinc-400 truncate mt-1 font-mono-tech">${p.spec}</p>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function selectPreset(key, skipSave = false) {
+      if (!PRESETS[key]) return;
+      state.presetKey = key;
+      const p = PRESETS[key];
+
+      document.getElementById('activeCarEmoji').textContent = p.emoji;
+      document.getElementById('activePresetBadge').textContent = p.name;
+      document.getElementById('activeEngineSpec').textContent = `${p.spec}`;
+
+      if (!skipSave) {
+        setBurbleMode(p.defaultBurble, true);
+      }
+      renderPresetCards();
+      applyPresetToAudioNodes();
+      if (!skipSave) saveSettingsToStorage();
+    }
+
     function activateNGB() {
       if (!state.engineRunning) toggleEngine();
       state.ngbActive = true;
       state.ngbRemainingSec = 10.0;
 
-      // Automatically open variable exhaust valve & set aggressive burble
       if (!state.exhaustValveOpen) toggleExhaustValve();
       if (state.burbleMode === 'off') setBurbleMode('n_ignition');
 
-      // Aggressive downshift rev-match on NGB engage
       if (!state.neutralRevMode && state.gear > 1 && state.rpm < PRESETS[state.presetKey].redline * 0.68) {
         performShift(-1);
       } else {
@@ -1530,7 +2261,7 @@
 
       document.getElementById('ngbActiveBanner').classList.remove('hidden');
       document.getElementById('ngbBtn').classList.add('ngb-active-glow');
-      showTelemetryNotice('🔥 N GRIN BOOST (10초 오버부스트) 발동! 가속도 민감도 +35% 및 풀배기 밸브가 강제 개방됩니다!');
+      showTelemetryNotice('🔥 NGB 10초 오버부스트 발동! 배기 밸브 강제 개방 + 가속 민감도 1.35배 증폭!');
     }
 
     function deactivateNGB() {
@@ -1538,60 +2269,58 @@
       state.ngbRemainingSec = 0;
       document.getElementById('ngbActiveBanner').classList.add('hidden');
       document.getElementById('ngbBtn').classList.remove('ngb-active-glow');
-      document.getElementById('ngbBtnSub').textContent = '10초 풀부스트';
+      document.getElementById('ngbBtnSub').textContent = 'NGB 10s';
     }
 
-    function toggleExhaustValve() {
-      state.exhaustValveOpen = !state.exhaustValveOpen;
+    function toggleExhaustValve(skipSave = false) {
+      if (!skipSave) state.exhaustValveOpen = !state.exhaustValveOpen;
       const btn = document.getElementById('valveToggleBtn');
       const icon = document.getElementById('valveIcon');
       const title = document.getElementById('valveTitle');
-      const sub = document.getElementById('valveSub');
       const statusText = document.getElementById('exhaustValveStatusText');
 
       if (state.exhaustValveOpen) {
-        btn.className = 'pedal-btn py-2.5 px-2 rounded-xl bg-red-500/20 border-2 border-red-500 text-white font-display font-bold text-xs flex flex-col items-center justify-center shadow-lg';
+        btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-xl bg-red-500/20 border border-red-500 text-white font-display font-bold text-xs flex items-center gap-1 shadow transition active:scale-95';
         icon.textContent = '🔊';
-        title.textContent = 'VALVE OPEN';
-        sub.textContent = '직관 티타늄 풀배기 (V)';
-        sub.className = 'text-[10px] font-sans text-red-300 mt-0.5';
+        title.textContent = 'VALVE: OPEN';
         statusText.textContent = '🔊 VALVE: OPEN (직관 풀배기)';
         statusText.className = 'text-red-400 font-bold';
       } else {
-        btn.className = 'pedal-btn py-2.5 px-2 rounded-xl bg-zinc-900 border border-white/15 text-zinc-300 font-display font-bold text-xs flex flex-col items-center justify-center';
+        btn.className = 'px-2.5 sm:px-3 py-1.5 rounded-xl bg-zinc-900 border border-white/15 text-zinc-300 font-display font-bold text-xs flex items-center gap-1 shadow transition active:scale-95';
         icon.textContent = '🔇';
-        title.textContent = 'VALVE QUIET';
-        sub.textContent = '도심 저소음 모드 (V)';
-        sub.className = 'text-[10px] font-sans text-zinc-400 mt-0.5';
-        statusText.textContent = '🔇 VALVE: QUIET (밸브 닫힘)';
+        title.textContent = 'VALVE: QUIET';
+        statusText.textContent = '🔇 VALVE: QUIET (저소음 모드)';
         statusText.className = 'text-zinc-400';
       }
 
       applyPresetToAudioNodes();
+      if (!skipSave) saveSettingsToStorage();
     }
 
-    function setBurbleMode(mode) {
+    function setBurbleMode(mode, skipSave = false) {
       state.burbleMode = mode;
       const labels = {
         off: 'OFF (후적음 끔)',
         sport: 'SPORT (스포츠 버블)',
-        n_ignition: 'N-IGNITION (연쇄 팝콘)',
+        n_ignition: 'N-POP (연쇄 팝콘)',
         akra_crack: 'AKRA TITANIUM (총성 파열음)'
       };
-      document.getElementById('burbleModeLabel').textContent = labels[mode];
+      document.getElementById('burbleModeLabel').textContent = labels[mode] || mode;
 
       ['off', 'sport', 'n_ignition', 'akra_crack'].forEach(m => {
         const el = document.getElementById(`bmode-${m}`);
+        if (!el) return;
         if (m === mode) {
-          el.className = 'py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-amber-500/25 text-amber-300 border border-amber-400 shadow';
+          el.className = 'py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-amber-500/25 text-amber-300 border border-amber-400 shadow';
         } else {
-          el.className = 'py-1.5 rounded-lg text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10 hover:text-white';
+          el.className = 'py-1.5 rounded-xl text-[10px] font-mono-tech font-bold bg-zinc-900 text-zinc-400 border border-white/10 hover:text-white';
         }
       });
 
-      if (mode !== 'off' && state.engineRunning) {
+      if (mode !== 'off' && state.engineRunning && !skipSave) {
         triggerExhaustPop(1.1, mode === 'akra_crack');
       }
+      if (!skipSave) saveSettingsToStorage();
     }
 
     function toggleEngine() {
@@ -1599,89 +2328,68 @@
       const btn = document.getElementById('engineStartBtn');
       const dot = document.getElementById('engineStatusDot');
       const txt = document.getElementById('engineBtnText');
+      const ledAudio = document.getElementById('ledAudio');
 
       if (!state.engineRunning) {
         playEngineStartupSequence();
         btn.classList.add('engine-running-glow', 'border-red-500');
         dot.className = 'w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_#ff1e27]';
+        ledAudio.className = 'w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399]';
         txt.textContent = 'ENGINE STOP';
       } else {
         state.engineRunning = false;
         state.cranking = false;
+        if (state.autoLaunchDemo) toggleAutoLaunchDemo();
         if (state.ngbActive) deactivateNGB();
         if (audioCtx && engineBusGain) {
           engineBusGain.gain.setTargetAtTime(0.0, audioCtx.currentTime, 0.08);
         }
         btn.classList.remove('engine-running-glow');
         dot.className = 'w-2.5 h-2.5 rounded-full bg-zinc-500';
+        ledAudio.className = 'w-2 h-2 rounded-full bg-zinc-600';
         txt.textContent = 'ENGINE START';
       }
     }
 
-    function selectPreset(key) {
-      state.presetKey = key;
-      const p = PRESETS[key];
-
-      document.getElementById('redlineBadge').textContent = `REDLINE ${p.redline.toLocaleString()} RPM`;
-      document.getElementById('activePresetBadge').textContent = p.name;
-
-      const allKeys = Object.keys(PRESETS);
-      allKeys.forEach(k => {
-        const btn = document.getElementById(`preset-${k}`);
-        const badge = btn.querySelector('.preset-badge');
-        if (k === key) {
-          btn.className = 'preset-btn text-left p-2 rounded-xl border transition-all bg-red-600/20 border-red-500 text-white flex flex-col justify-between shadow-lg';
-          badge.className = 'preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-red-500/30 text-red-200 font-bold';
-          badge.textContent = 'ACTIVE';
-        } else {
-          btn.className = 'preset-btn text-left p-2 rounded-xl border transition-all bg-zinc-900/60 border-white/10 text-zinc-300 hover:border-white/25 flex flex-col justify-between';
-          badge.className = 'preset-badge text-[9px] font-mono-tech px-1.5 py-0.5 rounded bg-zinc-800 text-zinc-400';
-          badge.textContent = `${(PRESETS[k].redline / 1000).toFixed(1).replace('.0', '')}K`;
-        }
-      });
-
-      // Automatically match default burble profile for the chosen preset
-      setBurbleMode(p.defaultBurble);
-      // Rescale Tachometer Ticks dynamically for the active preset's Redline (e.g. 8,000 vs 9,500 vs 19,000 RPM)
-      buildTachometerTicksForRedline(p.redline);
-      applyPresetToAudioNodes();
-    }
-
-    function setInputMode(mode) {
+    function setInputMode(mode, skipSave = false) {
       state.inputMode = mode;
       const simBtn = document.getElementById('modeSimBtn');
       const realBtn = document.getElementById('modeRealBtn');
       const label = document.getElementById('sensorStateLabel');
 
       if (mode === 'sim') {
-        simBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-red-600 text-white shadow';
-        realBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-zinc-400 hover:text-white';
-        label.textContent = 'SIMULATION 60Hz';
-        showTelemetryNotice('🕹️ 실내 시뮬레이터 모드: 우측 하단 엑셀/브레이크 페달 또는 키보드(W/S, 패들 A/D, 부스트 B)를 누르세요.');
+        simBtn.className = 'py-1.5 rounded-lg text-[11px] font-bold transition-all bg-red-600 text-white shadow';
+        realBtn.className = 'py-1.5 rounded-lg text-[11px] font-bold transition-all text-zinc-400 hover:text-white';
+        label.textContent = 'SIM 60Hz';
       } else {
-        realBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all bg-cyan-600 text-white shadow';
-        simBtn.className = 'px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-semibold transition-all text-zinc-400 hover:text-white';
-        label.textContent = 'SENSOR FUSION LIVE';
+        realBtn.className = 'py-1.5 rounded-lg text-[11px] font-bold transition-all bg-cyan-600 text-white shadow';
+        simBtn.className = 'py-1.5 rounded-lg text-[11px] font-bold transition-all text-zinc-400 hover:text-white';
+        label.textContent = 'GPS+G LIVE';
         requestRealSensors();
-        showTelemetryNotice('📡 실차 센서 퓨전 활성화: 스마트폰을 거치한 뒤 [거치대 영점 조절]을 눌러주세요.');
+        showTelemetryNotice('📡 실차 센서 퓨전 활성화: 정차 상태에서 [🎯 거치대 영점 조절]을 눌러주세요.');
       }
+      if (!skipSave) saveSettingsToStorage();
     }
 
-    function setTransmissionMode(mode) {
+    function setTransmissionMode(mode, skipSave = false) {
       state.transMode = mode;
+      state.neutralRevMode = false;
+      updateNeutralButtonUI();
+
       const autoBtn = document.getElementById('transAutoBtn');
       const manBtn = document.getElementById('transManualBtn');
       const badge = document.getElementById('shiftModeBadge');
 
       if (mode === 'auto') {
-        autoBtn.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-red-600 text-white transition';
-        manBtn.className = 'px-2 py-0.5 rounded text-[11px] font-bold text-zinc-400 hover:text-white transition';
-        badge.textContent = 'N e-SHIFT 8-SPD';
+        autoBtn.className = 'py-1 rounded-lg text-[11px] font-display font-bold bg-red-600 text-white transition';
+        manBtn.className = 'py-1 rounded-lg text-[11px] font-display font-bold text-zinc-400 hover:text-white transition';
+        badge.textContent = 'AUTO PDK 8-SPD';
       } else {
-        manBtn.className = 'px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-600 text-white transition';
-        autoBtn.className = 'px-2 py-0.5 rounded text-[11px] font-bold text-zinc-400 hover:text-white transition';
+        manBtn.className = 'py-1 rounded-lg text-[11px] font-display font-bold bg-cyan-600 text-white transition';
+        autoBtn.className = 'py-1 rounded-lg text-[11px] font-display font-bold text-zinc-400 hover:text-white transition';
         badge.textContent = 'MANUAL PADDLE 8-SPD';
       }
+      if (!skipSave) saveSettingsToStorage();
     }
 
     function toggleNeutralRevMode() {
@@ -1692,125 +2400,190 @@
     function updateNeutralButtonUI() {
       const btn = document.getElementById('neutralToggleBtn');
       if (state.neutralRevMode) {
-        btn.className = 'pedal-btn py-2.5 rounded-xl bg-amber-500/25 border-2 border-amber-400 flex flex-col items-center justify-center shadow-[0_0_15px_rgba(251,191,36,0.4)]';
+        btn.className = 'py-1 rounded-lg text-[11px] font-display font-bold bg-amber-500 text-black shadow';
       } else {
-        btn.className = 'pedal-btn py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-amber-500/30 flex flex-col items-center justify-center';
+        btn.className = 'py-1 rounded-lg text-[11px] font-display font-bold text-amber-400 hover:bg-amber-500/15 transition';
       }
     }
 
-    function updateSliders() {
-      state.gSensitivity = parseFloat(document.getElementById('sliderGSens').value);
+    function updateSliders(skipSave = false) {
       state.masterVolume = parseFloat(document.getElementById('sliderVolume').value) / 100;
+      state.gSensitivity = parseFloat(document.getElementById('sliderGSens').value);
+      state.pitchOffsetPct = parseInt(document.getElementById('sliderPitchOffset').value, 10);
+      state.shiftPointPct = parseInt(document.getElementById('sliderShiftPoint').value, 10);
 
-      document.getElementById('valGSens').textContent = `${state.gSensitivity.toFixed(1)}x`;
       document.getElementById('valVolume').textContent = `${Math.round(state.masterVolume * 100)}%`;
+      document.getElementById('valGSens').textContent = `${state.gSensitivity.toFixed(1)}x`;
+      const pitchSign = state.pitchOffsetPct > 0 ? '+' : '';
+      document.getElementById('valPitchOffset').textContent = `${pitchSign}${state.pitchOffsetPct}%`;
+      document.getElementById('valShiftPoint').textContent = `${state.shiftPointPct}%`;
 
       if (audioCtx && masterGain) {
         masterGain.gain.setTargetAtTime(state.masterVolume, audioCtx.currentTime, 0.02);
       }
+      if (!skipSave) saveSettingsToStorage();
+    }
+
+    function syncAllUIFromState() {
+      setCategoryFilter(state.categoryFilter);
+      selectPreset(state.presetKey, true);
+      setInputMode(state.inputMode, true);
+      setTransmissionMode(state.transMode, true);
+      toggleExhaustValve(true);
+      setBurbleMode(state.burbleMode, true);
+      updateSliders(true);
     }
 
     /***************************************************************************
-     * 7. DYNAMIC SVG TACHOMETER GEOMETRY, SHIFT LIGHTS & WAVEFORM RENDERING
+     * 8. HIGH-PRECISION HTML5 CANVAS TACHOMETER & FFT SPECTRUM RENDERER
      ***************************************************************************/
-    function polarToCartesian(cx, cy, r, angleDeg) {
-      const rad = ((angleDeg - 90) * Math.PI) / 180.0;
-      return {
-        x: cx + r * Math.cos(rad),
-        y: cy + r * Math.sin(rad)
-      };
-    }
+    const tachCanvas = document.getElementById('tachometerCanvas');
+    const tachCtx = tachCanvas.getContext('2d');
+    const waveCanvas = document.getElementById('audioWaveCanvas');
+    const waveCtx = waveCanvas.getContext('2d');
+    let freqDataArray = null;
 
-    function describeArc(cx, cy, r, startAngle, endAngle) {
-      const start = polarToCartesian(cx, cy, r, endAngle);
-      const end = polarToCartesian(cx, cy, r, startAngle);
-      const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
-      return ['M', start.x, start.y, 'A', r, r, 0, largeArcFlag, 0, end.x, end.y].join(' ');
-    }
-
-    function buildTachometerTicksForRedline(redlineRpm) {
-      const startAngle = -125;
-      const endAngle = 125;
-      const totalSweep = endAngle - startAngle;
-
-      document.getElementById('tachBgArc').setAttribute('d', describeArc(150, 150, 118, startAngle, endAngle));
-      const redStart = startAngle + 0.84 * totalSweep;
-      document.getElementById('tachRedlineArc').setAttribute('d', describeArc(150, 150, 118, redStart, endAngle));
-
-      const ticksGroup = document.getElementById('tachTicks');
-      ticksGroup.innerHTML = '';
-
-      // Determine tick count and step (e.g., 19,000 RPM uses steps of 2k; 8,000-9,500 uses steps of 1k)
-      const maxK = Math.ceil(redlineRpm / 1000);
-      const stepK = maxK > 12 ? 2 : 1;
-
-      for (let k = 0; k <= maxK; k += stepK) {
-        const ratio = Math.min(1, (k * 1000) / redlineRpm);
-        const angle = startAngle + ratio * totalSweep;
-        const pOuter = polarToCartesian(150, 150, 102, angle);
-        const pInner = polarToCartesian(150, 150, 90, angle);
-        const pLabel = polarToCartesian(150, 150, 74, angle);
-
-        const isRed = ratio >= 0.84;
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', pOuter.x);
-        line.setAttribute('y1', pOuter.y);
-        line.setAttribute('x2', pInner.x);
-        line.setAttribute('y2', pInner.y);
-        line.setAttribute('stroke', isRed ? '#ff1e27' : '#a1a1aa');
-        line.setAttribute('stroke-width', '2.5');
-        ticksGroup.appendChild(line);
-
-        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-        text.setAttribute('x', pLabel.x);
-        text.setAttribute('y', pLabel.y + 4);
-        text.setAttribute('text-anchor', 'middle');
-        text.setAttribute('fill', isRed ? '#ff1e27' : '#e4e4e7');
-        text.setAttribute('font-size', '12');
-        text.setAttribute('font-weight', '800');
-        text.setAttribute('font-family', 'Orbitron, sans-serif');
-        text.textContent = k;
-        ticksGroup.appendChild(text);
-      }
-    }
-
-    function initTachometerAndShiftLights() {
+    function initShiftLightLEDs() {
       const bar = document.getElementById('shiftLightBar');
       bar.innerHTML = '';
       for (let i = 0; i < 15; i++) {
         const led = document.createElement('div');
         led.id = `shift-led-${i}`;
-        led.className = 'shift-led flex-1 h-3 sm:h-3.5 rounded-full bg-zinc-800/90 border border-white/5';
+        led.className = 'shift-led flex-1 h-2.5 sm:h-3.5 rounded-full bg-zinc-900 border border-white/10';
         bar.appendChild(led);
       }
-      buildTachometerTicksForRedline(PRESETS[state.presetKey].redline);
     }
 
-    function renderDashboardUI() {
+    function drawCanvasTachometer(p, currentRpm, shiftRpm) {
+      const w = tachCanvas.width;
+      const h = tachCanvas.height;
+      const cx = w / 2;
+      const cy = h / 2;
+      const radius = Math.min(w, h) * 0.42;
+
+      tachCtx.clearRect(0, 0, w, h);
+
+      const startAngle = (135 * Math.PI) / 180;
+      const endAngle = (405 * Math.PI) / 180;
+      const totalSweep = endAngle - startAngle;
+
+      // 1. Outer Carbon Bezel Ring
+      tachCtx.beginPath();
+      tachCtx.arc(cx, cy, radius + 18, 0, Math.PI * 2);
+      tachCtx.strokeStyle = 'rgba(255, 255, 255, 0.07)';
+      tachCtx.lineWidth = 2;
+      tachCtx.stroke();
+
+      // 2. Background Track Arc
+      tachCtx.beginPath();
+      tachCtx.arc(cx, cy, radius, startAngle, endAngle);
+      tachCtx.strokeStyle = '#181c26';
+      tachCtx.lineWidth = 22;
+      tachCtx.lineCap = 'round';
+      tachCtx.stroke();
+
+      // 3. Redline Danger Zone Arc
+      const redlineRatio = shiftRpm / p.redline;
+      const redStartAngle = startAngle + redlineRatio * totalSweep;
+      tachCtx.beginPath();
+      tachCtx.arc(cx, cy, radius, redStartAngle, endAngle);
+      tachCtx.strokeStyle = 'rgba(255, 30, 39, 0.35)';
+      tachCtx.lineWidth = 22;
+      tachCtx.lineCap = 'butt';
+      tachCtx.stroke();
+
+      // 4. Dynamic Active RPM Arc
+      const rpmRatio = Math.min(1, Math.max(0.005, currentRpm / p.redline));
+      const activeEndAngle = startAngle + rpmRatio * totalSweep;
+
+      const grad = tachCtx.createLinearGradient(0, h, w, 0);
+      grad.addColorStop(0, '#00f0ff');
+      grad.addColorStop(0.55, '#38bdf8');
+      grad.addColorStop(0.80, '#ffb800');
+      grad.addColorStop(1.0, '#ff1e27');
+
+      tachCtx.save();
+      tachCtx.beginPath();
+      tachCtx.arc(cx, cy, radius, startAngle, activeEndAngle);
+      tachCtx.strokeStyle = grad;
+      tachCtx.lineWidth = 22;
+      tachCtx.lineCap = 'round';
+      tachCtx.shadowColor = rpmRatio > 0.85 ? '#ff1e27' : '#00f0ff';
+      tachCtx.shadowBlur = 16;
+      tachCtx.stroke();
+      tachCtx.restore();
+
+      // 5. Tick Marks & Numbers (Automatically scaled to Preset Redline)
+      const maxK = Math.ceil(p.redline / 1000);
+      const stepK = maxK > 12 ? 2 : 1;
+
+      for (let k = 0; k <= maxK; k += stepK) {
+        const ratio = Math.min(1, (k * 1000) / p.redline);
+        const angle = startAngle + ratio * totalSweep;
+        const isRed = ratio >= redlineRatio;
+
+        const xOuter = cx + Math.cos(angle) * (radius - 14);
+        const yOuter = cy + Math.sin(angle) * (radius - 14);
+        const xInner = cx + Math.cos(angle) * (radius - 27);
+        const yInner = cy + Math.sin(angle) * (radius - 27);
+
+        tachCtx.beginPath();
+        tachCtx.moveTo(xOuter, yOuter);
+        tachCtx.lineTo(xInner, yInner);
+        tachCtx.strokeStyle = isRed ? '#ff1e27' : '#a1a1aa';
+        tachCtx.lineWidth = 2.8;
+        tachCtx.stroke();
+
+        const xText = cx + Math.cos(angle) * (radius - 44);
+        const yText = cy + Math.sin(angle) * (radius - 44);
+        tachCtx.fillStyle = isRed ? '#ff1e27' : '#f4f4f5';
+        tachCtx.font = '800 13px Orbitron, sans-serif';
+        tachCtx.textAlign = 'center';
+        tachCtx.textBaseline = 'middle';
+        tachCtx.fillText(String(k), xText, yText);
+      }
+
+      // 6. Glowing Needle Tip Indicator
+      const needleAngle = activeEndAngle;
+      const nx1 = cx + Math.cos(needleAngle) * (radius - 18);
+      const ny1 = cy + Math.sin(needleAngle) * (radius - 18);
+      const nx2 = cx + Math.cos(needleAngle) * (radius + 12);
+      const ny2 = cy + Math.sin(needleAngle) * (radius + 12);
+
+      tachCtx.save();
+      tachCtx.beginPath();
+      tachCtx.moveTo(nx1, ny1);
+      tachCtx.lineTo(nx2, ny2);
+      tachCtx.strokeStyle = '#ffffff';
+      tachCtx.lineWidth = 4.5;
+      tachCtx.lineCap = 'round';
+      tachCtx.shadowColor = '#ff1e27';
+      tachCtx.shadowBlur = 12;
+      tachCtx.stroke();
+      tachCtx.restore();
+    }
+
+    function renderDashboardUI(dynamicShiftRpm) {
       const p = PRESETS[state.presetKey];
 
-      // 1. Dynamic Tachometer Active Arc scaled to active preset's Redline
-      const startAngle = -125;
-      const totalSweep = 250;
-      const clampedRpm = Math.min(p.redline, Math.max(0, state.rpm));
-      const currentAngle = startAngle + Math.max(0.5, (clampedRpm / p.redline) * totalSweep);
-      document.getElementById('tachActiveArc').setAttribute('d', describeArc(150, 150, 118, startAngle, currentAngle));
+      // 1. Draw Canvas Tachometer
+      drawCanvasTachometer(p, state.rpm, dynamicShiftRpm);
 
-      // 2. Digital Readouts
+      // 2. Digital Center Readouts
       document.getElementById('rpmDisplay').textContent = Math.round(state.rpm).toLocaleString();
       document.getElementById('speedDisplay').textContent = Math.round(state.fusedSpeedKmh);
 
       const gearText = !state.engineRunning ? 'P' : (state.neutralRevMode || state.gear === 0 ? 'N' : state.gear);
       document.getElementById('gearDisplay').textContent = gearText;
 
-      // 3. F1 / N Shift Lights Bar
+      // 3. Top 15-LED Shift Lights
       const shiftStartRpm = p.redline * 0.42;
-      const shiftProgress = Math.max(0, (state.rpm - shiftStartRpm) / (p.shiftRpm - shiftStartRpm));
+      const shiftProgress = Math.max(0, (state.rpm - shiftStartRpm) / (dynamicShiftRpm - shiftStartRpm));
       const activeLeds = Math.floor(shiftProgress * 15);
-      const isShiftBlink = state.rpm >= p.shiftRpm;
+      const isShiftBlink = state.rpm >= dynamicShiftRpm;
 
       const bar = document.getElementById('shiftLightBar');
-      if (isShiftBlink) {
+      if (isShiftBlink && state.engineRunning) {
         bar.classList.add('redline-blink');
       } else {
         bar.classList.remove('redline-blink');
@@ -1823,8 +2596,8 @@
             led.style.backgroundColor = '#00f0ff';
             led.style.boxShadow = '0 0 14px #00f0ff';
           } else if (i < 5) {
-            led.style.backgroundColor = '#38bdf8';
-            led.style.boxShadow = '0 0 10px #38bdf8';
+            led.style.backgroundColor = '#22c55e';
+            led.style.boxShadow = '0 0 10px #22c55e';
           } else if (i < 10) {
             led.style.backgroundColor = '#ffb800';
             led.style.boxShadow = '0 0 10px #ffb800';
@@ -1833,84 +2606,73 @@
             led.style.boxShadow = '0 0 12px #ff1e27';
           }
         } else {
-          led.style.backgroundColor = 'rgba(39, 39, 42, 0.85)';
+          led.style.backgroundColor = 'rgba(24, 24, 27, 0.9)';
           led.style.boxShadow = 'none';
         }
       }
 
-      // 4. Sensor Fusion Telemetry Panel
-      document.getElementById('telGpsSpeed').textContent = state.rawGpsSpeedKmh.toFixed(1);
-      const gSign = state.forwardG >= 0 ? '+' : '';
-      document.getElementById('telForwardG').textContent = `${gSign}${state.forwardG.toFixed(2)}`;
-      document.getElementById('telFusedSpeed').textContent = state.fusedSpeedKmh.toFixed(1);
+      // 4. Left Pod Telemetry Readouts
+      document.getElementById('telGpsSpeed').textContent = state.rawGpsSpeedKmh.toFixed(0);
+      document.getElementById('telFusedSpeed').textContent = state.fusedSpeedKmh.toFixed(0);
 
-      const gFill = document.getElementById('gForceBarFill');
-      const gPct = Math.min(50, Math.abs(state.forwardG) * 38);
-      if (state.forwardG >= 0) {
-        gFill.style.marginLeft = '50%';
-        gFill.style.width = `${gPct}%`;
-      } else {
-        gFill.style.marginLeft = `${50 - gPct}%`;
-        gFill.style.width = `${gPct}%`;
-      }
+      const gSign = state.forwardG >= 0 ? '+' : '';
+      document.getElementById('telForwardG').textContent = `${gSign}${state.forwardG.toFixed(2)} G`;
+
+      const bSign = state.boostBar >= 0 ? '+' : '';
+      document.getElementById('telBoostBar').textContent = `${bSign}${state.boostBar.toFixed(2)} BAR`;
 
       const gBall = document.getElementById('gBallDot');
-      const gx = Math.max(-18, Math.min(18, state.lateralG * 15));
-      const gy = Math.max(-18, Math.min(18, -state.forwardG * 15));
+      const gx = Math.max(-32, Math.min(32, state.lateralG * 22));
+      const gy = Math.max(-32, Math.min(32, -state.forwardG * 22));
       gBall.style.transform = `translate(${gx}px, ${gy}px)`;
 
-      // 5. Pedal Visual Fill Bars
-      document.getElementById('throttleFill').style.height = `${Math.round(state.throttle * 100)}%`;
-      document.getElementById('throttlePctText').textContent = `${Math.round(state.throttle * 100)}%`;
-      document.getElementById('brakeFill').style.height = `${Math.round(state.brake * 100)}%`;
-      document.getElementById('brakePctText').textContent = `${Math.round(state.brake * 100)}%`;
+      // 5. Throttle & Brake Telemetry Bars + Pedals
+      const thrPct = Math.round(state.throttle * 100);
+      const brkPct = Math.round(state.brake * 100);
 
-      // 6. Audio Waveform Canvas
-      drawWaveformCanvas();
+      document.getElementById('throttlePctText').textContent = `${thrPct}%`;
+      document.getElementById('brakePctText').textContent = `${brkPct}%`;
+      document.getElementById('throttleBarHoriz').style.width = `${thrPct}%`;
+      document.getElementById('brakeBarHoriz').style.width = `${brkPct}%`;
+
+      document.getElementById('throttleFill').style.height = `${thrPct}%`;
+      document.getElementById('pedalThrottlePct').textContent = `${thrPct}%`;
+      document.getElementById('brakeFill').style.height = `${brkPct}%`;
+      document.getElementById('pedalBrakePct').textContent = `${brkPct}%`;
+
+      // 6. FFT Spectrum Analyzer & Waveform
+      drawSpectrumAndWaveCanvas(p);
     }
 
-    const waveCanvas = document.getElementById('audioWaveCanvas');
-    const waveCtx = waveCanvas.getContext('2d');
-    let waveDataArray = null;
-
-    function drawWaveformCanvas() {
+    function drawSpectrumAndWaveCanvas(p) {
       const w = waveCanvas.width;
       const h = waveCanvas.height;
       waveCtx.clearRect(0, 0, w, h);
 
-      waveCtx.strokeStyle = 'rgba(255,255,255,0.08)';
-      waveCtx.lineWidth = 1;
-      waveCtx.beginPath();
-      waveCtx.moveTo(0, h / 2);
-      waveCtx.lineTo(w, h / 2);
-      waveCtx.stroke();
-
       if (!analyserNode || !state.engineRunning) return;
 
-      if (!waveDataArray) {
-        waveDataArray = new Uint8Array(analyserNode.frequencyBinCount);
+      if (!freqDataArray) {
+        freqDataArray = new Uint8Array(analyserNode.frequencyBinCount);
       }
-      analyserNode.getByteTimeDomainData(waveDataArray);
+      analyserNode.getByteFrequencyData(freqDataArray);
 
-      const p = PRESETS[state.presetKey];
-      waveCtx.lineWidth = 2.2;
-      waveCtx.strokeStyle = state.ngbActive || state.rpm > p.redline * 0.82 ? '#ff1e27' : '#00f0ff';
-      waveCtx.beginPath();
+      const barCount = 40;
+      const barWidth = (w / barCount) - 2;
+      const isHighRpm = state.ngbActive || state.rpm > p.redline * 0.82;
 
-      const sliceWidth = w / waveDataArray.length;
-      let x = 0;
-      for (let i = 0; i < waveDataArray.length; i++) {
-        const v = waveDataArray[i] / 128.0;
-        const y = (v * h) / 2;
-        if (i === 0) waveCtx.moveTo(x, y);
-        else waveCtx.lineTo(x, y);
-        x += sliceWidth;
+      for (let i = 0; i < barCount; i++) {
+        const val = freqDataArray[i] || 0;
+        const barHeight = Math.max(2, (val / 255) * h);
+        const x = i * (barWidth + 2);
+        const y = h - barHeight;
+
+        waveCtx.fillStyle = isHighRpm ? '#ff1e27' : (i > 24 ? '#ffb800' : '#00f0ff');
+        waveCtx.fillRect(x, y, barWidth, barHeight);
       }
-      waveCtx.stroke();
     }
 
     /***************************************************************************
-     * 8. PEDAL & KEYBOARD BINDINGS
+     * 9. PEDAL & KEYBOARD BINDINGS + INITIALIZATION
      ***************************************************************************/
     function bindPedalsAndKeys() {
       const throttleBtn = document.getElementById('throttlePedal');
@@ -1965,12 +2727,17 @@
           manualShift(-1);
         } else if (key === 'd' || e.key === 'ArrowRight') {
           manualShift(1);
+        } else if (e.code === 'Space') {
+          e.preventDefault();
+          triggerRevBlip();
         } else if (key === 'b') {
           activateNGB();
         } else if (key === 'v') {
           toggleExhaustValve();
         } else if (key === 'n') {
           toggleNeutralRevMode();
+        } else if (e.key === 'Escape') {
+          closeManualModal();
         }
       });
 
@@ -1995,7 +2762,9 @@
     window.addEventListener('resize', resizeCanvases);
 
     window.onload = function () {
-      initTachometerAndShiftLights();
+      initShiftLightLEDs();
+      loadSettingsFromStorage();
+      syncAllUIFromState();
       bindPedalsAndKeys();
       resizeCanvases();
       requestAnimationFrame(updatePhysicsAndEngine);
