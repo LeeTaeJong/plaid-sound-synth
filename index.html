@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Plaid Sound Synth Pro — Ultimate 16-Supercar Edition</title>
+  <title>Plaid Sound Synth Pro — Ultimate 24-Preset Owner's Edition</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: Inter & Orbitron / JetBrains Mono for Motorsport Telemetry -->
@@ -63,6 +63,12 @@
       background: radial-gradient(circle at 50% 25%, rgba(28, 33, 46, 0.95) 0%, rgba(9, 11, 16, 0.99) 75%);
       border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: 0 18px 48px rgba(0, 0, 0, 0.85), inset 0 2px 12px rgba(0, 240, 255, 0.06);
+      transition: border-color 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    .ambient-shift-glow {
+      border-color: rgba(0, 240, 255, 0.85) !important;
+      box-shadow: 0 0 38px rgba(255, 30, 39, 0.55), inset 0 0 28px rgba(0, 240, 255, 0.32) !important;
     }
 
     /* Custom Range Sliders */
@@ -221,7 +227,7 @@
        SECTION 1 (TOP MAIN VIEW): REALISTIC SUPERCAR DIGITAL INSTRUMENT CLUSTER
        ========================================================================= -->
   <section class="w-full max-w-7xl mx-auto mb-3">
-    <div class="cockpit-bezel rounded-3xl p-2.5 sm:p-4 relative overflow-hidden">
+    <div id="cockpitBezel" class="cockpit-bezel rounded-3xl p-2.5 sm:p-4 relative overflow-hidden">
 
       <!-- Ambient Dynamic Glow Behind Cluster -->
       <div id="clusterAmbientGlow" class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-56 rounded-full bg-red-600/20 blur-3xl transition-all duration-300"></div>
@@ -459,39 +465,39 @@
   </section>
 
   <!-- =========================================================================
-       SECTION 2 (BOTTOM DECK): 16 SUPERCAR SOUND PRESETS & FINE-TUNING SETTINGS
+       SECTION 2 (BOTTOM DECK): 24 SUPERCAR / BIKE / EV SOUND PRESETS & SETTINGS
        ========================================================================= -->
   <main class="w-full max-w-7xl mx-auto flex-1 grid grid-cols-1 lg:grid-cols-12 gap-3 items-stretch">
 
-    <!-- LEFT/CENTER (8 COLS): 16 SUPERCAR / PORSCHE / N / SPECIAL SOUND PRESET SELECTOR -->
+    <!-- LEFT/CENTER (8 COLS): 24 SUPERCAR / SUPERBIKE / EV SOUND PRESET SELECTOR -->
     <section class="lg:col-span-8 carbon-card rounded-2xl p-3 sm:p-4 flex flex-col justify-between gap-2.5">
       <div class="flex flex-wrap items-center justify-between gap-2 border-b border-white/10 pb-2">
         <div class="flex items-center gap-2">
           <span class="w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_8px_#ff1e27]"></span>
           <h2 class="font-display text-xs sm:text-sm font-black tracking-wider text-white uppercase">
-            16 SUPERCAR &amp; EXHAUST SOUND PRESETS (실시간 파형 합성 엔진)
+            24 EV · SUPERBIKE · SUPERCAR SOUND PRESETS (실시간 파형 합성)
           </h2>
         </div>
 
         <!-- Category Filter Tabs -->
         <div class="flex flex-wrap gap-1">
           <button onclick="setCategoryFilter('all')" id="cat-all" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white transition">
-            전체 (16)
+            전체 (24)
+          </button>
+          <button onclick="setCategoryFilter('ev_sound')" id="cat-ev_sound" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
+            ⚡ EV 가상사운드 (6)
+          </button>
+          <button onclick="setCategoryFilter('superbike')" id="cat-superbike" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
+            🏍️ 바이크 풀배기 (6)
           </button>
           <button onclick="setCategoryFilter('supercar')" id="cat-supercar" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
-            포르쉐 · 슈퍼카 (7)
-          </button>
-          <button onclick="setCategoryFilter('n_turbo')" id="cat-n_turbo" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
-            N · 아크라 · 머슬 (5)
-          </button>
-          <button onclick="setCategoryFilter('special')" id="cat-special" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10 transition">
-            스페셜 · F1 · 바이크 (4)
+            🏎️ 슈퍼카·포르쉐 (12)
           </button>
         </div>
       </div>
 
-      <!-- 16 Presets Responsive Grid -->
-      <div id="presetGridContainer" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2">
+      <!-- 24 Presets Responsive Grid -->
+      <div id="presetGridContainer" class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-2 max-h-[340px] overflow-y-auto pr-1">
         <!-- Dynamically populated by renderPresetCards() -->
       </div>
     </section>
@@ -591,7 +597,7 @@
       <kbd class="px-1.5 py-0.5 bg-zinc-800 text-zinc-300 rounded border border-white/10">N</kbd> 중립
     </div>
     <div class="font-mono-tech text-zinc-400">
-      Plaid Sound Synth Pro v3.0 · 16-Preset Procedural Audio &amp; Sensor Fusion
+      Plaid Sound Synth Pro v4.0 · 24-Preset EV / Superbike / Supercar Edition
     </div>
   </footer>
 
@@ -645,14 +651,14 @@
           </ul>
         </div>
 
-        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-white/10">
+        <div class="bg-zinc-900/80 rounded-2xl p-4 border border-red-500/30">
           <h4 class="font-bold text-red-400 text-sm mb-2 flex items-center gap-1.5">
-            🎮 3. 실내 시뮬레이터 &amp; 🚀 0→200km/h 런치컨트롤 데모
+            🏍️ 3. 바이크 슬립온 vs 풀배기 &amp; ⚡ EV 가상사운드 핵심 특징
           </h4>
           <ul class="list-disc list-inside space-y-1.5 text-zinc-300">
-            <li><strong class="text-white">🚀 0→200 런치데모:</strong> 차에 타지 않고도 손대지 않고 1단부터 6단까지 풀악셀 변속과 감속 다운시프트 레브매칭 사운드를 감상할 수 있는 자동 주행 데모입니다.</li>
-            <li><strong class="text-white">⚡ BLIP (공회전 악셀):</strong> 정차 중이거나 주행 중 언제든 누르면 순간적으로 RPM을 튕겨 카랑카랑한 배기음과 후적음을 들어볼 수 있습니다.</li>
-            <li><strong class="text-white">CRUISE (속도 고정):</strong> 원하는 속도와 RPM에서 크루즈를 켜고 하단 16개 차종 카드를 차례대로 눌러보며 주행 배기음 차이를 즉시 비교해 보세요.</li>
+            <li><strong class="text-white">'25 BMW S1000RR (GP1RS 슬립온 vs GP1R 풀배기):</strong> 환경규제 촉매가 유지된 <strong>GP1RS 슬립온(실차 세팅)</strong>의 정제된 카랑카랑함과, 촉매를 제거한 <strong>GP1R 데캣 티타늄 풀배기</strong>의 고막을 찢는 공명음 및 35ms 퀵시프터 파열음을 즉시 비교할 수 있습니다.</li>
+            <li><strong class="text-white">4대 천왕 리터급 바이크 풀배기:</strong> 야마하 <strong>R1M</strong>의 270°-180°-90°-180° 부등간격 크로스플레인(CP4) 빅뱅 사운드, 혼다 <strong>CBR1000RR-R 파이어블레이드</strong>의 16,000 RPM 램에어 스크리머, 가와사키 <strong>ZX-10R</strong> Austin GP1R 풀배기, 두카티 <strong>파니갈레 V4 R</strong>의 16,500 RPM 트윈펄스 &amp; 건식클러치 사운드가 구현되어 있습니다.</li>
+            <li><strong class="text-white">포르쉐 타이칸 &amp; GV60 마그마 &amp; 아이오닉 6 N:</strong> 타이칸 Turbo GT의 듀얼 인버터 UFO 화음, GV60 마그마 전용 9,000 RPM 가상 사운드(VGS), 아이오닉 6 N의 <strong>라이트스피드(Lightspeed)</strong> 및 변속 타이밍에 맞춰 계기판 테두리가 빛나는 <strong>N 앰비언트 쉬프트 라이트</strong>가 연동됩니다.</li>
           </ul>
         </div>
 
@@ -661,7 +667,7 @@
             💾 4. 웹 저장소 (LocalStorage) 자동 저장 안내
           </h4>
           <p class="text-zinc-300">
-            마지막으로 선택한 <strong>배기음 프리셋(16종), 배기 밸브(OPEN/QUIET), 팝콘 모드, 마스터 볼륨, 가속도 민감도, 피치 튜닝, 변속 시점, 거치대 영점 값</strong>은 브라우저의 <code>localStorage</code>에 즉시 자동 저장됩니다. 다음에 차에 타서 페이지를 열면 설정해 둔 값 그대로 바로 작동합니다.
+            마지막으로 선택한 <strong>배기음 프리셋(24종), 카테고리 탭, 배기 밸브(OPEN/QUIET), 팝콘 모드, 마스터 볼륨, 가속도 민감도, 피치 튜닝, 변속 시점, 거치대 영점 값</strong>은 브라우저의 <code>localStorage</code>에 즉시 자동 저장됩니다.
           </p>
         </div>
 
@@ -677,13 +683,414 @@
   </div>
 
   <!-- =========================================================================
-       APPLICATION JAVASCRIPT: 16-ENGINE PROCEDURAL SYNTH, SENSOR FUSION & STORAGE
+       APPLICATION JAVASCRIPT: 24-ENGINE PROCEDURAL SYNTH, SENSOR FUSION & STORAGE
        ========================================================================= -->
   <script>
     /***************************************************************************
-     * 1. 16 DISTINCT SUPERCAR, PORSCHE, N, MUSCLE & SPECIAL SOUND PROFILES
+     * 1. 24 DISTINCT EV VIRTUAL, SUPERBIKE FULL-EXHAUST & SUPERCAR PROFILES
      ***************************************************************************/
     const PRESETS = {
+      /* ==================== ⚡ EV VIRTUAL SOUNDS (6) ==================== */
+      taycan_gt: {
+        id: 'taycan_gt',
+        category: 'ev_sound',
+        emoji: '⚡',
+        shortName: 'Taycan Turbo GT',
+        name: 'PORSCHE TAYCAN TURBO GT (ELECTRIC SPORT)',
+        spec: 'Dual-Inverter UFO Harmonic · 2-Spd Shift · 9,000 RPM',
+        redline: 9000,
+        shiftRpm: 8400,
+        idleRpm: 850,
+        cylinders: 10,
+        osc1Type: 'sine',
+        osc2Type: 'triangle',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.498,   // Futuristic Porsche EV power-fifth harmonic chord
+        harmonic3Ratio: 2.996,
+        subGainLevel: 0.88,
+        midGainLevel: 0.72,
+        highGainLevel: 0.76,
+        turboWhineLevel: 0.92,   // Dual SiC Pulse-Inverter whine
+        scWhineLevel: 0.35,
+        titaniumGainLevel: 0.32,
+        formant1Hz: 680,
+        formant2Hz: 1960,
+        exhaustResonanceHz: 240,
+        exhaustQ: 4.8,
+        lopeSpeedHz: 12.0,
+        lopeDepth: 8,
+        revInertia: 0.30,
+        shiftCutDuration: 0.055,
+        shiftStyle: 'ev_chord',
+        defaultBurble: 'sport'
+      },
+      gv60_magma: {
+        id: 'gv60_magma',
+        category: 'ev_sound',
+        emoji: '🌋',
+        shortName: 'GV60 Magma VGS',
+        name: 'GENESIS GV60 MAGMA (VGS 9,000 RPM)',
+        spec: 'Luxury High-Rev V6/V8 Hybrid Tone · Virtual 8-DCT',
+        redline: 9000,
+        shiftRpm: 8550,
+        idleRpm: 900,
+        cylinders: 6,
+        osc1Type: 'sawtooth',
+        osc2Type: 'triangle',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.5,
+        harmonic3Ratio: 3.0,
+        subGainLevel: 0.82,      // Deep B&O acoustic sub-bass warmth
+        midGainLevel: 0.86,
+        highGainLevel: 0.84,
+        turboWhineLevel: 0.48,
+        scWhineLevel: 0.18,
+        titaniumGainLevel: 0.68,
+        formant1Hz: 1120,
+        formant2Hz: 2380,
+        exhaustResonanceHz: 360,
+        exhaustQ: 4.2,
+        lopeSpeedHz: 8.0,
+        lopeDepth: 18,
+        revInertia: 0.28,
+        shiftCutDuration: 0.060,
+        shiftStyle: 'magma_vgs',
+        defaultBurble: 'n_ignition'
+      },
+      ioniq6n_lightspeed: {
+        id: 'ioniq6n_lightspeed',
+        category: 'ev_sound',
+        emoji: '💠',
+        shortName: 'IONIQ 6 N Lightspeed',
+        name: 'HYUNDAI IONIQ 6 N · LIGHTSPEED',
+        spec: 'Sci-Fi Cybernetic Synth · N Ambient Shift Light',
+        redline: 8800,
+        shiftRpm: 8300,
+        idleRpm: 1000,
+        cylinders: 12,
+        osc1Type: 'triangle',
+        osc2Type: 'sine',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.333,   // Cybernetic fourth interval harmony
+        harmonic3Ratio: 2.666,
+        subGainLevel: 0.78,
+        midGainLevel: 0.68,
+        highGainLevel: 0.90,
+        turboWhineLevel: 0.95,
+        scWhineLevel: 0.55,
+        titaniumGainLevel: 0.55,
+        formant1Hz: 1480,
+        formant2Hz: 2960,
+        exhaustResonanceHz: 520,
+        exhaustQ: 5.0,
+        lopeSpeedHz: 14.0,
+        lopeDepth: 10,
+        revInertia: 0.32,
+        shiftCutDuration: 0.050,
+        shiftStyle: 'ev_chord',
+        defaultBurble: 'sport'
+      },
+      ioniq5n_ignition: {
+        id: 'ioniq5n_ignition',
+        category: 'ev_sound',
+        emoji: '🏁',
+        shortName: 'IONIQ 5 N / 6 N Ignition',
+        name: 'HYUNDAI IONIQ 5 N & 6 N · IGNITION',
+        spec: '2.0T WRC Rally · 8,000 RPM · N e-Shift Bang',
+        redline: 8000,
+        shiftRpm: 7500,
+        idleRpm: 920,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 3.0,
+        subGainLevel: 0.68,
+        midGainLevel: 0.84,
+        highGainLevel: 0.58,
+        turboWhineLevel: 0.62,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.35,
+        formant1Hz: 1150,
+        formant2Hz: 2300,
+        exhaustResonanceHz: 285,
+        exhaustQ: 3.6,
+        lopeSpeedHz: 6.5,
+        lopeDepth: 28,
+        revInertia: 0.21,
+        shiftCutDuration: 0.085,
+        shiftStyle: 'n_eshift',
+        defaultBurble: 'n_ignition'
+      },
+      ioniq5n_supersonic: {
+        id: 'ioniq5n_supersonic',
+        category: 'ev_sound',
+        emoji: '✈️',
+        shortName: 'IONIQ 5 N Supersonic',
+        name: 'HYUNDAI IONIQ 5 N · SUPERSONIC',
+        spec: 'Twin-Turbine Jet Fighter · Sonic Boom Shift',
+        redline: 8500,
+        shiftRpm: 8000,
+        idleRpm: 1100,
+        cylinders: 10,
+        osc1Type: 'triangle',
+        osc2Type: 'sine',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.2,
+        subGainLevel: 0.72,
+        midGainLevel: 0.55,
+        highGainLevel: 0.88,
+        turboWhineLevel: 0.96,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.45,
+        formant1Hz: 1600,
+        formant2Hz: 3200,
+        exhaustResonanceHz: 640,
+        exhaustQ: 4.5,
+        lopeSpeedHz: 10.0,
+        lopeDepth: 12,
+        revInertia: 0.25,
+        shiftCutDuration: 0.070,
+        shiftStyle: 'sonic_boom',
+        defaultBurble: 'sport'
+      },
+      plaid_warp: {
+        id: 'plaid_warp',
+        category: 'ev_sound',
+        emoji: '🚀',
+        shortName: 'Plaid Cyber Warp',
+        name: 'TESLA MODEL S PLAID · CYBER WARP',
+        spec: 'Tri-Motor Carbon Rotor Inverter · 10,000 RPM',
+        redline: 10000,
+        shiftRpm: 9400,
+        idleRpm: 800,
+        cylinders: 12,
+        osc1Type: 'sine',
+        osc2Type: 'sawtooth',
+        osc3Type: 'triangle',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.5,     // High-frequency carbon-sleeved rotor inverter pitch
+        subGainLevel: 0.94,      // Deep spacecraft sub-bass thruster
+        midGainLevel: 0.62,
+        highGainLevel: 0.92,
+        turboWhineLevel: 1.0,
+        scWhineLevel: 0.75,
+        titaniumGainLevel: 0.48,
+        formant1Hz: 1850,
+        formant2Hz: 3600,
+        exhaustResonanceHz: 310,
+        exhaustQ: 5.2,
+        lopeSpeedHz: 15.0,
+        lopeDepth: 6,
+        revInertia: 0.36,
+        shiftCutDuration: 0.045,
+        shiftStyle: 'sonic_boom',
+        defaultBurble: 'sport'
+      },
+
+      /* ==================== 🏍️ SUPERBIKE EXHAUSTS (6) ==================== */
+      s1000rr_gp1rs: {
+        id: 's1000rr_gp1rs',
+        category: 'superbike',
+        emoji: '🏍️',
+        shortName: "'25 S1000RR GP1RS (실차)",
+        name: "2025 BMW S1000RR — AUSTIN RACING GP1RS (SLIP-ON)",
+        spec: '999cc ShiftCam I4 · Euro5+ Cat + GP1RS Slip-On · 14,600 RPM',
+        redline: 14600,
+        shiftRpm: 13900,
+        idleRpm: 1250,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'triangle',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 3.5,     // Tight, refined Austin GP1RS titanium slip-on tone
+        subGainLevel: 0.36,
+        midGainLevel: 0.84,
+        highGainLevel: 0.90,
+        turboWhineLevel: 0.14,   // ShiftCam timing gear & intake airbox whistle
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.82,
+        formant1Hz: 1460,
+        formant2Hz: 2880,
+        exhaustResonanceHz: 690,
+        exhaustQ: 4.8,
+        lopeSpeedHz: 9.5,
+        lopeDepth: 22,
+        revInertia: 0.35,
+        shiftCutDuration: 0.036, // BMW Shift Assistant Pro 36ms cut
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'n_ignition'
+      },
+      s1000rr_full: {
+        id: 's1000rr_full',
+        category: 'superbike',
+        emoji: '🔥',
+        shortName: 'S1000RR GP1R (풀배기)',
+        name: 'BMW S1000RR — AUSTIN RACING GP1R (DECAT FULL)',
+        spec: '999cc ShiftCam I4 · Straight Titanium Full System · 14,600 RPM',
+        redline: 14600,
+        shiftRpm: 14000,
+        idleRpm: 1300,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'square',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.0,     // Uncorked De-Cat GP1R ear-splitting metallic scream!
+        subGainLevel: 0.30,
+        midGainLevel: 0.88,
+        highGainLevel: 1.0,
+        turboWhineLevel: 0.12,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 1.0,  // Maximum raw titanium open-pipe resonance
+        formant1Hz: 1620,
+        formant2Hz: 3240,
+        exhaustResonanceHz: 810,
+        exhaustQ: 5.8,
+        lopeSpeedHz: 10.2,
+        lopeDepth: 38,
+        revInertia: 0.38,
+        shiftCutDuration: 0.034,
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'akra_crack'
+      },
+      r1m_akrapovic: {
+        id: 'r1m_akrapovic',
+        category: 'superbike',
+        emoji: '🎹',
+        shortName: 'Yamaha R1M (CP4 풀배기)',
+        name: 'YAMAHA YZF-R1M — AKRAPOVIČ EVOLUTION (CP4)',
+        spec: '998cc Crossplane CP4 (270-180-90-180) · 14,500 RPM',
+        redline: 14500,
+        shiftRpm: 13800,
+        idleRpm: 1250,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 0.75,    // Crossplane uneven firing sub-harmonic MotoGP M1 growl!
+        harmonic3Ratio: 2.25,
+        subGainLevel: 0.76,
+        midGainLevel: 0.92,
+        highGainLevel: 0.84,
+        turboWhineLevel: 0.08,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.88,
+        formant1Hz: 980,
+        formant2Hz: 2240,
+        exhaustResonanceHz: 420,
+        exhaustQ: 4.9,
+        lopeSpeedHz: 11.5,       // Characteristic uneven CP4 thrum
+        lopeDepth: 64,
+        revInertia: 0.35,
+        shiftCutDuration: 0.038,
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'akra_crack'
+      },
+      cbr1000rrr_sc: {
+        id: 'cbr1000rrr_sc',
+        category: 'superbike',
+        emoji: '🗡️',
+        shortName: 'CBR1000RR-R (SC 풀배기)',
+        name: 'HONDA CBR1000RR-R FIREBLADE — SC-PROJECT CR-T',
+        spec: '999cc Screamer I4 + Ram-Air Roar · 16,000 RPM',
+        redline: 16000,
+        shiftRpm: 15300,
+        idleRpm: 1350,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'sawtooth',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 2.0,
+        harmonic3Ratio: 4.0,     // Pure 16,000 RPM F1-like inline-4 shriek
+        subGainLevel: 0.24,
+        midGainLevel: 0.86,
+        highGainLevel: 1.0,
+        turboWhineLevel: 0.26,   // Central Ram-Air duct intake howl
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.98,
+        formant1Hz: 1740,
+        formant2Hz: 3480,
+        exhaustResonanceHz: 890,
+        exhaustQ: 5.9,
+        lopeSpeedHz: 10.5,
+        lopeDepth: 28,
+        revInertia: 0.39,
+        shiftCutDuration: 0.032,
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'akra_crack'
+      },
+      zx10r_austin: {
+        id: 'zx10r_austin',
+        category: 'superbike',
+        emoji: '🟢',
+        shortName: 'ZX-10R Austin (풀배기)',
+        name: 'KAWASAKI NINJA ZX-10RR — AUSTIN RACING GP1R',
+        spec: '998cc WSBK Factory I4 · Titanium Full · 14,300 RPM',
+        redline: 14300,
+        shiftRpm: 13650,
+        idleRpm: 1200,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.5,     // Raw, aggressive Kawasaki WSBK rasp
+        harmonic3Ratio: 3.5,
+        subGainLevel: 0.40,
+        midGainLevel: 0.90,
+        highGainLevel: 0.94,
+        turboWhineLevel: 0.10,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.95,
+        formant1Hz: 1510,
+        formant2Hz: 3020,
+        exhaustResonanceHz: 740,
+        exhaustQ: 5.4,
+        lopeSpeedHz: 9.2,
+        lopeDepth: 42,
+        revInertia: 0.36,
+        shiftCutDuration: 0.036,
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'akra_crack'
+      },
+      panigale_v4r: {
+        id: 'panigale_v4r',
+        category: 'superbike',
+        emoji: '🇮🇹',
+        shortName: 'Panigale V4 R (16.5K)',
+        name: 'DUCATI PANIGALE V4 R — AKRAPOVIČ RACING',
+        spec: '998cc Desmosedici Twin-Pulse V4 · 16,500 RPM · Dry Clutch',
+        redline: 16500,
+        shiftRpm: 15800,
+        idleRpm: 1450,
+        cylinders: 4,
+        osc1Type: 'sawtooth',
+        osc2Type: 'square',
+        osc3Type: 'sawtooth',
+        harmonic2Ratio: 1.25,    // 70° Twin-Pulse V4 Desmo growl-to-scream
+        harmonic3Ratio: 3.25,
+        subGainLevel: 0.58,
+        midGainLevel: 0.92,
+        highGainLevel: 0.96,
+        turboWhineLevel: 0.15,
+        scWhineLevel: 0.0,
+        titaniumGainLevel: 0.94,
+        formant1Hz: 1420,
+        formant2Hz: 2980,
+        exhaustResonanceHz: 680,
+        exhaustQ: 5.2,
+        lopeSpeedHz: 13.5,       // STM Dry-Clutch rattle & Twin-Pulse idle
+        lopeDepth: 75,
+        revInertia: 0.40,
+        shiftCutDuration: 0.032,
+        shiftStyle: 'quickshifter_cut',
+        defaultBurble: 'akra_crack'
+      },
+
+      /* ==================== 🏎️ SUPERCAR & PORSCHE (12) ==================== */
       gt3rs: {
         id: 'gt3rs',
         category: 'supercar',
@@ -694,26 +1101,26 @@
         redline: 9000,
         shiftRpm: 8650,
         idleRpm: 950,
-        cylinders: 6,            // Boxer-6 (3 firings per rev)
+        cylinders: 6,
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
         osc3Type: 'square',
-        harmonic2Ratio: 1.5,     // Flat-6 bank resonance
-        harmonic3Ratio: 3.0,     // Iconic Boxer metallic chainsaw rasp
+        harmonic2Ratio: 1.5,
+        harmonic3Ratio: 3.0,
         subGainLevel: 0.42,
         midGainLevel: 0.82,
         highGainLevel: 0.92,
         turboWhineLevel: 0.05,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.88, // High metallic flat-6 rasp
+        titaniumGainLevel: 0.88,
         formant1Hz: 1180,
         formant2Hz: 2480,
         exhaustResonanceHz: 460,
         exhaustQ: 4.4,
         lopeSpeedHz: 8.5,
         lopeDepth: 22,
-        revInertia: 0.26,        // Light single-mass flywheel
-        shiftCutDuration: 0.045, // 45ms lightning PDK shift
+        revInertia: 0.26,
+        shiftCutDuration: 0.045,
         shiftStyle: 'pdk_snap',
         defaultBurble: 'sport'
       },
@@ -723,16 +1130,16 @@
         emoji: '🐂',
         shortName: 'Aventador SVJ V12',
         name: 'LAMBORGHINI AVENTADOR SVJ',
-        spec: '6.5L V12 NA (Gintani F1) · 8,700 RPM',
-        redline: 8700,
-        shiftRpm: 8400,
+        spec: '6.5L V12 NA (Gintani F1) · 9,500 RPM',
+        redline: 9500,
+        shiftRpm: 9100,
         idleRpm: 1050,
-        cylinders: 12,           // 6 firings per rev V12 scream
+        cylinders: 12,
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
         osc3Type: 'triangle',
         harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,     // Piercing Gintani F1 high-order V12 wail
+        harmonic3Ratio: 4.0,
         subGainLevel: 0.48,
         midGainLevel: 0.78,
         highGainLevel: 0.96,
@@ -745,8 +1152,8 @@
         exhaustQ: 4.8,
         lopeSpeedHz: 9.0,
         lopeDepth: 30,
-        revInertia: 0.22,
-        shiftCutDuration: 0.095, // Brutal ISR single-clutch interruption bang
+        revInertia: 0.24,
+        shiftCutDuration: 0.090,
         shiftStyle: 'isr_brutal',
         defaultBurble: 'akra_crack'
       },
@@ -764,7 +1171,7 @@
         osc1Type: 'sawtooth',
         osc2Type: 'square',
         osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,     // 180-deg flat-plane even firing shriek
+        harmonic2Ratio: 2.0,
         harmonic3Ratio: 3.5,
         subGainLevel: 0.35,
         midGainLevel: 0.85,
@@ -789,16 +1196,16 @@
         emoji: '🎺',
         shortName: 'Ferrari 812 Novitec',
         name: 'FERRARI 812 SUPERFAST (NOVITEC)',
-        spec: '6.5L V12 NA · 8,900 RPM · F1 DCT',
-        redline: 8900,
-        shiftRpm: 8600,
+        spec: '6.5L V12 NA · 9,500 RPM · F1 DCT',
+        redline: 9500,
+        shiftRpm: 9100,
         idleRpm: 1020,
         cylinders: 12,
         osc1Type: 'sawtooth',
         osc2Type: 'triangle',
         osc3Type: 'sawtooth',
         harmonic2Ratio: 1.5,
-        harmonic3Ratio: 3.0,     // Pure brass-trumpet V12 overtones
+        harmonic3Ratio: 3.0,
         subGainLevel: 0.40,
         midGainLevel: 0.80,
         highGainLevel: 0.95,
@@ -811,7 +1218,7 @@
         exhaustQ: 5.0,
         lopeSpeedHz: 9.5,
         lopeDepth: 18,
-        revInertia: 0.25,
+        revInertia: 0.26,
         shiftCutDuration: 0.050,
         shiftStyle: 'pdk_snap',
         defaultBurble: 'sport'
@@ -830,21 +1237,21 @@
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
         osc3Type: 'sine',
-        harmonic2Ratio: 2.0,     // Yamaha acoustic octaves
+        harmonic2Ratio: 2.0,
         harmonic3Ratio: 4.0,
         subGainLevel: 0.30,
         midGainLevel: 0.78,
         highGainLevel: 0.98,
         turboWhineLevel: 0.08,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.96, // Titanium muffler acoustic resonance
+        titaniumGainLevel: 0.96,
         formant1Hz: 1480,
         formant2Hz: 2960,
         exhaustResonanceHz: 680,
         exhaustQ: 5.8,
         lopeSpeedHz: 9.2,
         lopeDepth: 16,
-        revInertia: 0.32,        // Revs from idle to 9k in 0.6 seconds!
+        revInertia: 0.32,
         shiftCutDuration: 0.065,
         shiftStyle: 'akra_crack',
         defaultBurble: 'sport'
@@ -868,7 +1275,7 @@
         subGainLevel: 0.58,
         midGainLevel: 0.82,
         highGainLevel: 0.80,
-        turboWhineLevel: 0.65,   // Aggressive twin-turbo spool
+        turboWhineLevel: 0.65,
         scWhineLevel: 0.0,
         titaniumGainLevel: 0.78,
         formant1Hz: 1320,
@@ -896,7 +1303,7 @@
         osc1Type: 'sawtooth',
         osc2Type: 'sawtooth',
         osc3Type: 'triangle',
-        harmonic2Ratio: 1.5,     // Odd-firing 90° V10 interval howl
+        harmonic2Ratio: 1.5,
         harmonic3Ratio: 2.5,
         subGainLevel: 0.45,
         midGainLevel: 0.78,
@@ -917,10 +1324,10 @@
       },
       amg_v8: {
         id: 'amg_v8',
-        category: 'n_turbo',
+        category: 'supercar',
         emoji: '🔨',
-        shortName: 'AMG V8 BiTurbo',
-        name: 'MERCEDES-AMG C63 / GT V8',
+        shortName: 'AMG GT Black Series',
+        name: 'MERCEDES-AMG GT BLACK SERIES V8',
         spec: '4.0L V8 BiTurbo · 7,200 RPM',
         redline: 7200,
         shiftRpm: 6750,
@@ -929,7 +1336,7 @@
         osc1Type: 'sawtooth',
         osc2Type: 'square',
         osc3Type: 'sawtooth',
-        harmonic2Ratio: 0.5,     // Deep Crossplane V8 Sub-bass rumble
+        harmonic2Ratio: 0.5,
         harmonic3Ratio: 1.5,
         subGainLevel: 0.98,
         midGainLevel: 0.78,
@@ -948,42 +1355,9 @@
         shiftStyle: 'dct_fart',
         defaultBurble: 'n_ignition'
       },
-      ioniq5n_ignition: {
-        id: 'ioniq5n_ignition',
-        category: 'n_turbo',
-        emoji: '🏁',
-        shortName: 'IONIQ 5 N Ignition',
-        name: 'HYUNDAI IONIQ 5 N · IGNITION',
-        spec: '2.0T WRC Rally · 8,000 RPM · N e-Shift',
-        redline: 8000,
-        shiftRpm: 7500,
-        idleRpm: 920,
-        cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 3.0,
-        subGainLevel: 0.68,
-        midGainLevel: 0.84,
-        highGainLevel: 0.58,
-        turboWhineLevel: 0.62,
-        scWhineLevel: 0.0,
-        titaniumGainLevel: 0.35,
-        formant1Hz: 1150,
-        formant2Hz: 2300,
-        exhaustResonanceHz: 285,
-        exhaustQ: 3.6,
-        lopeSpeedHz: 6.5,
-        lopeDepth: 28,
-        revInertia: 0.21,
-        shiftCutDuration: 0.085,
-        shiftStyle: 'n_eshift',
-        defaultBurble: 'n_ignition'
-      },
       akrapovic: {
         id: 'akrapovic',
-        category: 'n_turbo',
+        category: 'supercar',
         emoji: '🦂',
         shortName: 'Akrapovič Titanium',
         name: 'AKRAPOVIČ EVOLUTION TITANIUM',
@@ -1002,7 +1376,7 @@
         highGainLevel: 0.92,
         turboWhineLevel: 0.25,
         scWhineLevel: 0.0,
-        titaniumGainLevel: 0.98, // Maximum Dual Titanium Formant Resonance
+        titaniumGainLevel: 0.98,
         formant1Hz: 1420,
         formant2Hz: 2680,
         exhaustResonanceHz: 510,
@@ -1014,42 +1388,9 @@
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
       },
-      ioniq5n_supersonic: {
-        id: 'ioniq5n_supersonic',
-        category: 'n_turbo',
-        emoji: '✈️',
-        shortName: 'IONIQ 5 N Supersonic',
-        name: 'HYUNDAI IONIQ 5 N · SUPERSONIC',
-        spec: 'Twin-Turbine Jet Fighter · Sonic Boom',
-        redline: 8500,
-        shiftRpm: 8000,
-        idleRpm: 1100,
-        cylinders: 10,
-        osc1Type: 'triangle',
-        osc2Type: 'sine',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.2,
-        subGainLevel: 0.72,
-        midGainLevel: 0.55,
-        highGainLevel: 0.88,
-        turboWhineLevel: 0.96,   // Jet fighter afterburner whine
-        scWhineLevel: 0.0,
-        titaniumGainLevel: 0.45,
-        formant1Hz: 1600,
-        formant2Hz: 3200,
-        exhaustResonanceHz: 640,
-        exhaustQ: 4.5,
-        lopeSpeedHz: 10.0,
-        lopeDepth: 12,
-        revInertia: 0.25,
-        shiftCutDuration: 0.070,
-        shiftStyle: 'sonic_boom',
-        defaultBurble: 'sport'
-      },
       hellcat: {
         id: 'hellcat',
-        category: 'n_turbo',
+        category: 'supercar',
         emoji: '😈',
         shortName: 'Dodge Hellcat Redeye',
         name: 'DODGE CHALLENGER HELLCAT REDEYE',
@@ -1061,20 +1402,20 @@
         osc1Type: 'sawtooth',
         osc2Type: 'square',
         osc3Type: 'triangle',
-        harmonic2Ratio: 0.5,     // Deep American Pushrod V8 chop
+        harmonic2Ratio: 0.5,
         harmonic3Ratio: 1.5,
         subGainLevel: 1.0,
         midGainLevel: 0.82,
         highGainLevel: 0.45,
         turboWhineLevel: 0.0,
-        scWhineLevel: 0.96,      // Iconic screaming IHI Supercharger Whine!
+        scWhineLevel: 0.96,
         titaniumGainLevel: 0.18,
         formant1Hz: 750,
         formant2Hz: 1650,
         exhaustResonanceHz: 155,
         exhaustQ: 4.6,
         lopeSpeedHz: 4.8,
-        lopeDepth: 82,           // Heavy cam lope chop at idle
+        lopeDepth: 82,
         revInertia: 0.16,
         shiftCutDuration: 0.085,
         shiftStyle: 'dct_fart',
@@ -1082,15 +1423,15 @@
       },
       rx7_4rotor: {
         id: 'rx7_4rotor',
-        category: 'special',
+        category: 'supercar',
         emoji: '🌀',
         shortName: 'RX-7 4-Rotor (26B)',
         name: 'MAZDA RX-7 787B 4-ROTOR (26B)',
-        spec: 'Peripheral Port 4-Rotor · 9,500 RPM',
-        redline: 9500,
-        shiftRpm: 9100,
+        spec: 'Peripheral Port 4-Rotor · 10,000 RPM',
+        redline: 10000,
+        shiftRpm: 9500,
         idleRpm: 1350,
-        cylinders: 8,            // 4-Rotor high firing density
+        cylinders: 8,
         osc1Type: 'sawtooth',
         osc2Type: 'square',
         osc3Type: 'sawtooth',
@@ -1106,82 +1447,16 @@
         formant2Hz: 2750,
         exhaustResonanceHz: 590,
         exhaustQ: 5.2,
-        lopeSpeedHz: 11.2,       // Iconic "Brap-Brap-Brap-Brap" rotary idle pulse!
+        lopeSpeedHz: 11.2,
         lopeDepth: 115,
         revInertia: 0.29,
         shiftCutDuration: 0.055,
         shiftStyle: 'akra_crack',
         defaultBurble: 'akra_crack'
       },
-      chiron: {
-        id: 'chiron',
-        category: 'special',
-        emoji: '👑',
-        shortName: 'Bugatti Chiron W16',
-        name: 'BUGATTI CHIRON PUR SPORT',
-        spec: '8.0L Quad-Turbo W16 · 6,900 RPM',
-        redline: 6900,
-        shiftRpm: 6600,
-        idleRpm: 800,
-        cylinders: 16,           // Massive 16-cylinder wall of thunder
-        osc1Type: 'sawtooth',
-        osc2Type: 'square',
-        osc3Type: 'sawtooth',
-        harmonic2Ratio: 0.5,
-        harmonic3Ratio: 1.5,
-        subGainLevel: 1.0,
-        midGainLevel: 0.85,
-        highGainLevel: 0.55,
-        turboWhineLevel: 0.88,   // 4 Turbochargers spooling simultaneously
-        scWhineLevel: 0.0,
-        titaniumGainLevel: 0.45,
-        formant1Hz: 920,
-        formant2Hz: 1980,
-        exhaustResonanceHz: 190,
-        exhaustQ: 3.9,
-        lopeSpeedHz: 6.2,
-        lopeDepth: 40,
-        revInertia: 0.18,
-        shiftCutDuration: 0.065,
-        shiftStyle: 'dct_fart',
-        defaultBurble: 'n_ignition'
-      },
-      s1000rr: {
-        id: 's1000rr',
-        category: 'special',
-        emoji: '🏍️',
-        shortName: 'BMW S1000RR (Austin)',
-        name: 'BMW S1000RR — AUSTIN RACING GP1R',
-        spec: '999cc ShiftCam I4 · 14,500 RPM · Quickshifter',
-        redline: 14500,
-        shiftRpm: 13900,
-        idleRpm: 1250,
-        cylinders: 4,
-        osc1Type: 'sawtooth',
-        osc2Type: 'sawtooth',
-        osc3Type: 'square',
-        harmonic2Ratio: 2.0,
-        harmonic3Ratio: 4.0,     // Shorty titanium GP1R open can scream
-        subGainLevel: 0.28,
-        midGainLevel: 0.85,
-        highGainLevel: 0.98,
-        turboWhineLevel: 0.12,
-        scWhineLevel: 0.0,
-        titaniumGainLevel: 0.96,
-        formant1Hz: 1580,
-        formant2Hz: 3150,
-        exhaustResonanceHz: 780,
-        exhaustQ: 5.5,
-        lopeSpeedHz: 9.8,
-        lopeDepth: 34,
-        revInertia: 0.36,        // Instantaneous superbike throttle snap
-        shiftCutDuration: 0.038, // 38ms Up/Down Quickshifter Ignition Cut
-        shiftStyle: 'akra_crack',
-        defaultBurble: 'akra_crack'
-      },
       f1_v10: {
         id: 'f1_v10',
-        category: 'special',
+        category: 'supercar',
         emoji: '🏆',
         shortName: 'F1 V10 19,000 RPM',
         name: 'FORMULA 1 V10 ERA SCREAMER',
@@ -1216,7 +1491,7 @@
 
     // 8-Speed Gearbox Max Speeds (km/h at Redline)
     const GEAR_MAX_SPEEDS = [0, 58, 96, 136, 178, 220, 262, 300, 338];
-    const STORAGE_KEY = 'plaid_sound_synth_v3_settings';
+    const STORAGE_KEY = 'plaid_sound_synth_v4_settings';
 
     /***************************************************************************
      * 2. REAL-TIME APPLICATION STATE
@@ -1224,7 +1499,7 @@
     const state = {
       engineRunning: false,
       cranking: false,
-      presetKey: 'gt3rs',
+      presetKey: 's1000rr_gp1rs',
       categoryFilter: 'all',
       inputMode: 'sim',          // 'sim' | 'real'
       transMode: 'auto',         // 'auto' | 'manual'
@@ -1335,12 +1610,12 @@
       try {
         localStorage.removeItem(STORAGE_KEY);
       } catch (e) {}
-      state.presetKey = 'gt3rs';
+      state.presetKey = 's1000rr_gp1rs';
       state.categoryFilter = 'all';
       state.inputMode = 'sim';
       state.transMode = 'auto';
       state.exhaustValveOpen = true;
-      state.burbleMode = 'sport';
+      state.burbleMode = 'n_ignition';
       state.masterVolume = 0.85;
       state.gSensitivity = 1.6;
       state.pitchOffsetPct = 0;
@@ -1356,7 +1631,7 @@
 
       syncAllUIFromState();
       saveSettingsToStorage();
-      showTelemetryNotice('🔄 모든 사운드 및 센서 설정이 초기값(911 GT3 RS)으로 복원되었습니다.');
+      showTelemetryNotice("🔄 모든 사운드 설정이 오너 디폴트('25 BMW S1000RR Austin GP1RS)로 복원되었습니다.");
     }
 
     function flashSaveBadge() {
@@ -1645,6 +1920,55 @@
         boomOsc.start(now);
         boomOsc.stop(now + 0.26);
         triggerExhaustPop(1.3);
+      } else if (p.shiftStyle === 'ev_chord') {
+        // Porsche Taycan / IONIQ 6 N Lightspeed futuristic dual-inverter harmonic shift pulse
+        const chordOsc1 = audioCtx.createOscillator();
+        const chordOsc2 = audioCtx.createOscillator();
+        const chordGain = audioCtx.createGain();
+        chordOsc1.type = 'sine';
+        chordOsc2.type = 'triangle';
+        chordOsc1.frequency.setValueAtTime(520, now);
+        chordOsc1.frequency.exponentialRampToValueAtTime(190, now + 0.14);
+        chordOsc2.frequency.setValueAtTime(780, now);
+        chordOsc2.frequency.exponentialRampToValueAtTime(285, now + 0.14);
+        chordGain.gain.setValueAtTime(0.75 * valveScale, now);
+        chordGain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+        chordOsc1.connect(chordGain);
+        chordOsc2.connect(chordGain);
+        chordGain.connect(masterGain);
+        chordOsc1.start(now);
+        chordOsc2.start(now);
+        chordOsc1.stop(now + 0.155);
+        chordOsc2.stop(now + 0.155);
+      } else if (p.shiftStyle === 'magma_vgs') {
+        // Genesis GV60 Magma Virtual Gear Shift deep bass thud + crisp metallic burble
+        triggerExhaustPop(1.25);
+        const vgsOsc = audioCtx.createOscillator();
+        const vgsGain = audioCtx.createGain();
+        vgsOsc.type = 'triangle';
+        vgsOsc.frequency.setValueAtTime(135, now);
+        vgsOsc.frequency.exponentialRampToValueAtTime(42, now + 0.11);
+        vgsGain.gain.setValueAtTime(0.90 * valveScale, now);
+        vgsGain.gain.exponentialRampToValueAtTime(0.01, now + 0.115);
+        vgsOsc.connect(vgsGain);
+        vgsGain.connect(masterGain);
+        vgsOsc.start(now);
+        vgsOsc.stop(now + 0.12);
+      } else if (p.shiftStyle === 'quickshifter_cut') {
+        // Superbike 35ms Shift Assistant Pro / KQS / DQS ignition cut + titanium pipe gunshot!
+        const isFullDecat = state.presetKey !== 's1000rr_gp1rs';
+        triggerExhaustPop(isFullDecat ? 1.65 : 1.25, true);
+        const qsOsc = audioCtx.createOscillator();
+        const qsGain = audioCtx.createGain();
+        qsOsc.type = 'sawtooth';
+        qsOsc.frequency.setValueAtTime(340, now);
+        qsOsc.frequency.exponentialRampToValueAtTime(95, now + 0.042);
+        qsGain.gain.setValueAtTime(0.85 * valveScale, now);
+        qsGain.gain.exponentialRampToValueAtTime(0.01, now + 0.045);
+        qsOsc.connect(qsGain);
+        qsGain.connect(masterGain);
+        qsOsc.start(now);
+        qsOsc.stop(now + 0.048);
       } else if (p.shiftStyle === 'isr_brutal') {
         // Aventador SVJ Single-Clutch ISR mechanical thud + gunshot flame
         triggerExhaustPop(1.6, true);
@@ -2190,8 +2514,9 @@
 
     function setCategoryFilter(cat) {
       state.categoryFilter = cat;
-      ['all', 'supercar', 'n_turbo', 'special'].forEach(c => {
+      ['all', 'ev_sound', 'superbike', 'supercar'].forEach(c => {
         const btn = document.getElementById(`cat-${c}`);
+        if (!btn) return;
         if (c === cat) {
           btn.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white transition shadow';
         } else {
@@ -2581,6 +2906,19 @@
       const shiftProgress = Math.max(0, (state.rpm - shiftStartRpm) / (dynamicShiftRpm - shiftStartRpm));
       const activeLeds = Math.floor(shiftProgress * 15);
       const isShiftBlink = state.rpm >= dynamicShiftRpm;
+
+      // IONIQ 6 N / GV60 Magma Style "N Ambient Shift Light" on Cockpit Bezel
+      const bezelEl = document.getElementById('cockpitBezel');
+      const ambientEl = document.getElementById('clusterAmbientGlow');
+      if (state.engineRunning && state.rpm >= p.redline * 0.85) {
+        bezelEl.classList.add('ambient-shift-glow');
+        ambientEl.className = 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[560px] h-64 rounded-full bg-cyan-400/35 blur-3xl transition-all duration-100';
+      } else {
+        bezelEl.classList.remove('ambient-shift-glow');
+        ambientEl.className = p.category === 'ev_sound'
+          ? 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-56 rounded-full bg-cyan-500/20 blur-3xl transition-all duration-300'
+          : 'pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[480px] h-56 rounded-full bg-red-600/20 blur-3xl transition-all duration-300';
+      }
 
       const bar = document.getElementById('shiftLightBar');
       if (isShiftBlink && state.engineRunning) {
