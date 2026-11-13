@@ -1,1525 +1,2404 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Plaid Sound Synth Pro — 12 Authentic Clusters & 24 Exhaust Engine</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@600;700;800&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
-    body {
-      background-color: #06080c;
-      background-image: radial-gradient(circle at 50% 0%, rgba(0, 240, 255, 0.08) 0%, transparent 60%);
-      color: #f3f4f6;
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow-x: hidden;
-    }
-    .font-mono-tech { font-family: 'JetBrains Mono', monospace; }
-    .font-display { font-family: 'Orbitron', sans-serif; }
-    .carbon-card {
-      background: linear-gradient(145deg, rgba(18, 22, 31, 0.96), rgba(9, 11, 16, 0.98));
-      border: 1px solid rgba(255, 255, 255, 0.09);
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.75);
-    }
-    .cockpit-bezel {
-      background: radial-gradient(circle at 50% 15%, rgba(25, 31, 46, 0.98) 0%, rgba(5, 7, 11, 1) 85%);
-      border: 1.5px solid rgba(255, 255, 255, 0.14);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), inset 0 1px 14px rgba(0, 240, 255, 0.08);
-      transition: border-color 0.08s ease, box-shadow 0.08s ease;
-    }
-    .pop-flash-glow {
-      border-color: rgba(255, 130, 0, 0.95) !important;
-      box-shadow: 0 0 42px rgba(255, 90, 0, 0.75), inset 0 0 26px rgba(255, 180, 0, 0.35) !important;
-    }
-    input[type="range"] {
-      -webkit-appearance: none; appearance: none;
-      width: 100%; height: 7px; background: #1c2230; border-radius: 999px; outline: none;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none; appearance: none;
-      width: 18px; height: 18px; border-radius: 50%;
-      background: linear-gradient(135deg, #ff3b1f, #c8000b);
-      border: 2px solid #fff; cursor: pointer;
-      box-shadow: 0 0 8px rgba(255, 60, 30, 0.85);
-    }
-    .pedal-btn { touch-action: none; transition: transform 0.05s ease, box-shadow 0.05s ease; }
-    .pedal-btn:active, .pedal-btn.pressed { transform: scale(0.96); }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #080a0f; }
-    ::-webkit-scrollbar-thumb { background: #262d3d; border-radius: 999px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>PLAID SYNTH PRO — Real-Car Cluster &amp; Acoustic Exhaust Engine</title>
+    <style>
+        :root {
+            --bg-main: #06080e;
+            --bg-card: #0e131f;
+            --bg-card-hover: #151d2f;
+            --border-color: rgba(255, 255, 255, 0.11);
+            --primary: #00e5ff;
+            --accent: #ff2a54;
+            --warn: #ffb800;
+            --ok: #00e676;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+            --font-sans: 'Pretendard', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', 'SF Mono', 'Roboto Mono', monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%, #111827 0%, #05070b 75%);
+            color: var(--text-main);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            padding: 10px 12px 28px;
+            overflow-x: hidden;
+        }
+
+        .app-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* 1. 상단 헤더 바 */
+        .header-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: rgba(14, 19, 31, 0.92);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-block {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .brand-title-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .app-logo {
+            font-family: var(--font-mono);
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #00e5ff, #38bdf8, #ff2a54);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .badge-pill {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(0, 229, 255, 0.12);
+            border: 1px solid rgba(0, 229, 255, 0.35);
+            color: #38bdf8;
+        }
+
+        .badge-pill.save-on {
+            background: rgba(0, 230, 118, 0.12);
+            border-color: rgba(0, 230, 118, 0.35);
+            color: #00e676;
+        }
+
+        .active-car-spec {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-top {
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 9px;
+            padding: 7px 11px;
+            font-size: 0.76rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .btn-top:hover {
+            background: rgba(255, 255, 255, 0.13);
+            border-color: var(--primary);
+        }
+        .btn-top:active {
+            transform: scale(0.96);
+        }
+
+        .btn-engine-start {
+            background: linear-gradient(135deg, #ff2a54, #d90429);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 10px;
+            padding: 8px 15px;
+            font-size: 0.84rem;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+            cursor: pointer;
+            box-shadow: 0 0 18px rgba(255, 42, 84, 0.45);
+            transition: all 0.15s ease;
+        }
+        .btn-engine-start.on {
+            background: linear-gradient(135deg, #00e676, #059669);
+            box-shadow: 0 0 18px rgba(0, 230, 118, 0.45);
+            color: #022c22;
+        }
+
+        /* 2. 12개 브랜드 계기판 테마 셀렉터 바 (G-Force / 계기판 상단 위치) */
+        .theme-bar-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 13px;
+            padding: 8px 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .theme-bar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.74rem;
+            color: var(--text-sub);
+            font-weight: 700;
+        }
+
+        .btn-auto-theme {
+            background: rgba(0, 230, 118, 0.14);
+            border: 1px solid rgba(0, 230, 118, 0.4);
+            color: #00e676;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-auto-theme.off {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: var(--border-color);
+            color: var(--text-sub);
+        }
+
+        .theme-chips {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(122px, 1fr));
+            gap: 5px;
+        }
+
+        .theme-chip {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-color);
+            color: #cbd5e1;
+            border-radius: 8px;
+            padding: 6px 8px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            cursor: pointer;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: all 0.14s ease;
+        }
+        .theme-chip:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .theme-chip.active {
+            background: rgba(0, 229, 255, 0.16);
+            border-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 0 12px rgba(0, 229, 255, 0.25);
+        }
+
+        /* 3. 실차 계기판 캔버스 영역 */
+        .cluster-container {
+            position: relative;
+            width: 100%;
+            background: #030508;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.85), 0 12px 30px rgba(0, 0, 0, 0.65);
+        }
+
+        .cluster-hud-strip {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 7px 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: #94a3b8;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .hud-tag {
+            padding: 2px 7px;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e2e8f0;
+        }
+        .hud-tag.valve-open {
+            background: rgba(255, 184, 0, 0.16);
+            color: #fbbf24;
+            border: 1px solid rgba(255, 184, 0, 0.35);
+        }
+        .hud-tag.pop-flash {
+            background: rgba(255, 42, 84, 0.28);
+            color: #ff4d6d;
+            border: 1px solid #ff2a54;
+            opacity: 0.25;
+            transition: opacity 0.06s ease, transform 0.06s ease;
+        }
+        .hud-tag.pop-flash.fire {
+            opacity: 1;
+            transform: scale(1.06);
+            box-shadow: 0 0 12px rgba(255, 42, 84, 0.6);
+        }
+
+        .canvas-box {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @media (max-width: 640px) {
+            .canvas-box {
+                height: 290px;
+            }
+        }
+
+        #cluster-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* 4. 특수 주행 데모 & 변속/페달 컨트롤 덱 */
+        .controls-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 7px;
+        }
+
+        .btn-demo {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            border-radius: 10px;
+            padding: 9px 10px;
+            font-size: 0.77rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.14s ease;
+        }
+        .btn-demo:hover {
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .btn-demo.active {
+            background: rgba(255, 42, 84, 0.2);
+            border-color: var(--accent);
+            color: #ffccd5;
+            box-shadow: 0 0 14px rgba(255, 42, 84, 0.3);
+        }
+
+        .shift-row {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 8px;
+            align-items: center;
+        }
+
+        @media (max-width: 640px) {
+            .shift-row {
+                grid-template-columns: 1fr 1fr;
+            }
+            .trans-mode-group {
+                grid-column: 1 / -1;
+                justify-content: center;
+            }
+        }
+
+        .btn-paddle {
+            background: linear-gradient(180deg, #172033, #0d1320);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            border-radius: 11px;
+            padding: 11px 12px;
+            font-family: var(--font-mono);
+            font-size: 0.86rem;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+        .btn-paddle:active {
+            transform: scale(0.96);
+            border-color: var(--primary);
+            background: rgba(0, 229, 255, 0.18);
+        }
+
+        .trans-mode-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-tmode {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            border-radius: 9px;
+            padding: 10px 13px;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
+            font-weight: 800;
+            cursor: pointer;
+        }
+        .btn-tmode.active {
+            background: rgba(0, 229, 255, 0.18);
+            border-color: var(--primary);
+            color: #ffffff;
+        }
+
+        .pedals-row {
+            display: grid;
+            grid-template-columns: 1fr 1.8fr;
+            gap: 10px;
+        }
+
+        .pedal-box {
+            position: relative;
+            height: 76px;
+            background: rgba(0, 0, 0, 0.55);
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            border-radius: 13px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            touch-action: none;
+        }
+
+        .pedal-fill {
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0%;
+            transition: width 0.04s linear;
+        }
+        .pedal-box.brake .pedal-fill {
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.25), #ef4444);
+        }
+        .pedal-box.throttle .pedal-fill {
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.22), #00e5ff, #ff2a54);
+        }
+
+        .pedal-title {
+            position: relative;
+            z-index: 2;
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            pointer-events: none;
+        }
+        .pedal-sub {
+            position: relative;
+            z-index: 2;
+            font-size: 0.7rem;
+            color: #cbd5e1;
+            margin-top: 2px;
+            pointer-events: none;
+        }
+
+        /* 5. 24종 사운드 프리셋 패널 */
+        .presets-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .section-head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title {
+            font-size: 0.88rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            color: #e2e8f0;
+        }
+
+        .cat-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .cat-tab {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-sub);
+            border-radius: 8px;
+            padding: 5px 10px;
+            font-size: 0.73rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .cat-tab.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #020617;
+            font-weight: 900;
+        }
+
+        .preset-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+            gap: 7px;
+            max-height: 310px;
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        .preset-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 9px 11px;
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.14s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            color: var(--text-main);
+        }
+        .preset-card:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(0, 229, 255, 0.4);
+        }
+        .preset-card.active {
+            background: rgba(0, 229, 255, 0.13);
+            border-color: var(--primary);
+            box-shadow: 0 0 14px rgba(0, 229, 255, 0.2);
+        }
+
+        .preset-card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 6px;
+        }
+        .preset-name {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .preset-rpm-tag {
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: var(--primary);
+            background: rgba(0, 229, 255, 0.1);
+            padding: 1px 6px;
+            border-radius: 4px;
+        }
+        .preset-desc {
+            font-size: 0.69rem;
+            color: var(--text-sub);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* 6. 300% 후적 & 사운드 믹서 패널 */
+        .mixer-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 15px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .mixer-top {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-burst-fire {
+            background: linear-gradient(135deg, #ff5400, #ff0054);
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            padding: 9px 16px;
+            font-size: 0.8rem;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 42, 84, 0.4);
+        }
+        .btn-burst-fire:active {
+            transform: scale(0.96);
+        }
+
+        .sliders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px 18px;
+        }
+
+        .slider-box {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .slider-label-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #cbd5e1;
+        }
+        .slider-val {
+            font-family: var(--font-mono);
+            color: var(--primary);
+            font-weight: 800;
+        }
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+            cursor: pointer;
+            height: 24px;
+        }
+
+        /* 모달 & 토스트 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 100;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal-card {
+            width: 100%;
+            max-width: 620px;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 86vh;
+            overflow-y: auto;
+        }
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+        .guide-step {
+            background: rgba(255, 255, 255, 0.04);
+            border-left: 3px solid var(--primary);
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+        }
+        .guide-step h4 {
+            color: #ffffff;
+            margin-bottom: 3px;
+            font-size: 0.84rem;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: #00e676;
+            color: #022c22;
+            padding: 9px 18px;
+            border-radius: 999px;
+            font-size: 0.82rem;
+            font-weight: 900;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.22s ease;
+            z-index: 200;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-2 sm:p-3 max-w-7xl mx-auto">
-
-  <!-- 1. TOP HEADER BAR -->
-  <header class="carbon-card rounded-2xl px-3 py-2 mb-2.5 flex flex-wrap items-center justify-between gap-2">
-    <div class="flex items-center gap-2.5">
-      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600/40 to-zinc-900 border border-red-500/60 flex items-center justify-center text-lg shadow">
-        <span id="activeEmoji">🏍️</span>
-      </div>
-      <div>
-        <div class="flex flex-wrap items-center gap-1.5">
-          <span class="font-display text-xs sm:text-sm font-black tracking-wider text-white">PLAID <span class="text-red-500">SYNTH</span> <span class="text-cyan-400">PRO</span></span>
-          <span class="text-zinc-600">|</span>
-          <span id="activeCarBadge" class="font-display text-xs sm:text-sm font-bold text-amber-300">'25 BMW S1000RR (Austin GP1RS)</span>
-        </div>
-        <div class="flex flex-wrap items-center gap-2 text-[10px] font-mono-tech text-zinc-400">
-          <span id="activeSpecText" class="text-cyan-400 font-bold">999cc ShiftCam I4 · 14,600 RPM</span>
-          <span id="activeThemeBadge" class="px-1.5 py-0.2 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">테마: BMW S1000RR TFT</span>
-          <span id="saveStatusBadge" class="text-emerald-400">💾 자동저장 ON</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="flex flex-wrap items-center gap-1.5 ml-auto">
-      <input id="wavFileInput" type="file" accept=".wav,.mp3,.ogg,.m4a,audio/*" class="hidden" onchange="handleCustomWav(event)" />
-      <button onclick="document.getElementById('wavFileInput').click()" class="px-2.5 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/40 text-xs font-bold transition">
-        📂 <span id="wavBtnLabel">.WAV/.MP3 로드</span>
-      </button>
-      <button onclick="toggleHelpModal(true)" class="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-100 border border-white/15 text-xs font-bold transition">
-        📖 사용 설명서
-      </button>
-      <button id="engineStartBtn" onclick="toggleEnginePower()" class="px-3.5 py-1.5 rounded-xl font-display font-black text-xs tracking-wider uppercase bg-gradient-to-r from-red-600 to-amber-600 hover:from-red-500 hover:to-amber-500 text-white border border-white/30 shadow-lg flex items-center gap-1.5 transition active:scale-95">
-        <span id="engineDot" class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
-        <span id="engineBtnLabel">🔥 ENGINE START</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- 2. HERO INSTRUMENT CLUSTER SECTION (VERY TOP) -->
-  <section id="cockpitBezel" class="cockpit-bezel rounded-3xl p-2.5 sm:p-3.5 mb-3">
-    <!-- Cluster Theme Switcher Bar (12 Authentic Brand Themes + Auto Sync Toggle) -->
-    <div class="bg-zinc-950/90 rounded-2xl p-2 mb-2 border border-white/10">
-      <div class="flex flex-wrap items-center justify-between gap-1 mb-1.5 px-1">
-        <span class="text-[11px] font-display font-bold text-cyan-300">🎨 12개 브랜드 실차 계기판 테마 (차종 선택 시 자동 전환 또는 수동 고정)</span>
-        <button id="autoThemeBtn" onclick="toggleAutoTheme()" class="px-2.5 py-0.5 rounded-lg text-[10px] font-mono-tech font-bold bg-emerald-500/25 text-emerald-300 border border-emerald-400 transition">
-          🔄 차량 연동 자동테마: ON
-        </button>
-      </div>
-      <div id="themeButtonsBar" class="flex items-center gap-1.5 overflow-x-auto pb-1"></div>
-    </div>
-
-    <!-- Main High-Resolution Instrument Cluster Canvas -->
-    <div class="relative w-full rounded-2xl overflow-hidden bg-black border border-white/15 shadow-2xl">
-      <canvas id="clusterCanvas" width="960" height="360" class="w-full h-[250px] sm:h-[310px] md:h-[350px] block"></canvas>
-
-      <!-- Top Overlay Status Pill -->
-      <div class="pointer-events-none absolute top-2 left-3 right-3 flex items-center justify-between">
-        <div class="flex items-center gap-1.5">
-          <span id="transBadge" class="px-2 py-0.5 rounded bg-black/75 border border-white/15 font-mono-tech text-[10px] text-cyan-300 font-bold">AUTO 8-DCT</span>
-          <span id="valveBadge" class="px-2 py-0.5 rounded bg-black/75 border border-red-500/40 font-mono-tech text-[10px] text-red-400 font-bold">🔊 VALVE: OPEN</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <span id="popFlashBadge" class="px-2.5 py-0.5 rounded bg-orange-500/20 border border-orange-400/60 font-mono-tech text-[10px] text-orange-300 font-extrabold opacity-25 transition-opacity duration-75">
-            💥 300% BACKFIRE POP!
-          </span>
-        </div>
-      </div>
-    </div>
-
-    <!-- 3. DRIVING & QUICK CONTROL DECK (Directly below cluster) -->
-    <div class="mt-2.5 grid grid-cols-1 lg:grid-cols-12 gap-2.5 items-stretch">
-      <!-- Left Quick Feature Buttons (5 Cols) -->
-      <div class="lg:col-span-5 bg-zinc-950/85 rounded-2xl p-2.5 border border-white/10 grid grid-cols-2 sm:grid-cols-3 gap-1.5">
-        <button id="launchDemoBtn" onclick="toggleLaunchDemo()" class="py-2 px-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/60 text-amber-300 font-bold text-xs flex items-center justify-center gap-1 shadow active:scale-95">
-          🚀 0→200 런치데모
-        </button>
-        <button onclick="triggerAutoBlipTest()" class="py-2 px-2 rounded-xl bg-orange-500/25 hover:bg-orange-500/35 border border-orange-400/70 text-orange-200 font-bold text-xs flex items-center justify-center gap-1 shadow active:scale-95">
-          💨 4,000RPM 후적테스트
-        </button>
-        <button id="ngbBtn" onclick="triggerNGB()" class="py-2 px-2 rounded-xl bg-gradient-to-r from-red-600/80 to-amber-600/80 hover:from-red-500 hover:to-amber-500 text-white font-display font-bold text-xs border border-white/25 flex items-center justify-center gap-1 shadow active:scale-95">
-          🔥 NGB 10초 부스트
-        </button>
-        <button id="valveBtn" onclick="toggleValve()" class="py-2 px-2 rounded-xl bg-red-500/20 border border-red-500/60 text-red-200 font-bold text-xs flex items-center justify-center gap-1 active:scale-95">
-          🔊 가변배기: OPEN
-        </button>
-        <button id="burbleBtn" onclick="cycleBurbleMode()" class="py-2 px-2 rounded-xl bg-orange-500/20 border border-orange-400/60 text-orange-300 font-bold text-xs flex items-center justify-center gap-1 active:scale-95">
-          🍿 팝콘: AKRA 총성
-        </button>
-        <div class="flex gap-1">
-          <button id="driveModeBtn" onclick="toggleDriveMode()" class="flex-1 py-2 px-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-cyan-500/40 text-cyan-300 font-bold text-[11px] truncate">
-            🕹️ 시뮬레이터
-          </button>
-          <button onclick="calibrateZeroG()" title="스마트폰 거치대 각도 영점 조절" class="px-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-xs">
-            🎯
-          </button>
-        </div>
-      </div>
-
-      <!-- Center Paddles & Manual/Auto Mode (3 Cols) -->
-      <div class="lg:col-span-3 bg-zinc-950/85 rounded-2xl p-2.5 border border-white/10 flex flex-col justify-between gap-1.5">
-        <div class="grid grid-cols-2 gap-1.5 flex-1">
-          <button onclick="paddleShift(-1)" class="pedal-btn rounded-xl bg-zinc-800/95 hover:bg-zinc-700 border border-cyan-500/50 flex flex-col items-center justify-center py-2">
-            <span class="font-display text-sm font-black text-cyan-400">◀ - DOWN</span>
-            <span class="text-[9px] font-mono-tech text-zinc-300">레브매칭+후적 [A]</span>
-          </button>
-          <button onclick="paddleShift(1)" class="pedal-btn rounded-xl bg-zinc-800/95 hover:bg-zinc-700 border border-red-500/50 flex flex-col items-center justify-center py-2">
-            <span class="font-display text-sm font-black text-red-400">UP + ▶</span>
-            <span class="text-[9px] font-mono-tech text-zinc-300">변속컷 폭발 [D]</span>
-          </button>
-        </div>
-        <div class="grid grid-cols-3 gap-1 bg-black p-1 rounded-xl border border-white/10 text-[10px] font-display font-bold">
-          <button id="modeAutoBtn" onclick="setGearboxMode('auto')" class="py-1 rounded-lg bg-red-600 text-white">AUTO (D)</button>
-          <button id="modeManualBtn" onclick="setGearboxMode('manual')" class="py-1 rounded-lg text-zinc-400 hover:text-white">MANUAL</button>
-          <button id="modeNeutralBtn" onclick="setGearboxMode('neutral')" class="py-1 rounded-lg text-amber-400 hover:text-white">NEUTRAL (N)</button>
-        </div>
-      </div>
-
-      <!-- Right Touch Pedals: Brake & Throttle (4 Cols) -->
-      <div class="lg:col-span-4 grid grid-cols-5 gap-2 min-h-[96px]">
-        <button id="brakePedal" class="pedal-btn col-span-2 rounded-2xl bg-gradient-to-b from-zinc-800 to-zinc-950 border-2 border-cyan-500/60 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-lg">
-          <div id="brakeFillBar" class="absolute bottom-0 inset-x-0 bg-cyan-500/30 transition-all duration-75" style="height:0%"></div>
-          <span class="text-[9px] font-mono-tech text-cyan-300 z-10">KEY: S / ↓</span>
-          <div class="font-display text-sm font-black text-white z-10">🛑 BRAKE</div>
-          <span id="brakePctLabel" class="text-[11px] font-mono-tech text-cyan-400 font-bold z-10">0%</span>
-        </button>
-
-        <button id="throttlePedal" class="pedal-btn col-span-3 rounded-2xl bg-gradient-to-b from-zinc-800 via-zinc-900 to-black border-2 border-red-500/85 flex flex-col items-center justify-between p-2.5 relative overflow-hidden shadow-xl">
-          <div id="throttleFillBar" class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-red-600/60 to-amber-500/30 transition-all duration-75" style="height:0%"></div>
-          <span class="text-[9px] font-mono-tech text-amber-300 z-10">KEY: W / ↑ (떼면 후적 폭발!)</span>
-          <div class="font-display text-base sm:text-lg font-black text-white tracking-wider z-10">⚡ THROTTLE</div>
-          <span id="throttlePctLabel" class="text-[11px] font-mono-tech text-red-400 font-bold z-10">0%</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- 4. MIDDLE SECTION: 24 VEHICLE SOUND PRESETS + 300% BACKFIRE AUDIO MIXER -->
-  <main class="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3">
-    <!-- 24 Vehicle Sound Presets (8 Cols) -->
-    <section class="lg:col-span-8 carbon-card rounded-2xl p-3 flex flex-col justify-between">
-      <div class="flex flex-wrap items-center justify-between gap-2 pb-2 mb-2 border-b border-white/10">
-        <div class="flex items-center gap-2">
-          <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
-          <h2 class="font-display text-xs sm:text-sm font-black text-white">24 EXHAUST SOUND PRESETS (클릭 시 즉시 시동 &amp; 사운드 시연)</h2>
-        </div>
-        <div class="flex flex-wrap gap-1">
-          <button onclick="filterPresets('all')" id="tab-all" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white">전체 (24)</button>
-          <button onclick="filterPresets('ev')" id="tab-ev" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10">⚡ EV 가상사운드 (6)</button>
-          <button onclick="filterPresets('bike')" id="tab-bike" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10">🏍️ 슈퍼바이크 (6)</button>
-          <button onclick="filterPresets('supercar')" id="tab-supercar" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10">🏎️ 슈퍼카·포르쉐 (8)</button>
-          <button onclick="filterPresets('special')" id="tab-special" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10">🔨 머슬·F1·로터리 (4)</button>
-        </div>
-      </div>
-
-      <div id="presetCardsGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[340px] overflow-y-auto pr-1"></div>
-    </section>
-
-    <!-- Audio Mixer & Secondary G-Force Telemetry (4 Cols) -->
-    <section class="lg:col-span-4 carbon-card rounded-2xl p-3 flex flex-col justify-between gap-3">
-      <div>
-        <div class="flex items-center justify-between border-b border-white/10 pb-2 mb-2.5">
-          <span class="font-display text-xs sm:text-sm font-black text-orange-400">💥 300% 후적 &amp; 사운드 믹서</span>
-          <button onclick="fireManualPopBurst()" class="px-2.5 py-1 rounded-lg bg-orange-500/25 hover:bg-orange-500/40 border border-orange-400 text-[11px] font-bold text-orange-200 active:scale-95">
-            💥 후적 5연발 즉시격발
-          </button>
-        </div>
-
-        <div class="space-y-3">
-          <div class="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/30">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="font-bold text-orange-200">💥 후적(팝콘) 타격 음량 (다이렉트 버스)</span>
-              <span id="popVolLabel" class="font-mono-tech font-extrabold text-orange-400">220%</span>
+<body>
+    <div class="app-wrap">
+        <!-- 1. 상단 헤더 -->
+        <header class="header-bar">
+            <div class="brand-block">
+                <div class="brand-title-row">
+                    <span class="app-logo">PLAID SYNTH PRO</span>
+                    <span id="header-theme-badge" class="badge-pill">계기판: S1000RR TFT</span>
+                    <span class="badge-pill save-on">자동저장 ON</span>
+                </div>
+                <div id="active-car-spec" class="active-car-spec">
+                    '25 BMW S1000RR (GP1RS 슬립온) · 999cc ShiftCam I4 · Euro5+ GP1RS · 14,600 RPM
+                </div>
             </div>
-            <input id="popVolSlider" type="range" min="0" max="300" step="10" value="220" oninput="onMixerChange()" />
-          </div>
 
-          <div class="px-1">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-zinc-300 font-semibold">🔊 마스터 배기 음량</span>
-              <span id="masterVolLabel" class="font-mono-tech font-bold text-red-400">95%</span>
+            <div class="header-actions">
+                <input type="file" id="audio-file-input" accept=".wav,.mp3,.ogg,.m4a" style="display:none">
+                <button id="btn-load-sample" type="button" class="btn-top">🎵 .WAV/.MP3 로드</button>
+                <button id="btn-open-guide" type="button" class="btn-top">📖 사용 설명서</button>
+                <button id="btn-dl-code" type="button" class="btn-top">💾 index.html 다운로드</button>
+                <button id="btn-copy-code" type="button" class="btn-top">📋 코드 복사</button>
+                <button id="btn-engine-toggle" type="button" class="btn-engine-start">🔥 ENGINE START</button>
             </div>
-            <input id="masterVolSlider" type="range" min="0" max="150" step="5" value="95" oninput="onMixerChange()" />
-          </div>
+        </header>
 
-          <div class="px-1">
-            <div class="flex justify-between text-xs mb-1">
-              <span class="text-zinc-300 font-semibold">📡 실차 G-센서 가속 민감도</span>
-              <span id="gSensLabel" class="font-mono-tech font-bold text-cyan-400">1.6x</span>
+        <!-- 2. 12개 브랜드 실차 계기판 테마 셀렉터 바 (G-Force 및 계기판 상단) -->
+        <section class="theme-bar-wrap">
+            <div class="theme-bar-header">
+                <span>🎨 12개 브랜드 실차 계기판(Real-Car Instrument Cluster) 테마</span>
+                <button id="btn-auto-theme" type="button" class="btn-auto-theme">차량 연동 자동테마: ON</button>
             </div>
-            <input id="gSensSlider" type="range" min="0.5" max="3.0" step="0.1" value="1.6" oninput="onMixerChange()" />
-          </div>
+            <div id="theme-chips-container" class="theme-chips"></div>
+        </section>
 
-          <div class="flex items-center justify-between pt-1">
-            <button id="earphoneBtn" onclick="toggleEarphoneMode()" class="px-3 py-1.5 rounded-xl bg-cyan-500/20 border border-cyan-400 text-cyan-200 text-xs font-bold">
-              🎧 이어폰 공간음 보정: ON
-            </button>
-            <button onclick="resetAllSettings()" class="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs border border-white/10">
-              🔄 설정 초기화
-            </button>
-          </div>
-        </div>
-      </div>
+        <!-- 3. 실차 계기판 그래픽 & 텔레메트리 뷰 -->
+        <section class="cluster-container">
+            <div class="cluster-hud-strip">
+                <div>MODE: <span id="hud-trans-txt" class="hud-tag">AUTO 8-DCT</span></div>
+                <div>EXHAUST: <span id="hud-valve-txt" class="hud-tag valve-open">VALVE: OPEN</span></div>
+                <div>POP MODE: <span id="hud-popmode-txt" class="hud-tag">AKRA 총성</span></div>
+                <div>GPS: <span id="hud-gps-txt" class="hud-tag">0.0 km/h</span> · G: <span id="hud-g-txt" class="hud-tag">0.00 G</span></div>
+                <div id="hud-pop-banner" class="hud-tag pop-flash">💥 300% BACKFIRE POP!</div>
+            </div>
+            <div class="canvas-box">
+                <canvas id="cluster-canvas" width="1080" height="360"></canvas>
+            </div>
+        </section>
 
-      <!-- Secondary G-Force & Live FFT Mini Bar (Moved below cluster as requested) -->
-      <div class="bg-zinc-950/90 rounded-xl p-2.5 border border-white/10 flex items-center gap-3">
-        <div class="relative w-14 h-14 rounded-full border border-zinc-700 bg-black flex items-center justify-center shrink-0">
-          <div class="w-8 h-8 rounded-full border border-dashed border-zinc-800"></div>
-          <div id="gDot" class="w-3 h-3 rounded-full bg-red-500 shadow-[0_0_8px_#ff1e27] border border-white transition-transform duration-75"></div>
-        </div>
-        <div class="flex-1 min-w-0">
-          <div class="flex justify-between text-[10px] font-mono-tech text-zinc-400">
-            <span>G-FORCE: <strong id="gReadout" class="text-cyan-300">+0.00G</strong></span>
-            <span>GPS: <strong id="gpsReadout" class="text-emerald-400">SIM MODE</strong></span>
-          </div>
-          <canvas id="fftCanvas" width="220" height="36" class="w-full h-9 rounded bg-black mt-1 border border-white/5"></canvas>
-        </div>
-      </div>
-    </section>
-  </main>
+        <!-- 4. 주행 데모 & 변속기 & 브레이크/스로틀 조작부 -->
+        <section class="controls-panel">
+            <div class="demo-grid">
+                <button id="btn-launch-demo" type="button" class="btn-demo">🚀 0→200 런치데모</button>
+                <button id="btn-rev-pop-test" type="button" class="btn-demo">💨 4,000RPM 후적테스트</button>
+                <button id="btn-ngb-boost" type="button" class="btn-demo">🔥 NGB 10초 부스트</button>
+                <button id="btn-valve-toggle" type="button" class="btn-demo active">🔊 가변배기: OPEN</button>
+                <button id="btn-pop-style" type="button" class="btn-demo">🍿 팝콘: AKRA 총성</button>
+                <button id="btn-sim-sensor" type="button" class="btn-demo">🕹️ 시뮬레이터 / 영점보정</button>
+            </div>
 
-  <!-- 5. HELP MANUAL MODAL -->
-  <div id="helpModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
-    <div class="carbon-card max-w-xl w-full rounded-3xl p-5 border border-cyan-500/40 space-y-3 text-xs sm:text-sm text-zinc-300">
-      <div class="flex items-center justify-between border-b border-white/10 pb-2.5">
-        <h3 class="font-display text-base font-black text-white">📖 PLAID SOUND SYNTH PRO 사용 설명서</h3>
-        <button onclick="toggleHelpModal(false)" class="px-3 py-1 rounded-lg bg-zinc-800 text-white font-bold">✕ 닫기</button>
-      </div>
-      <div class="space-y-2 leading-relaxed">
-        <p><strong class="text-amber-300">1. 즉시 사운드 &amp; 후적 청음:</strong> 하단 24종 차량 프리셋 카드를 클릭하면 자동으로 시동이 걸리며 4,200 RPM 공회전 블립과 함께 오버런 팝콘 후적이 터집니다. <strong class="text-orange-300">[💨 4,000RPM 후적테스트]</strong> 또는 <strong class="text-orange-300">[💥 후적 5연발 즉시격발]</strong> 버튼으로 언제든 후적 타격감을 테스트할 수 있습니다.</p>
-        <p><strong class="text-cyan-300">2. 12종 실차 계기판 테마:</strong> S1000RR 하키스틱 TFT, 아이오닉 N, GV60 마그마, 포르쉐 타이칸 3-Tube, 911 GT3 RS, 페라리 옐로우 다이얼, 람보르기니 SVJ 육각 코르사 등 차량 변경 시 계기판이 자동 변경되며 상단 테마 바에서 수동 고정도 가능합니다.</p>
-        <p><strong class="text-emerald-300">3. 테슬라 실차 주행 연동 방법:</strong> 스마트폰을 차량 블루투스 오디오에 연결하고 거치대에 고정한 뒤, <strong class="text-cyan-300">[🕹️ 시뮬레이터]</strong> 버튼을 눌러 <strong class="text-emerald-300">[📡 실차 GPS+G센서]</strong>로 전환하고 정차 상태에서 <strong class="text-white">[🎯]</strong> 영점 조절을 한 번 눌러주세요.</p>
-      </div>
+            <div class="shift-row">
+                <button id="btn-shift-down" type="button" class="btn-paddle">◄ - DOWN [Key: A] · 레브매칭+후적</button>
+                <div class="trans-mode-group">
+                    <button id="btn-mode-auto" type="button" class="btn-tmode active">AUTO (D)</button>
+                    <button id="btn-mode-manual" type="button" class="btn-tmode">MANUAL</button>
+                    <button id="btn-mode-neutral" type="button" class="btn-tmode">NEUTRAL (N)</button>
+                </div>
+                <button id="btn-shift-up" type="button" class="btn-paddle">UP + ► [Key: D] · 변속컷 폭발</button>
+            </div>
+
+            <div class="pedals-row">
+                <div id="pedal-brake" class="pedal-box brake">
+                    <div id="brake-fill" class="pedal-fill"></div>
+                    <div class="pedal-title">BRAKE (<span id="brake-pct">0</span>%)</div>
+                    <div class="pedal-sub">KEY: S / ↓ · 감속 및 다운시프트 레브매칭</div>
+                </div>
+                <div id="pedal-throttle" class="pedal-box throttle">
+                    <div id="throttle-fill" class="pedal-fill"></div>
+                    <div class="pedal-title">THROTTLE (<span id="throttle-pct">0</span>%)</div>
+                    <div class="pedal-sub">KEY: W / ↑ · 드래그 가속 후 떼면 실차 오버런 후적 폭발</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. 24종 배기 사운드 프리셋 패널 -->
+        <section class="presets-section">
+            <div class="section-head">
+                <span class="section-title">🏎️ 24 Exhaust Sound Presets (물리 연소 임펄스 &amp; 머플러 공명관 합성)</span>
+                <div id="category-tabs" class="cat-tabs">
+                    <button type="button" class="cat-tab active" data-cat="ALL">전체 (24)</button>
+                    <button type="button" class="cat-tab" data-cat="EV">⚡ EV 가상사운드 (6)</button>
+                    <button type="button" class="cat-tab" data-cat="BIKE">🏍️ 슈퍼바이크 (6)</button>
+                    <button type="button" class="cat-tab" data-cat="SUPER">🏎️ 슈퍼카·포르쉐 (8)</button>
+                    <button type="button" class="cat-tab" data-cat="MUSCLE">🔥 머슬·F1·로터리 (4)</button>
+                </div>
+            </div>
+            <div id="preset-grid" class="preset-grid"></div>
+        </section>
+
+        <!-- 6. 300% 후적 & 어쿠스틱 사운드 믹서 패널 -->
+        <section class="mixer-section">
+            <div class="mixer-top">
+                <span class="section-title">🎛️ 300% 다이렉트 후적 &amp; 어쿠스틱 배기음 믹서</span>
+                <button id="btn-burst-5" type="button" class="btn-burst-fire">💥 후적 5연발 즉시격발</button>
+            </div>
+            <div class="sliders-grid">
+                <div class="slider-box">
+                    <div class="slider-label-row">
+                        <label for="slider-pop-vol">💥 후적(팝콘) 타격 음량 (다이렉트 버스)</label>
+                        <span id="val-pop-vol" class="slider-val">228%</span>
+                    </div>
+                    <input type="range" id="slider-pop-vol" min="0" max="300" step="1" value="228">
+                </div>
+                <div class="slider-box">
+                    <div class="slider-label-row">
+                        <label for="slider-master-vol">🔊 마스터 배기 음량</label>
+                        <span id="val-master-vol" class="slider-val">95%</span>
+                    </div>
+                    <input type="range" id="slider-master-vol" min="0" max="100" step="1" value="95">
+                </div>
+                <div class="slider-box">
+                    <div class="slider-label-row">
+                        <label for="slider-g-sens">📡 실차 G-센서 가속 민감도</label>
+                        <span id="val-g-sens" class="slider-val">1.6x</span>
+                    </div>
+                    <input type="range" id="slider-g-sens" min="0.5" max="3.0" step="0.1" value="1.6">
+                </div>
+                <div class="slider-box">
+                    <div class="slider-label-row">
+                        <label for="slider-resonance">🎸 머플러 통울림 &amp; 중저음 깊이 (Resonance)</label>
+                        <span id="val-resonance" class="slider-val">135%</span>
+                    </div>
+                    <input type="range" id="slider-resonance" min="50" max="200" step="5" value="135">
+                </div>
+            </div>
+        </section>
     </div>
-  </div>
 
-  <script>
-    /*************************************************************************
-     * 1. 12 AUTHENTIC BRAND CLUSTER THEMES & 24 VEHICLE SOUND PRESETS
-     *************************************************************************/
-    const CLUSTER_THEMES = [
-      { id: 's1000rr', name: '🏍️ S1000RR TFT' },
-      { id: 'ioniq_n', name: '🏁 아이오닉 N' },
-      { id: 'gv60_magma', name: '🌋 GV60 마그마' },
-      { id: 'taycan', name: '⚡ 타이칸 3-Tube' },
-      { id: 'gt3rs', name: '🐸 911 GT3 RS' },
-      { id: 'ferrari', name: '🐎 페라리 Giallo' },
-      { id: 'lamborghini', name: '🐂 람보르기니 SVJ' },
-      { id: 'ducati', name: '🇮🇹 두카티 V4 R' },
-      { id: 'superbike', name: '🗡️ R1M / CBR 바이크' },
-      { id: 'lfa', name: '👼 렉서스 LFA' },
-      { id: 'mclaren_f1', name: '🏆 맥라렌 / F1' },
-      { id: 'plaid', name: '🚀 테슬라 Plaid' }
-    ];
+    <!-- 사용 설명서 모달 -->
+    <div id="guide-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-head">
+                <span>📖 PLAID SYNTH PRO 사용 설명서</span>
+                <button id="btn-close-guide" type="button" class="btn-top">✕ 닫기</button>
+            </div>
+            <div class="guide-step">
+                <h4>1. 12종 실차 계기판 완벽 재구현</h4>
+                <p>S1000RR 6.5인치 TFT 하키스틱 그래프, 포르쉐 타이칸 3-Tube, 페라리 Giallo Modena 노란색 중앙 타코미터, 렉서스 LFA 슬라이딩 메탈 링(레드존 전체 반전), 람보르기니 SVJ CORSA 육각형 HUD, 테슬라 Plaid 미니멀 파워 클러스터 등 각 브랜드 고유의 실차 계기판 그래픽이 적용됩니다.</p>
+            </div>
+            <div class="guide-step">
+                <h4>2. 물리 연소 펄스 &amp; 머플러 공명관(Convolver IR) 사운드 엔진</h4>
+                <p>기존의 단순 전자음(오실레이터) 방식을 탈피하여, 실린더 점화 순서(Crossplane 부등간격, Desmosedici 트윈펄스, V10 Odd-Fire, ShiftCam 가변 밸브)에 따른 연소 압력 펄스를 머플러 공명관 임펄스 응답(ConvolverNode)에 통과시켜 깊고 자연스러운 실제 배기음을 구현합니다.</p>
+            </div>
+            <div class="guide-step">
+                <h4>3. 이질감 없는 실차 후적(팝콘) 물리 합성</h4>
+                <p>고역 치찰음(화이트노이즈)을 제거하고 배기 파이프 내부 미연소 가스 폭발 충격파(Waveguide Pipe Delay + 90~180Hz 체스트 펀치 + 티타늄 통울림)와 연속 버블(Gurgle) 시퀀스를 결합해 실제 아크라포빅/오스틴 풀배기 후적 질감을 재현합니다.</p>
+            </div>
+            <div class="guide-step">
+                <h4>4. 테슬라 &amp; 스마트폰 센서 퓨전 사용 팁</h4>
+                <p>스마트폰 거치 후 <strong>[🔥 ENGINE START]</strong>와 <strong>[🕹️ 시뮬레이터 / 영점보정]</strong>을 누르면 GPS 속도와 60Hz G-센서 가속도가 실시간 연동됩니다. 키보드 <code>W/S</code>(가속/감속), <code>A/D</code>(다운/업시프트) 단축키도 지원합니다.</p>
+            </div>
+        </div>
+    </div>
 
-    const PRESETS = [
-      // EV Virtual Sounds (6)
-      { id: 'taycan_gt', cat: 'ev', emoji: '⚡', name: '포르쉐 타이칸 Turbo GT', spec: 'Weissach 2-Spd Planetary Chord · 9,000 RPM', theme: 'taycan', model: 'ev', redline: 9000, idle: 850, baseHz: [55, 145, 310], popStyle: 'sport' },
-      { id: 'ioniq5n_ignition', cat: 'ev', emoji: '🏁', name: '아이오닉 5 N · Ignition', spec: '2.0T WRC Rally Dyno + N e-Shift · 8,000 RPM', theme: 'ioniq_n', model: 'ic', redline: 8000, idle: 950, baseHz: [34, 115, 240], intervals: [1, 1.03, 0.97, 1], popStyle: 'n_pop' },
-      { id: 'ioniq6n_lightspeed', cat: 'ev', emoji: '💠', name: '아이오닉 6 N · Lightspeed', spec: 'Aero Polyphonic Synth + N Shift Light · 8,800 RPM', theme: 'ioniq_n', model: 'ev', redline: 8800, idle: 920, baseHz: [62, 165, 355], popStyle: 'sport' },
-      { id: 'gv60_magma', cat: 'ev', emoji: '🌋', name: '제네시스 GV60 마그마 VGS', spec: 'B&O Velvet V6/V8 Harmonic Growl · 9,000 RPM', theme: 'gv60_magma', model: 'ev_magma', redline: 9000, idle: 900, baseHz: [48, 138, 295], popStyle: 'n_pop' },
-      { id: 'ioniq5n_supersonic', cat: 'ev', emoji: '✈️', name: '아이오닉 5 N · Supersonic', spec: 'Twin-Turbine Jet Afterburner · Sonic Boom', theme: 'ioniq_n', model: 'ev', redline: 8500, idle: 1000, baseHz: [68, 178, 385], popStyle: 'akra' },
-      { id: 'plaid_warp', cat: 'ev', emoji: '🚀', name: '테슬라 플래드 Cyber Warp', spec: 'Tri-Motor Carbon Rotor Harmonic · 10,000 RPM', theme: 'plaid', model: 'ev', redline: 10000, idle: 800, baseHz: [58, 160, 370], popStyle: 'sport' },
+    <div id="toast" class="toast">저장되었습니다.</div>
 
-      // Superbikes (6)
-      { id: 's1000rr_gp1rs', cat: 'bike', emoji: '🏍️', name: "'25 BMW S1000RR (GP1RS 슬립온)", spec: '999cc ShiftCam I4 · Euro5+ GP1RS · 14,600 RPM', theme: 's1000rr', model: 'ic', redline: 14600, idle: 1250, baseHz: [43, 168, 395], intervals: [1, 1, 1, 1], popStyle: 'n_pop' },
-      { id: 's1000rr_full', cat: 'bike', emoji: '🔥', name: 'BMW S1000RR (Austin 풀배기)', spec: '999cc ShiftCam I4 · Decat Titanium · 14,600 RPM', theme: 's1000rr', model: 'ic', redline: 14600, idle: 1300, baseHz: [45, 174, 415], intervals: [1, 0.96, 1.04, 1], popStyle: 'akra' },
-      { id: 'r1m_cp4', cat: 'bike', emoji: '🎹', name: '야마하 YZF-R1M (CP4 풀배기)', spec: '998cc Crossplane CP4 (270-180-90-180) · 14,500 RPM', theme: 'superbike', model: 'ic', redline: 14500, idle: 1250, baseHz: [40, 155, 365], intervals: [1.5, 1.0, 0.5, 1.0], popStyle: 'akra' },
-      { id: 'cbr1000rrr', cat: 'bike', emoji: '🗡️', name: '혼다 CBR1000RR-R (SC-Project)', spec: '999cc Screamer I4 + Ram-Air · 16,000 RPM', theme: 'superbike', model: 'ic', redline: 16000, idle: 1350, baseHz: [47, 185, 445], intervals: [1, 1, 1, 1], popStyle: 'akra' },
-      { id: 'zx10r_austin', cat: 'bike', emoji: '🟢', name: '가와사키 ZX-10R (Austin 풀배기)', spec: '998cc WSBK Factory I4 · 14,300 RPM', theme: 'superbike', model: 'ic', redline: 14300, idle: 1200, baseHz: [42, 164, 390], intervals: [1, 1.04, 0.96, 1], popStyle: 'akra' },
-      { id: 'panigale_v4r', cat: 'bike', emoji: '🇮🇹', name: '두카티 파니갈레 V4 R (아크라포빅)', spec: '998cc Desmosedici Twin-Pulse V4 · 16,500 RPM', theme: 'ducati', model: 'ic', redline: 16500, idle: 1450, baseHz: [48, 190, 450], intervals: [0.4, 1.6, 0.4, 1.6], popStyle: 'akra' },
+    <script>
+        /**
+         * 1. 12개 브랜드 실차 계기판 테마 정의
+         */
+        const CLUSTER_THEMES = [
+            { id: "s1000rr", label: "🏍️ S1000RR TFT", name: "S1000RR TFT" },
+            { id: "ioniq_n", label: "🏁 아이오닉 N", name: "아이오닉 N" },
+            { id: "gv60_magma", label: "🌋 GV60 마그마", name: "GV60 마그마" },
+            { id: "taycan_3tube", label: "⚡ 타이칸 3-Tube", name: "타이칸 3-Tube" },
+            { id: "gt3rs", label: "🐸 911 GT3 RS", name: "911 GT3 RS" },
+            { id: "ferrari_giallo", label: "🐎 페라리 Giallo", name: "페라리 Giallo" },
+            { id: "lambo_svj", label: "🐂 람보르기니 SVJ", name: "람보르기니 SVJ" },
+            { id: "ducati_v4r", label: "🇮🇹 두카티 V4 R", name: "두카티 V4 R" },
+            { id: "superbike_r1m", label: "🗡️ R1M / CBR 바이크", name: "R1M / CBR 바이크" },
+            { id: "lexus_lfa", label: "🔔 렉서스 LFA", name: "렉서스 LFA" },
+            { id: "mclaren_f1", label: "🏆 맥라렌 / F1", name: "맥라렌 / F1" },
+            { id: "tesla_plaid", label: "🚀 테슬라 Plaid", name: "테슬라 Plaid" }
+        ];
 
-      // Supercars & Porsche (8)
-      { id: 'gt3rs', cat: 'supercar', emoji: '🐸', name: '포르쉐 911 GT3 RS (992)', spec: '4.0L Flat-6 NA · ITB Intake · 9,000 RPM · PDK', theme: 'gt3rs', model: 'ic', redline: 9000, idle: 950, baseHz: [48, 178, 395], intervals: [1, 1, 1, 1, 1, 1], popStyle: 'sport' },
-      { id: 'svj', cat: 'supercar', emoji: '🐂', name: '람보르기니 아벤타도르 SVJ', spec: '6.5L V12 NA (Gintani F1) · 9,500 RPM', theme: 'lamborghini', model: 'ic', redline: 9500, idle: 1050, baseHz: [66, 228, 515], intervals: [1, 1, 1, 1, 1, 1], popStyle: 'akra' },
-      { id: 'f458', cat: 'supercar', emoji: '🐎', name: '페라리 458 스페치알레', spec: '4.5L Flat-Plane V8 NA · 9,000 RPM', theme: 'ferrari', model: 'ic', redline: 9000, idle: 1000, baseHz: [56, 198, 445], intervals: [1, 1, 1, 1], popStyle: 'sport' },
-      { id: 'f812', cat: 'supercar', emoji: '🎺', name: '페라리 812 슈퍼패스트 (Novitec)', spec: '6.5L V12 NA High-Pitch · 9,500 RPM', theme: 'ferrari', model: 'ic', redline: 9500, idle: 1020, baseHz: [65, 225, 510], intervals: [1, 1, 1, 1, 1, 1], popStyle: 'sport' },
-      { id: 'lfa', cat: 'supercar', emoji: '👼', name: '렉서스 LFA (Yamaha V10)', spec: '4.8L 72° V10 NA Angel Roar · 9,500 RPM', theme: 'lfa', model: 'ic', redline: 9500, idle: 1100, baseHz: [64, 218, 498], intervals: [1, 1, 1, 1, 1], popStyle: 'sport' },
-      { id: 'mclaren765', cat: 'supercar', emoji: '🔥', name: '맥라렌 765LT 티타늄', spec: '4.0L Twin-Turbo Flat-Plane V8 · 8,200 RPM', theme: 'mclaren_f1', model: 'ic', redline: 8200, idle: 920, baseHz: [52, 180, 395], intervals: [1, 1, 1, 1], popStyle: 'akra' },
-      { id: 'huracan_sto', cat: 'supercar', emoji: '🦄', name: '람보르기니 우라칸 STO', spec: '5.2L V10 NA Odd-Firing · 8,500 RPM', theme: 'lamborghini', model: 'ic', redline: 8500, idle: 950, baseHz: [58, 195, 430], intervals: [0.75, 1.25, 0.75, 1.25, 1], popStyle: 'n_pop' },
-      { id: 'akrapovic', cat: 'supercar', emoji: '🦂', name: '아크라포빅 에볼루션 티타늄', spec: 'Full Titanium High-Q Resonance · 9,200 RPM', theme: 'gt3rs', model: 'ic', redline: 9200, idle: 1000, baseHz: [56, 195, 440], intervals: [1, 1.06, 0.94, 1], popStyle: 'akra' },
+        /**
+         * 2. 24개 차량 / 바이크 사운드 프리셋 데이터베이스 (실제 배포판 24종 완벽 매칭)
+         */
+        const SOUND_PRESETS = [
+            // EV 가상사운드 (6)
+            { id: "taycan_gt", cat: "EV", name: "포르쉐 타이칸 Turbo GT", rpmTag: "9.0k RPM", desc: "Weissach 2-Spd Planetary Electric Sport Sound", maxRpm: 9000, idleRpm: 700, cylinders: 8, crank: "ev_taycan", baseFreq: 58, character: 1.3, pipeLen: 0.0028, popLevel: 0.4, theme: "taycan_3tube", gears: 2 },
+            { id: "ioniq5n_ign", cat: "EV", name: "아이오닉 5 N · Ignition", rpmTag: "8.0k RPM", desc: "2.0T WRC Rally Dyno + N e-Shift Dual-Clutch", maxRpm: 8000, idleRpm: 850, cylinders: 4, crank: "rally_4", baseFreq: 68, character: 1.75, pipeLen: 0.0032, popLevel: 1.3, theme: "ioniq_n", gears: 8 },
+            { id: "ioniq6n_light", cat: "EV", name: "아이오닉 6 N · Lightspeed", rpmTag: "8.8k RPM", desc: "Aero Polyphonic Synth + N Active Sound+", maxRpm: 8800, idleRpm: 800, cylinders: 6, crank: "ev_poly", baseFreq: 76, character: 1.5, pipeLen: 0.0024, popLevel: 0.9, theme: "ioniq_n", gears: 8 },
+            { id: "gv60_magma", cat: "EV", name: "제네시스 GV60 마그마 VGS", rpmTag: "9.0k RPM", desc: "B&O Velvet V6/V8 Harmonic Growl + VGS", maxRpm: 9000, idleRpm: 780, cylinders: 6, crank: "v6_velvet", baseFreq: 64, character: 1.55, pipeLen: 0.0031, popLevel: 1.0, theme: "gv60_magma", gears: 8 },
+            { id: "ioniq5n_sup", cat: "EV", name: "아이오닉 5 N · Supersonic", rpmTag: "8.5k RPM", desc: "Twin-Turbine Jet Afterburner + Sonic Boom", maxRpm: 8500, idleRpm: 820, cylinders: 8, crank: "ev_jet", baseFreq: 82, character: 1.8, pipeLen: 0.0021, popLevel: 1.25, theme: "ioniq_n", gears: 8 },
+            { id: "plaid_warp", cat: "EV", name: "테슬라 플래드 Cyber Warp", rpmTag: "10.0k RPM", desc: "Tri-Motor Carbon Rotor Harmonic Sub-Bass", maxRpm: 10000, idleRpm: 650, cylinders: 12, crank: "ev_plaid", baseFreq: 52, character: 1.4, pipeLen: 0.0025, popLevel: 0.6, theme: "tesla_plaid", gears: 1 },
 
-      // Muscle & Special (4)
-      { id: 'amg_v8', cat: 'special', emoji: '🔨', name: 'AMG C63 / GT63 V8 BiTurbo', spec: '4.0L Crossplane V8 Thunder · 7,200 RPM', theme: 'plaid', model: 'ic', redline: 7200, idle: 720, baseHz: [35, 122, 270], intervals: [1.5, 0.5, 1.0, 1.0], popStyle: 'n_pop' },
-      { id: 'hellcat', cat: 'special', emoji: '😈', name: '닷지 헬캣 레드아이 슈퍼차저', spec: '6.2L Supercharged HEMI V8 Whine · 6,500 RPM', theme: 'plaid', model: 'ic', redline: 6500, idle: 680, baseHz: [33, 114, 250], intervals: [1.6, 0.4, 1.1, 0.9], popStyle: 'sport' },
-      { id: 'rx7_4rotor', cat: 'special', emoji: '🌀', name: '마쯔다 RX-7 787B 4로터', spec: 'Peripheral Port 4-Rotor Brap Idle · 10,000 RPM', theme: 'lfa', model: 'ic', redline: 10000, idle: 1350, baseHz: [62, 215, 490], intervals: [1, 0.7, 1.3, 1], popStyle: 'akra' },
-      { id: 'f1_v10', cat: 'special', emoji: '🏆', name: '포뮬러 1 V10 19,000 RPM', spec: '3.0L V10 NA Screamer · 19,000 RPM', theme: 'mclaren_f1', model: 'ic', redline: 19000, idle: 3600, baseHz: [110, 340, 740], intervals: [1, 1, 1, 1, 1], popStyle: 'akra' }
-    ];
+            // 슈퍼바이크 (6)
+            { id: "s1000rr_gp1rs", cat: "BIKE", name: "'25 BMW S1000RR (GP1RS 슬립온)", rpmTag: "14.6k RPM", desc: "999cc ShiftCam I4 · Euro5+ GP1RS · 14,600 RPM", maxRpm: 14600, idleRpm: 1350, cylinders: 4, crank: "i4_shiftcam", baseFreq: 96, character: 2.1, pipeLen: 0.0018, popLevel: 1.45, theme: "s1000rr", gears: 6 },
+            { id: "s1000rr_austin", cat: "BIKE", name: "BMW S1000RR (Austin 풀배기)", rpmTag: "14.6k RPM", desc: "999cc ShiftCam I4 · Decat Titanium Shorty", maxRpm: 14600, idleRpm: 1380, cylinders: 4, crank: "i4_shiftcam_open", baseFreq: 98, character: 2.35, pipeLen: 0.0016, popLevel: 1.65, theme: "s1000rr", gears: 6 },
+            { id: "yzf_r1m", cat: "BIKE", name: "야마하 YZF-R1M (CP4 풀배기)", rpmTag: "14.5k RPM", desc: "998cc Crossplane CP4 (270-180-90-360) Growl", maxRpm: 14500, idleRpm: 1300, cylinders: 4, crank: "cp4", baseFreq: 74, character: 1.95, pipeLen: 0.0022, popLevel: 1.35, theme: "superbike_r1m", gears: 6 },
+            { id: "cbr1000rrr", cat: "BIKE", name: "혼다 CBR1000RR-R (SC-Project)", rpmTag: "16.0k RPM", desc: "999cc Screamer I4 + Ram-Air Intake Howl", maxRpm: 16000, idleRpm: 1350, cylinders: 4, crank: "i4_screamer", baseFreq: 105, character: 2.25, pipeLen: 0.0017, popLevel: 1.35, theme: "superbike_r1m", gears: 6 },
+            { id: "zx10r_austin", cat: "BIKE", name: "가와사키 ZX-10R (Austin 풀배기)", rpmTag: "14.3k RPM", desc: "998cc WSBK Factory I4 · 14,300 RPM Metallic", maxRpm: 14300, idleRpm: 1280, cylinders: 4, crank: "i4_screamer", baseFreq: 92, character: 2.1, pipeLen: 0.0019, popLevel: 1.4, theme: "superbike_r1m", gears: 6 },
+            { id: "ducati_v4r", cat: "BIKE", name: "두카티 파니갈레 V4 R (아크라포빅)", rpmTag: "16.5k RPM", desc: "998cc Desmosedici Twin-Pulse V4 · 16,500 RPM", maxRpm: 16500, idleRpm: 1450, cylinders: 4, crank: "desmo_v4", baseFreq: 86, character: 2.2, pipeLen: 0.0020, popLevel: 1.5, theme: "ducati_v4r", gears: 6 },
 
-    const GEAR_SPEEDS = [0, 56, 95, 136, 178, 222, 265, 305, 342];
-    const STORAGE_KEY = 'plaid_synth_pro_v7_clean';
+            // 슈퍼카·포르쉐 (8)
+            { id: "porsche_gt3rs", cat: "SUPER", name: "포르쉐 911 GT3 RS (992)", rpmTag: "9.0k RPM", desc: "4.0L Flat-6 NA · ITB Intake Metallic Howl", maxRpm: 9000, idleRpm: 920, cylinders: 6, crank: "flat6", baseFreq: 88, character: 2.05, pipeLen: 0.0023, popLevel: 1.15, theme: "gt3rs", gears: 7 },
+            { id: "lambo_svj", cat: "SUPER", name: "람보르기니 아벤타도르 SVJ", rpmTag: "9.5k RPM", desc: "6.5L V12 NA (Gintani F1 High-Pitch Scream)", maxRpm: 9500, idleRpm: 980, cylinders: 12, crank: "v12_screamer", baseFreq: 112, character: 2.4, pipeLen: 0.0019, popLevel: 1.55, theme: "lambo_svj", gears: 7 },
+            { id: "ferrari_458", cat: "SUPER", name: "페라리 458 스페치알레", rpmTag: "9.0k RPM", desc: "4.5L Flat-Plane V8 NA · 9,000 RPM Corsa", maxRpm: 9000, idleRpm: 950, cylinders: 8, crank: "v8_flat", baseFreq: 96, character: 2.2, pipeLen: 0.0021, popLevel: 1.25, theme: "ferrari_giallo", gears: 7 },
+            { id: "ferrari_812", cat: "SUPER", name: "페라리 812 슈퍼패스트 (Novitec)", rpmTag: "9.5k RPM", desc: "6.5L V12 NA High-Pitch · 9,500 RPM", maxRpm: 9500, idleRpm: 960, cylinders: 12, crank: "v12_screamer", baseFreq: 118, character: 2.45, pipeLen: 0.0018, popLevel: 1.35, theme: "ferrari_giallo", gears: 7 },
+            { id: "lexus_lfa", cat: "SUPER", name: "렉서스 LFA (Yamaha V10)", rpmTag: "9.5k RPM", desc: "4.8L 72° V10 NA Yamaha Acoustic Angel Roar", maxRpm: 9500, idleRpm: 950, cylinders: 10, crank: "v10_lfa", baseFreq: 114, character: 2.5, pipeLen: 0.0017, popLevel: 1.1, theme: "lexus_lfa", gears: 6 },
+            { id: "mclaren_765lt", cat: "SUPER", name: "맥라렌 765LT 티타늄", rpmTag: "8.2k RPM", desc: "4.0L Twin-Turbo Flat-Plane V8 Quad-Titanium", maxRpm: 8200, idleRpm: 900, cylinders: 8, crank: "v8_flat", baseFreq: 84, character: 2.0, pipeLen: 0.0024, popLevel: 1.5, theme: "mclaren_f1", gears: 7 },
+            { id: "huracan_sto", cat: "SUPER", name: "람보르기니 우라칸 STO", rpmTag: "8.5k RPM", desc: "5.2L V10 NA Odd-Firing Titanium Exhaust", maxRpm: 8500, idleRpm: 920, cylinders: 10, crank: "v10_oddfire", baseFreq: 98, character: 2.15, pipeLen: 0.0022, popLevel: 1.45, theme: "lambo_svj", gears: 7 },
+            { id: "akrapovic_evo", cat: "SUPER", name: "아크라포빅 에볼루션 티타늄", rpmTag: "9.2k RPM", desc: "Full Titanium High-Q Resonator Spec", maxRpm: 9200, idleRpm: 900, cylinders: 8, crank: "v8_flat", baseFreq: 90, character: 2.2, pipeLen: 0.0020, popLevel: 1.6, theme: "gt3rs", gears: 8 },
 
-    /*************************************************************************
-     * 2. APPLICATION STATE
-     *************************************************************************/
-    const state = {
-      engineRunning: false,
-      presetId: 's1000rr_gp1rs',
-      clusterTheme: 's1000rr',
-      autoTheme: true,
-      catFilter: 'all',
+            // 머슬·F1·로터리 (4)
+            { id: "amg_v8", cat: "MUSCLE", name: "AMG C63 / GT63 V8 BiTurbo", rpmTag: "7.2k RPM", desc: "4.0L Crossplane V8 Thunder Bass & Burble", maxRpm: 7200, idleRpm: 720, cylinders: 8, crank: "v8_crossplane", baseFreq: 52, character: 1.85, pipeLen: 0.0036, popLevel: 1.5, theme: "gt3rs", gears: 9 },
+            { id: "hellcat_sc", cat: "MUSCLE", name: "닷지 헬캣 레드아이 슈퍼차저", rpmTag: "6.5k RPM", desc: "6.2L Supercharged HEMI V8 + 2.7L Blower Whine", maxRpm: 6500, idleRpm: 680, cylinders: 8, crank: "v8_hemi", baseFreq: 48, character: 1.9, pipeLen: 0.0038, popLevel: 1.2, theme: "tesla_plaid", gears: 8 },
+            { id: "mazda_787b", cat: "MUSCLE", name: "마쯔다 RX-7 787B 4로터", rpmTag: "10.0k RPM", desc: "Peripheral Port 4-Rotor Brap-Brap Le Mans", maxRpm: 10000, idleRpm: 1150, cylinders: 8, crank: "rotary_4", baseFreq: 110, character: 2.45, pipeLen: 0.0019, popLevel: 1.55, theme: "mclaren_f1", gears: 5 },
+            { id: "f1_v10", cat: "MUSCLE", name: "포뮬러 1 V10 19,000 RPM", rpmTag: "19.0k RPM", desc: "3.0L V10 NA Screamer · 19,000 RPM Pneumatic", maxRpm: 19000, idleRpm: 3200, cylinders: 10, crank: "f1_v10", baseFreq: 165, character: 2.7, pipeLen: 0.0013, popLevel: 1.3, theme: "mclaren_f1", gears: 7 }
+        ];
 
-      rpm: 0,
-      peakRpmHold: 0,
-      gear: 1,
-      speedKmh: 0,
-      gpsSpeedKmh: 0,
-      forwardG: 0,
-      lateralG: 0,
-      boostBar: 0,
+        const POP_STYLES = [
+            { id: "akra", label: "🍿 팝콘: AKRA 총성", short: "AKRA 총성", freq: 520, q: 2.1, sub: 118, tailMs: 85, burbles: 4 },
+            { id: "austin", label: "🍿 팝콘: AUSTIN 대포", short: "AUSTIN 대포", freq: 390, q: 1.7, sub: 95, tailMs: 110, burbles: 5 },
+            { id: "amg", label: "🍿 팝콘: AMG 중저음버블", short: "AMG 버블", freq: 280, q: 1.4, sub: 82, tailMs: 125, burbles: 7 },
+            { id: "wrc", label: "🍿 팝콘: WRC 안티랙", short: "WRC 안티랙", freq: 640, q: 2.6, sub: 135, tailMs: 75, burbles: 6 }
+        ];
 
-      throttle: 0,
-      prevThrottle: 0,
-      brake: 0,
-      pedalThrottle: false,
-      pedalBrake: false,
+        const STORAGE_KEY = "PLAID_SYNTH_PRO_STATE_V4";
 
-      gearboxMode: 'auto', // 'auto' | 'manual' | 'neutral'
-      driveMode: 'sim',    // 'sim' | 'real'
-      valveOpen: true,
-      earphoneMode: true,
-      burbleMode: 'akra',  // 'akra' | 'n_pop' | 'sport' | 'off'
+        // 애플리케이션 상태
+        let state = {
+            presetId: "s1000rr_gp1rs",
+            themeId: "s1000rr",
+            autoTheme: true,
+            valveOpen: true,
+            popStyleIdx: 0,
+            transMode: "AUTO", // AUTO, MANUAL, NEUTRAL
+            popVolumePct: 228,
+            masterVolumePct: 95,
+            gSensitivity: 1.6,
+            resonancePct: 135
+        };
 
-      masterVolume: 0.95,
-      popVolume: 2.20,     // 220% default!
-      gSensitivity: 1.6,
-      zeroG: { x: 0, y: 0, z: 0 },
+        function loadState() {
+            try {
+                const raw = window.localStorage.getItem(STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    state = Object.assign({}, state, parsed);
+                }
+            } catch (e) {}
+        }
 
-      // Timers & Special states
-      autoBlipTimer: 0,
-      autoBlipPeakReached: false,
-      launchDemo: false,
-      launchPhase: 'accel',
-      ngbTimer: 0,
-      shiftCutTimer: 0,
-      overrunTimer: 0,
-      popCooldown: 0,
-      popVisualFlash: 0
-    };
+        function saveState() {
+            try {
+                window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {}
+        }
 
-    function getPreset() {
-      return PRESETS.find(p => p.id === state.presetId) || PRESETS[0];
-    }
+        function showToast(msg) {
+            const el = document.getElementById("toast");
+            el.innerText = msg;
+            el.classList.add("show");
+            setTimeout(() => el.classList.remove("show"), 2200);
+        }
 
-    /*************************************************************************
-     * 3. WEB AUDIO API: 48kHz PCM SAMPLER + 3-LAYER 300% DIRECT BACKFIRE BUS
-     *************************************************************************/
-    let audioCtx = null;
-    let masterGain = null;
-    let engineDuckGain = null; // Sidechain ducks engine drone when backfire pops
-    let popDirectGain = null;  // Direct uncompressed bus for 300% Backfires
-    let analyser = null;
+        // 실시간 주행 변수
+        let isRunning = false;
+        let currentRpm = 0;
+        let targetRpm = 0;
+        let currentSpeed = 0;
+        let gpsSpeed = 0;
+        let currentGear = 1;
+        let throttleInput = 0;
+        let brakeInput = 0;
+        let sensorThrottle = 0;
+        let prevThrottle = 0;
+        let lastPopTime = 0;
+        let shiftCutFrames = 0;
+        let isLaunchDemo = false;
+        let isRevTest = false;
+        let ngbTimer = 0;
+        let simSensorActive = false;
+        let simWavePhase = 0;
+        let gForce = { x: 0, y: 0, total: 0 };
+        let gZeroOffset = { x: 0, y: 0, z: 9.8 };
+        let customSampleBuffer = null;
 
-    let srcIdle = null, srcMid = null, srcHigh = null, srcWhine = null;
-    let gainIdle = null, gainMid = null, gainHigh = null, gainWhine = null;
-    let toneFilter = null, earNotchFilter = null;
-    let customAudioBuffer = null;
-    const pcmCache = {};
+        /**
+         * 3. 물리 연소 펄스 + 머플러 공명관(Convolver IR) 오디오 엔진
+         * 단순 오실레이터 전자음을 배제하고 실린더 점화 펄스 파형과 배기 파이프 임펄스 응답을 합성
+         */
+        let audioCtx = null;
+        let masterGain = null;
+        let engineBus = null;
+        let exhaustConvolver = null;
+        let cabinetDryGain = null;
+        let cabinetWetGain = null;
+        let dynamicLowpass = null;
+        let mufflerBodyEq = null;
+        let directBackfireBus = null;
 
-    function ensureAudioStarted() {
-      if (!audioCtx) {
-        const AC = window.AudioContext || window.webkitAudioContext;
-        audioCtx = new AC();
+        // 3레이어 물리 연소 루프 소스
+        let subPulseNode = null, corePulseNode = null, harmonicRaspNode = null;
+        let subPulseGain = null, corePulseGain = null, harmonicRaspGain = null;
 
-        masterGain = audioCtx.createGain();
-        masterGain.gain.value = state.masterVolume;
+        /**
+         * 머플러 & 배기 매니폴드 물리 공명 임펄스 응답(Impulse Response) 생성
+         * 전자음 특유의 날카로운 위상 아티팩트를 제거하고 실제 배기통 내부 반사음을 부여
+         */
+        function createExhaustCabinetIR(ctx, pipeDelaySec) {
+            const sr = ctx.sampleRate;
+            const len = Math.floor(sr * 0.14); // 140ms 짧은 배기구 공명 테일
+            const ir = ctx.createBuffer(2, len, sr);
+            const combSamples = Math.max(12, Math.floor(sr * (pipeDelaySec || 0.0022)));
 
-        engineDuckGain = audioCtx.createGain();
-        engineDuckGain.gain.value = 1.0;
-
-        popDirectGain = audioCtx.createGain();
-        popDirectGain.gain.value = state.popVolume;
-
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 128;
-
-        gainIdle = audioCtx.createGain();
-        gainMid = audioCtx.createGain();
-        gainHigh = audioCtx.createGain();
-        gainWhine = audioCtx.createGain();
-
-        toneFilter = audioCtx.createBiquadFilter();
-        toneFilter.type = 'lowpass';
-        toneFilter.frequency.value = 2200;
-
-        earNotchFilter = audioCtx.createBiquadFilter();
-        earNotchFilter.type = 'peaking';
-        earNotchFilter.frequency.value = 3300;
-        earNotchFilter.Q.value = 1.6;
-        earNotchFilter.gain.value = state.earphoneMode ? -10.0 : -1.5;
-
-        gainIdle.connect(toneFilter);
-        gainMid.connect(toneFilter);
-        gainHigh.connect(toneFilter);
-        gainWhine.connect(toneFilter);
-
-        toneFilter.connect(earNotchFilter);
-        earNotchFilter.connect(engineDuckGain);
-        engineDuckGain.connect(masterGain);
-
-        // Direct Backfire Bus bypasses lowpass/notch filters for maximum crack & thump!
-        popDirectGain.connect(masterGain);
-
-        masterGain.connect(analyser);
-        analyser.connect(audioCtx.destination);
-      }
-      if (audioCtx.state === 'suspended') {
-        audioCtx.resume();
-      }
-      if (!state.engineRunning) {
-        state.engineRunning = true;
-        const p = getPreset();
-        state.rpm = p.idle;
-        rebuildLoopSources();
-        updateHeaderAndButtons();
-      }
-    }
-
-    function bakePresetPCM(preset) {
-      if (pcmCache[preset.id]) return pcmCache[preset.id];
-      const sr = audioCtx.sampleRate;
-      const makeBand = (baseFreq, bandIdx) => {
-        const cycles = Math.max(10, Math.round(2.4 * baseFreq));
-        const dur = cycles / baseFreq;
-        const len = Math.floor(sr * dur);
-        const buf = audioCtx.createBuffer(2, len, sr);
-        const L = buf.getChannelData(0);
-        const R = buf.getChannelData(1);
-
-        if (preset.model === 'ev' || preset.model === 'ev_magma') {
-          const isMagma = preset.model === 'ev_magma';
-          const ratios = isMagma ? [0.5, 1, 1.5, 2, 3, 4] : [0.5, 1, 1.5, 2, 2.5, 3, 4];
-          const amps = isMagma ? [0.5, 0.7, 0.45, 0.3, 0.18, 0.08] : [0.55, 0.65, 0.38, 0.28, 0.18, 0.12, 0.06];
-          let lpL = 0, lpR = 0;
-          for (let i = 0; i < len; i++) {
-            const t = i / sr;
-            let sL = 0, sR = 0;
-            for (let h = 0; h < ratios.length; h++) {
-              const f = baseFreq * ratios[h];
-              sL += Math.sin(Math.PI * 2 * f * t + h * 0.4) * amps[h];
-              sR += Math.sin(Math.PI * 2 * f * t + h * 0.9) * amps[h];
+            for (let ch = 0; ch < 2; ch++) {
+                const d = ir.getChannelData(ch);
+                let lp = 0;
+                for (let i = 0; i < len; i++) {
+                    const t = i / sr;
+                    // 초기 파이프 반사(Early Pipe Reflections) + 지수 감쇠
+                    const env = Math.exp(-t * 36);
+                    const reflection = (i % combSamples < 4) ? 0.55 * Math.exp(-t * 22) : 0;
+                    const raw = ((Math.random() * 2 - 1) * 0.35 + reflection) * env;
+                    // 고역 감쇠 필터링으로 자연스러운 통울림 형성
+                    lp = lp * 0.72 + raw * 0.28;
+                    d[i] = lp;
+                }
+                d[0] = 0.85; // 직달음(Direct wavefront)
             }
-            const noise = (Math.random() * 2 - 1) * (bandIdx === 2 ? 0.18 : 0.08);
-            lpL = lpL * 0.85 + noise * 0.15;
-            lpR = lpR * 0.85 - noise * 0.15;
-            L[i] = Math.tanh((sL + lpL) * 0.85) * 0.8;
-            R[i] = Math.tanh((sR + lpR) * 0.85) * 0.8;
-          }
-        } else {
-          // Real Cylinder Firing Pulse Buffer
-          const intervals = preset.intervals || [1, 1, 1, 1];
-          const Decay = baseFreq * (bandIdx === 0 ? 2.3 : bandIdx === 1 ? 1.6 : 1.25);
-          let cursor = 0, step = 0;
-          while (cursor < dur) {
-            const dt = intervals[step % intervals.length] / baseFreq;
-            const startIdx = Math.floor(cursor * sr);
-            const pulseLen = Math.floor((sr / baseFreq) * 2.5);
-            const ampJit = 0.85 + Math.random() * 0.3;
-            for (let k = 0; k < pulseLen; k++) {
-              const idx = (startIdx + k) % len;
-              const pt = k / sr;
-              const env = Math.exp(-pt * Decay);
-              const core = Math.sin(Math.PI * 2 * baseFreq * pt) * 0.75
-                         + Math.sin(Math.PI * 2 * (baseFreq * 0.5) * pt) * 0.52
-                         + Math.sin(Math.PI * 2 * (baseFreq * 2.2) * pt) * (bandIdx === 2 ? 0.38 : 0.2)
-                         + (Math.random() * 2 - 1) * 0.22 * env;
-              L[idx] += core * env * ampJit * (step % 2 === 0 ? 1.04 : 0.92);
-              R[idx] += core * env * ampJit * (step % 2 === 0 ? 0.92 : 1.04);
+            return ir;
+        }
+
+        /**
+         * 엔진 크랭크 구조별 48kHz 물리 연소 압력 펄스 파형(Wavetable Buffer) 합성
+         */
+        function createCombustionBuffer(ctx, layer, preset) {
+            if (customSampleBuffer && layer === "core") {
+                return customSampleBuffer;
             }
-            cursor += dt;
-            step++;
-          }
-          let sL = 0, sR = 0;
-          const alpha = bandIdx === 0 ? 0.26 : bandIdx === 1 ? 0.38 : 0.52;
-          for (let i = 0; i < len; i++) {
-            sL += alpha * (L[i] - sL);
-            sR += alpha * (R[i] - sR);
-            L[i] = Math.tanh(sL * 0.95) * 0.85;
-            R[i] = Math.tanh(sR * 0.95) * 0.85;
-          }
-        }
-        return buf;
-      };
+            const sr = ctx.sampleRate;
+            const duration = 2.5;
+            const frames = Math.floor(sr * duration);
+            const buf = ctx.createBuffer(2, frames, sr);
+            const f0 = preset.baseFreq;
 
-      const whineLen = Math.floor(sr * 1.0);
-      const whineBuf = audioCtx.createBuffer(2, whineLen, sr);
-      const wL = whineBuf.getChannelData(0), wR = whineBuf.getChannelData(1);
-      for (let i = 0; i < whineLen; i++) {
-        const t = i / sr;
-        const v = Math.sin(Math.PI * 2 * 480 * t) * 0.35 + Math.sin(Math.PI * 2 * 720 * t) * 0.2;
-        wL[i] = v; wR[i] = v;
-      }
-
-      pcmCache[preset.id] = {
-        idle: makeBand(preset.baseHz[0], 0),
-        mid: makeBand(preset.baseHz[1], 1),
-        high: makeBand(preset.baseHz[2], 2),
-        whine: whineBuf
-      };
-      return pcmCache[preset.id];
-    }
-
-    function rebuildLoopSources() {
-      if (!audioCtx) return;
-      [srcIdle, srcMid, srcHigh, srcWhine].forEach(s => {
-        if (s) { try { s.stop(); s.disconnect(); } catch (e) {} }
-      });
-      const p = getPreset();
-      const bank = customAudioBuffer
-        ? { idle: customAudioBuffer, mid: customAudioBuffer, high: customAudioBuffer, whine: bakePresetPCM(p).whine }
-        : bakePresetPCM(p);
-
-      const startLoop = (buf, dest) => {
-        const src = audioCtx.createBufferSource();
-        src.buffer = buf;
-        src.loop = true;
-        src.connect(dest);
-        src.start(0);
-        return src;
-      };
-      srcIdle = startLoop(bank.idle, gainIdle);
-      srcMid  = startLoop(bank.mid, gainMid);
-      srcHigh = startLoop(bank.high, gainHigh);
-      srcWhine = startLoop(bank.whine, gainWhine);
-    }
-
-    // 3-LAYER DIRECT-BUS BACKFIRE POP SYNTHESIS (Loud & Punchy in 2,200~5,500 RPM!)
-    function triggerBackfirePop(intensity = 1.0, styleOverride = null) {
-      if (!audioCtx || !state.engineRunning) return;
-      const mode = styleOverride || state.burbleMode;
-      if (mode === 'off') return;
-
-      const now = audioCtx.currentTime;
-      const isAkra = mode === 'akra';
-      const isNPop = mode === 'n_pop';
-      const valveMult = state.valveOpen ? 1.25 : 0.65;
-      const totalAmp = Math.min(3.5, intensity * valveMult * (isAkra ? 1.35 : isNPop ? 1.2 : 0.9));
-
-      // Sidechain Ducking: briefly dip continuous engine drone so backfire punches right through!
-      engineDuckGain.gain.cancelScheduledValues(now);
-      engineDuckGain.gain.setValueAtTime(0.45, now);
-      engineDuckGain.gain.exponentialRampToValueAtTime(1.0, now + 0.085);
-
-      // Layer 1: Low-End Muffler Pipe Thump (65Hz -> 150Hz sub chest punch)
-      const thumpOsc = audioCtx.createOscillator();
-      const thumpGain = audioCtx.createGain();
-      thumpOsc.type = 'triangle';
-      const startHz = (isAkra ? 155 : 125) + Math.random() * 35;
-      thumpOsc.frequency.setValueAtTime(startHz, now);
-      thumpOsc.frequency.exponentialRampToValueAtTime(42, now + 0.11);
-      thumpGain.gain.setValueAtTime(0.001, now);
-      thumpGain.gain.linearRampToValueAtTime(0.95 * totalAmp, now + 0.004);
-      thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-      thumpOsc.connect(thumpGain);
-      thumpGain.connect(popDirectGain);
-      thumpOsc.start(now);
-      thumpOsc.stop(now + 0.125);
-
-      // Layer 2: Metallic Tailpipe Crack / Gunshot Transient Burst
-      const crackDur = isAkra ? 0.095 : 0.075;
-      const crackLen = Math.floor(audioCtx.sampleRate * crackDur);
-      const crackBuf = audioCtx.createBuffer(1, crackLen, audioCtx.sampleRate);
-      const data = crackBuf.getChannelData(0);
-      for (let i = 0; i < crackLen; i++) {
-        const env = Math.pow(1 - i / crackLen, isAkra ? 1.45 : 1.85);
-        data[i] = Math.tanh((Math.random() * 2 - 1) * 2.8) * env;
-      }
-      const crackSrc = audioCtx.createBufferSource();
-      crackSrc.buffer = crackBuf;
-
-      const crackBp = audioCtx.createBiquadFilter();
-      crackBp.type = 'bandpass';
-      crackBp.frequency.value = (isAkra ? 1350 : 920) + Math.random() * 420;
-      crackBp.Q.value = isAkra ? 1.8 : 1.3;
-
-      const crackGain = audioCtx.createGain();
-      crackGain.gain.setValueAtTime(1.15 * totalAmp, now);
-      crackGain.gain.exponentialRampToValueAtTime(0.01, now + crackDur);
-
-      crackSrc.connect(crackBp);
-      crackBp.connect(crackGain);
-      crackGain.connect(popDirectGain);
-      crackSrc.start(now);
-
-      // Layer 3: Asphalt Slapback Reflection (32ms outdoor echo)
-      const echoGain = audioCtx.createGain();
-      echoGain.gain.setValueAtTime(0.38 * totalAmp, now + 0.032);
-      echoGain.gain.exponentialRampToValueAtTime(0.005, now + 0.032 + crackDur);
-      crackBp.connect(echoGain);
-      echoGain.connect(popDirectGain);
-
-      state.popVisualFlash = 1.0;
-      const badge = document.getElementById('popFlashBadge');
-      const bezel = document.getElementById('cockpitBezel');
-      if (badge) badge.style.opacity = '1';
-      if (bezel) bezel.classList.add('pop-flash-glow');
-      setTimeout(() => {
-        if (badge) badge.style.opacity = '0.25';
-        if (bezel) bezel.classList.remove('pop-flash-glow');
-      }, 95);
-    }
-
-    function updateAudioSynth() {
-      if (!audioCtx || !state.engineRunning || !srcIdle) return;
-      const p = getPreset();
-      const now = audioCtx.currentTime;
-      const rpmNorm = Math.max(0, Math.min(1.15, (state.rpm - p.idle) / (p.redline - p.idle)));
-      const pitchRatio = Math.max(0.55, state.rpm / p.idle);
-
-      srcIdle.playbackRate.setTargetAtTime(Math.min(2.6, pitchRatio), now, 0.025);
-      srcMid.playbackRate.setTargetAtTime(Math.max(0.45, state.rpm / (p.redline * 0.42)), now, 0.025);
-      srcHigh.playbackRate.setTargetAtTime(Math.max(0.35, state.rpm / (p.redline * 0.78)), now, 0.025);
-      srcWhine.playbackRate.setTargetAtTime(0.65 + rpmNorm * 2.2, now, 0.03);
-
-      const load = 0.35 + state.throttle * 0.65;
-      const valveGain = state.valveOpen ? 1.15 : 0.62;
-      const cutMute = state.shiftCutTimer > 0 ? 0.15 : 1.0;
-
-      const wIdle = Math.max(0.08, 1.0 - rpmNorm * 2.1);
-      const wMid  = Math.max(0.10, 1.0 - Math.abs(rpmNorm - 0.48) * 2.1);
-      const wHigh = Math.max(0.0, (rpmNorm - 0.32) * 1.45);
-      const wWhine = (p.model === 'ev' || p.id === 'hellcat') ? (0.22 + rpmNorm * 0.45) : (0.04 + rpmNorm * 0.12);
-
-      gainIdle.gain.setTargetAtTime(wIdle * load * valveGain * cutMute, now, 0.03);
-      gainMid.gain.setTargetAtTime(wMid * load * valveGain * cutMute, now, 0.03);
-      gainHigh.gain.setTargetAtTime(wHigh * load * valveGain * cutMute, now, 0.03);
-      gainWhine.gain.setTargetAtTime(wWhine * valveGain * cutMute, now, 0.03);
-
-      const cutoff = (state.valveOpen ? 1200 : 650) + rpmNorm * 4200 + state.throttle * 2400;
-      toneFilter.frequency.setTargetAtTime(Math.min(11000, cutoff), now, 0.03);
-    }
-
-    /*************************************************************************
-     * 4. UI ACTIONS, AUTO-BLIP ON PRESET CLICK, & PHYSICS LOOP
-     *************************************************************************/
-    function selectPreset(id, triggerDemoSound = true) {
-      if (!PRESETS.some(p => p.id === id)) return;
-      state.presetId = id;
-      const p = getPreset();
-      state.burbleMode = p.popStyle || 'akra';
-      if (state.autoTheme) {
-        state.clusterTheme = p.theme;
-      }
-      if (triggerDemoSound) {
-        ensureAudioStarted();
-        rebuildLoopSources();
-        // Automatically rev blip to ~4,200 RPM and snap shut so the user immediately hears the exhaust & pops!
-        triggerAutoBlipTest();
-      } else if (state.engineRunning) {
-        rebuildLoopSources();
-      }
-      renderThemeButtons();
-      renderPresetCards();
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function triggerAutoBlipTest() {
-      ensureAudioStarted();
-      state.autoBlipTimer = 0.52;
-      state.autoBlipPeakReached = false;
-    }
-
-    function fireManualPopBurst() {
-      ensureAudioStarted();
-      for (let i = 0; i < 5; i++) {
-        setTimeout(() => triggerBackfirePop(1.25 - i * 0.12), i * 85);
-      }
-    }
-
-    function selectClusterTheme(themeId) {
-      state.clusterTheme = themeId;
-      state.autoTheme = false;
-      renderThemeButtons();
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function toggleAutoTheme() {
-      state.autoTheme = !state.autoTheme;
-      if (state.autoTheme) {
-        state.clusterTheme = getPreset().theme;
-      }
-      renderThemeButtons();
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function toggleEnginePower() {
-      if (!state.engineRunning) {
-        ensureAudioStarted();
-        triggerAutoBlipTest();
-      } else {
-        state.engineRunning = false;
-        state.launchDemo = false;
-        state.rpm = 0;
-        if (gainIdle && audioCtx) {
-          const now = audioCtx.currentTime;
-          gainIdle.gain.setTargetAtTime(0, now, 0.05);
-          gainMid.gain.setTargetAtTime(0, now, 0.05);
-          gainHigh.gain.setTargetAtTime(0, now, 0.05);
-          gainWhine.gain.setTargetAtTime(0, now, 0.05);
-        }
-        updateHeaderAndButtons();
-      }
-    }
-
-    function paddleShift(dir) {
-      ensureAudioStarted();
-      if (state.gearboxMode === 'neutral') state.gearboxMode = 'manual';
-      const p = getPreset();
-      if (dir > 0 && state.gear < 8) {
-        state.gear++;
-        state.shiftCutTimer = 0.075;
-        state.rpm = Math.max(p.idle + 500, state.rpm * 0.72);
-        triggerBackfirePop(1.25);
-      } else if (dir < 0 && state.gear > 1) {
-        state.gear--;
-        state.rpm = Math.min(p.redline * 0.95, state.rpm * 1.32 + 700);
-        triggerBackfirePop(1.1);
-        setTimeout(() => triggerBackfirePop(0.85), 75);
-      }
-      updateHeaderAndButtons();
-    }
-
-    function toggleLaunchDemo() {
-      ensureAudioStarted();
-      state.launchDemo = !state.launchDemo;
-      if (state.launchDemo) {
-        state.gearboxMode = 'auto';
-        state.gear = 1;
-        state.speedKmh = 0;
-        state.launchPhase = 'accel';
-      }
-      updateHeaderAndButtons();
-    }
-
-    function triggerNGB() {
-      ensureAudioStarted();
-      state.ngbTimer = 10.0;
-      state.valveOpen = true;
-      if (state.gear > 1) paddleShift(-1);
-      else triggerAutoBlipTest();
-      updateHeaderAndButtons();
-    }
-
-    function toggleValve() {
-      state.valveOpen = !state.valveOpen;
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function cycleBurbleMode() {
-      const order = ['akra', 'n_pop', 'sport', 'off'];
-      const idx = (order.indexOf(state.burbleMode) + 1) % order.length;
-      state.burbleMode = order[idx];
-      if (state.burbleMode !== 'off') {
-        ensureAudioStarted();
-        triggerBackfirePop(1.15);
-      }
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function setGearboxMode(mode) {
-      state.gearboxMode = mode;
-      updateHeaderAndButtons();
-    }
-
-    function toggleDriveMode() {
-      state.driveMode = state.driveMode === 'sim' ? 'real' : 'sim';
-      if (state.driveMode === 'real') initRealSensors();
-      updateHeaderAndButtons();
-    }
-
-    function toggleEarphoneMode() {
-      state.earphoneMode = !state.earphoneMode;
-      if (earNotchFilter && audioCtx) {
-        earNotchFilter.gain.setTargetAtTime(state.earphoneMode ? -10.0 : -1.5, audioCtx.currentTime, 0.05);
-      }
-      updateHeaderAndButtons();
-      saveSettings();
-    }
-
-    function onMixerChange() {
-      state.popVolume = parseInt(document.getElementById('popVolSlider').value, 10) / 100;
-      state.masterVolume = parseInt(document.getElementById('masterVolSlider').value, 10) / 100;
-      state.gSensitivity = parseFloat(document.getElementById('gSensSlider').value);
-
-      document.getElementById('popVolLabel').textContent = `${Math.round(state.popVolume * 100)}%`;
-      document.getElementById('masterVolLabel').textContent = `${Math.round(state.masterVolume * 100)}%`;
-      document.getElementById('gSensLabel').textContent = `${state.gSensitivity.toFixed(1)}x`;
-
-      if (popDirectGain && audioCtx) popDirectGain.gain.setTargetAtTime(state.popVolume, audioCtx.currentTime, 0.02);
-      if (masterGain && audioCtx) masterGain.gain.setTargetAtTime(state.masterVolume, audioCtx.currentTime, 0.02);
-      saveSettings();
-    }
-
-    function handleCustomWav(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      ensureAudioStarted();
-      const reader = new FileReader();
-      reader.onload = async (ev) => {
-        try {
-          customAudioBuffer = await audioCtx.decodeAudioData(ev.target.result);
-          document.getElementById('wavBtnLabel').textContent = file.name.slice(0, 10);
-          rebuildLoopSources();
-          triggerAutoBlipTest();
-        } catch (err) { console.error(err); }
-      };
-      reader.readAsArrayBuffer(file);
-    }
-
-    function toggleHelpModal(show) {
-      const m = document.getElementById('helpModal');
-      if (!m) return;
-      m.classList.toggle('hidden', !show);
-      m.classList.toggle('flex', show);
-    }
-
-    /*************************************************************************
-     * 5. KINEMATICS, OVERRUN BACKFIRE WINDOW & REAL SENSORS
-     *************************************************************************/
-    let rawG = { x: 0, y: 0, z: 0 };
-    function initRealSensors() {
-      try {
-        if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
-          DeviceMotionEvent.requestPermission().catch(() => {});
-        }
-        window.addEventListener('devicemotion', (e) => {
-          const a = e.accelerationIncludingGravity || e.acceleration;
-          if (a) rawG = { x: a.x || 0, y: a.y || 0, z: a.z || 0 };
-        });
-        if (navigator.geolocation) {
-          navigator.geolocation.watchPosition((pos) => {
-            if (pos.coords && typeof pos.coords.speed === 'number') {
-              state.gpsSpeedKmh = Math.max(0, pos.coords.speed * 3.6);
-              document.getElementById('gpsReadout').textContent = `${Math.round(state.gpsSpeedKmh)} km/h`;
+            // 크랭크 점화 간격 패턴 (실린더별 폭발 타이밍 비대칭성)
+            let firingPhases = [0, 0.5];
+            if (preset.crank === "cp4" || preset.crank === "v8_crossplane" || preset.crank === "v8_hemi") {
+                firingPhases = [0, 0.1875, 0.5, 0.625]; // 부등간격 크로스플레인 걸걸한 맥동
+            } else if (preset.crank === "desmo_v4") {
+                firingPhases = [0, 0.125, 0.52, 0.645]; // 두카티 트윈펄스 V4
+            } else if (preset.crank === "v10_oddfire" || preset.crank === "v10_lfa") {
+                firingPhases = [0, 0.15, 0.35, 0.5, 0.65, 0.85]; // V10 특유의 하모닉 화음
+            } else if (preset.crank === "rotary_4") {
+                firingPhases = [0, 0.24, 0.51, 0.76]; // 4로터 브랩 맥동
+            } else {
+                firingPhases = [0, 0.25, 0.5, 0.75]; // 균등 간격 직렬4기통 / V12 / Flat-6
             }
-          }, () => {}, { enableHighAccuracy: true, maximumAge: 500 });
-        }
-      } catch (e) {}
-    }
 
-    function calibrateZeroG() {
-      state.zeroG = { ...rawG };
-      saveSettings();
-    }
+            for (let ch = 0; ch < 2; ch++) {
+                const out = buf.getChannelData(ch);
+                const stereoSpread = ch * 0.08;
+                let brownState = 0;
 
-    let lastTime = performance.now();
-    function stepPhysics(nowMs) {
-      const dt = Math.min(0.05, Math.max(0.001, (nowMs - lastTime) / 1000));
-      lastTime = nowMs;
-      const p = getPreset();
+                for (let i = 0; i < frames; i++) {
+                    const t = i / sr;
+                    // 주기 경계에서 끊김이 없도록 정수배 주파수 정렬
+                    const cyclePos = (t * f0 + stereoSpread);
+                    const frac = cyclePos - Math.floor(cyclePos);
 
-      if (state.ngbTimer > 0) {
-        state.ngbTimer = Math.max(0, state.ngbTimer - dt);
-      }
-      if (state.shiftCutTimer > 0) {
-        state.shiftCutTimer = Math.max(0, state.shiftCutTimer - dt);
-      }
-      if (state.popVisualFlash > 0) {
-        state.popVisualFlash = Math.max(0, state.popVisualFlash - dt * 6);
-      }
+                    // 미세한 연소 압력 변동 (실차는 매 행정마다 폭발 압력이 미세하게 다름)
+                    const loopAngle = (2 * Math.PI * i) / frames;
+                    const cycleJitter = 1.0 + 0.04 * Math.sin(11 * loopAngle) + 0.03 * Math.cos(19 * loopAngle);
 
-      // Determine Throttle & Brake
-      let targetThr = state.pedalThrottle ? 1.0 : 0.0;
-      let targetBrk = state.pedalBrake ? 1.0 : 0.0;
+                    let sample = 0;
 
-      if (state.autoBlipTimer > 0) {
-        state.autoBlipTimer = Math.max(0, state.autoBlipTimer - dt);
-        targetThr = 0.95;
-      } else if (!state.autoBlipPeakReached && state.overrunTimer > 0) {
-        state.autoBlipPeakReached = true;
-      }
-
-      if (state.launchDemo && state.engineRunning) {
-        if (state.launchPhase === 'accel') {
-          targetThr = 1.0; targetBrk = 0;
-          if (state.speedKmh >= 205) state.launchPhase = 'decel';
-        } else {
-          targetThr = 0; targetBrk = 0.65;
-          if (state.speedKmh <= 18) state.launchPhase = 'accel';
-        }
-      } else if (state.driveMode === 'real' && !state.pedalThrottle && !state.pedalBrake && state.autoBlipTimer <= 0) {
-        const dy = ((rawG.y - state.zeroG.y) / 9.81) * state.gSensitivity;
-        if (dy > 0.05) targetThr = Math.min(1, dy * 1.6);
-        else if (dy < -0.06) targetBrk = Math.min(1, Math.abs(dy) * 1.5);
-      }
-
-      state.prevThrottle = state.throttle;
-      state.throttle += (targetThr - state.throttle) * Math.min(1, dt * 16);
-      state.brake += (targetBrk - state.brake) * Math.min(1, dt * 16);
-
-      // Detect Throttle Lift-Off -> Open 1.4s Overrun Popcorn Window!
-      if (state.prevThrottle > 0.30 && state.throttle < 0.18 && state.rpm > p.idle + 850) {
-        state.overrunTimer = 1.35;
-        state.popCooldown = 0.02; // Immediate first pop on lift!
-      }
-
-      if (state.engineRunning) {
-        const ngbMult = state.ngbTimer > 0 ? 1.35 : 1.0;
-
-        if (state.gearboxMode === 'neutral' || state.autoBlipTimer > 0) {
-          // Free-revving in Neutral or during Auto-Blip Demo
-          const targetRpm = p.idle + state.throttle * (p.redline * 0.92 - p.idle);
-          const rate = state.throttle > 0.15 ? 9.5 : 4.2;
-          state.rpm += (targetRpm - state.rpm) * Math.min(1, dt * rate);
-          state.forwardG = (state.throttle * 0.35);
-        } else {
-          // Driving physics
-          const gearFactor = 1.18 - state.gear * 0.11;
-          const accelKmhS = (state.throttle * 68 * gearFactor * ngbMult) - (state.brake * 85) - 4.5 - (state.speedKmh * 0.045);
-          state.speedKmh = Math.max(0, Math.min(340, state.speedKmh + accelKmhS * dt));
-          if (state.driveMode === 'real' && state.gpsSpeedKmh > 2) {
-            state.speedKmh = state.speedKmh * 0.85 + state.gpsSpeedKmh * 0.15;
-          }
-          state.forwardG = accelKmhS / 35.3;
-
-          const gMax = GEAR_SPEEDS[state.gear] || 120;
-          const gMin = state.gear === 1 ? 0 : GEAR_SPEEDS[state.gear - 1] * 0.52;
-          const spdNorm = Math.max(0, (state.speedKmh - gMin) / Math.max(1, gMax - gMin));
-          const targetRpm = p.idle + spdNorm * (p.redline * 0.94 - p.idle) + state.throttle * 650;
-          state.rpm += (Math.min(p.redline, targetRpm) - state.rpm) * Math.min(1, dt * 11);
-
-          // Automatic DCT Upshift & Rev-Matching Downshift
-          if (state.gearboxMode === 'auto') {
-            if (state.rpm >= p.redline * 0.90 && state.gear < 8 && state.throttle > 0.35) {
-              paddleShift(1);
-            } else if (state.gear > 1 && state.speedKmh < GEAR_SPEEDS[state.gear - 1] * 0.72) {
-              paddleShift(-1);
+                    if (layer === "sub") {
+                        // Layer 1: 배기구 저주파 공기 압력 맥동 (Exhaust Thump & Sub-Rumble)
+                        let pulseSum = 0;
+                        for (let p = 0; p < firingPhases.length; p++) {
+                            let d = frac - firingPhases[p];
+                            if (d < 0) d += 1.0;
+                            // 비대칭 폭발 압력 곡선: 급격한 상승 후 지수 감쇠
+                            pulseSum += Math.exp(-d * 7.5) * Math.sin(2 * Math.PI * d * 2.0);
+                        }
+                        const subWave = Math.sin(2 * Math.PI * cyclePos * 0.5);
+                        // 아이들 브랩(Rotary/Cam lope) 모듈레이션
+                        const lope = preset.crank === "rotary_4" ? (0.65 + 0.35 * Math.sin(2 * Math.PI * t * 5.6)) : 1.0;
+                        sample = Math.tanh((pulseSum * 0.55 + subWave * 0.45) * cycleJitter * lope) * 0.75;
+                    } else if (layer === "core") {
+                        // Layer 2: 실린더 연소 코어 & 매니폴드 공명 (Organic Combustion Core)
+                        let coreWave = 0;
+                        for (let p = 0; p < firingPhases.length; p++) {
+                            let d = frac - firingPhases[p];
+                            if (d < 0) d += 1.0;
+                            const env = Math.exp(-d * 9.0);
+                            coreWave += env * (Math.sin(2 * Math.PI * d * 3.0) + 0.6 * Math.sin(2 * Math.PI * d * 5.0));
+                        }
+                        // 브라운 노이즈(흡기/배기 가스 유동 질감)를 연소 위상에 동기화하여 전자음 느낌 제거
+                        const white = Math.random() * 2 - 1;
+                        brownState = (brownState + 0.04 * white) / 1.04;
+                        const airFlow = brownState * 1.8 * (0.4 + 0.6 * Math.abs(coreWave));
+                        sample = Math.tanh((coreWave * 0.65 + airFlow * 0.35) * preset.character) * 0.7;
+                    } else {
+                        // Layer 3: 고회전 메탈릭 배음 / ShiftCam 흡기 하울링 / EV 인버터 하모닉스
+                        const w = 2 * Math.PI * cyclePos;
+                        if (preset.cat === "EV") {
+                            // EV 유성기어 & 인버터 다중 배음
+                            const evTone = 0.45 * Math.sin(w * 2) + 0.3 * Math.sin(w * 3.5) + 0.25 * Math.sin(w * 6);
+                            sample = Math.tanh(evTone * 1.4) * 0.55;
+                        } else {
+                            // 실차 티타늄 배기관 고주파 하모닉스 & 밸브트레인 질감
+                            const metallic = 0.4 * Math.sin(w * 2) +
+                                             0.32 * Math.sin(w * 3 + 0.3) +
+                                             0.22 * Math.sin(w * 4.5) +
+                                             0.15 * Math.sin(w * 6);
+                            const valveNoise = (Math.random() * 2 - 1) * 0.14 * (0.5 + 0.5 * Math.sin(w * 2));
+                            sample = Math.tanh((metallic + valveNoise) * preset.character) * 0.6;
+                        }
+                    }
+                    out[i] = sample;
+                }
             }
-          }
+            return buf;
         }
 
-        // Overrun Popcorn / Backfire Crackles (Active in 1,800 RPM ~ Redline!)
-        if (state.overrunTimer > 0 && state.throttle < 0.22 && state.rpm > p.idle + 550) {
-          state.overrunTimer = Math.max(0, state.overrunTimer - dt);
-          state.popCooldown -= dt;
-          if (state.popCooldown <= 0) {
-            const popIntensity = 0.85 + Math.random() * 0.45;
-            triggerBackfirePop(popIntensity);
-            state.popCooldown = 0.055 + Math.random() * 0.085;
-          }
-        }
-      } else {
-        state.rpm = Math.max(0, state.rpm - dt * 3500);
-        state.speedKmh = Math.max(0, state.speedKmh - dt * 25);
-        state.forwardG = 0;
-      }
+        function initAudioSystem() {
+            const AC = window.AudioContext || window.webkitAudioContext;
+            audioCtx = new AC({ sampleRate: 48000 });
 
-      if (state.rpm > state.peakRpmHold) state.peakRpmHold = state.rpm;
-      else state.peakRpmHold = Math.max(state.rpm, state.peakRpmHold - dt * 1400);
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = state.masterVolumePct / 100;
+            masterGain.connect(audioCtx.destination);
 
-      state.boostBar = Math.max(-0.4, Math.min(2.2, (state.throttle * 1.85) * (state.rpm / p.redline) - 0.25));
+            // 메인 엔진 버스 (후적 시 자연스러운 더킹 적용)
+            engineBus = audioCtx.createGain();
+            engineBus.gain.value = 1.0;
 
-      updateAudioSynth();
-      updateTelemetryDOM();
-      renderCluster();
-      renderMiniFFT();
-      requestAnimationFrame(stepPhysics);
-    }
+            // 스로틀/RPM 연동 다이내믹 로우패스 필터
+            dynamicLowpass = audioCtx.createBiquadFilter();
+            dynamicLowpass.type = "lowpass";
+            dynamicLowpass.frequency.value = 1800;
+            dynamicLowpass.Q.value = 1.1;
 
-    /*************************************************************************
-     * 6. 12 AUTHENTIC BRAND INSTRUMENT CLUSTER RENDERERS (Safe Canvas 2D)
-     *************************************************************************/
-    function fillRoundRect(ctx, x, y, w, h, r) {
-      const radius = Math.max(0, Math.min(r, Math.min(w, h) / 2));
-      ctx.beginPath();
-      ctx.moveTo(x + radius, y);
-      ctx.arcTo(x + w, y, x + w, y + h, radius);
-      ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
-      ctx.fill();
-    }
+            // 중저음 통울림 보강 Peaking EQ
+            mufflerBodyEq = audioCtx.createBiquadFilter();
+            mufflerBodyEq.type = "peaking";
+            mufflerBodyEq.frequency.value = 155;
+            mufflerBodyEq.Q.value = 1.25;
+            mufflerBodyEq.gain.value = 6.5;
 
-    function strokeRoundRect(ctx, x, y, w, h, r) {
-      const radius = Math.max(0, Math.min(r, Math.min(w, h) / 2));
-      ctx.beginPath();
-      ctx.moveTo(x + radius, y);
-      ctx.arcTo(x + w, y, x + w, y + h, radius);
-      ctx.arcTo(x + w, y + h, x, y + h, radius);
-      ctx.arcTo(x, y + h, x, y, radius);
-      ctx.arcTo(x, y, x + w, y, radius);
-      ctx.closePath();
-      ctx.stroke();
-    }
+            // 머플러 캐비닛 임펄스 응답 컨볼버
+            exhaustConvolver = audioCtx.createConvolver();
+            const preset = getActivePreset();
+            exhaustConvolver.buffer = createExhaustCabinetIR(audioCtx, preset.pipeLen);
 
-    function renderCluster() {
-      try {
-        const canvas = document.getElementById('clusterCanvas');
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const W = canvas.width || 960;
-        const H = canvas.height || 360;
-        const p = getPreset();
-        const rpmRatio = Math.max(0, Math.min(1, state.rpm / p.redline));
-        const gearStr = state.gearboxMode === 'neutral' ? 'N' : String(state.gear);
-        const spdStr = String(Math.round(state.speedKmh));
-        const rpmStr = String(Math.round(state.rpm));
-        const theme = state.clusterTheme;
+            cabinetDryGain = audioCtx.createGain();
+            cabinetWetGain = audioCtx.createGain();
+            updateCabinetMix();
 
-        ctx.clearRect(0, 0, W, H);
+            engineBus.connect(dynamicLowpass);
+            dynamicLowpass.connect(mufflerBodyEq);
 
-        // Background + Subtle Pop Flash
-        const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
-        bgGrad.addColorStop(0, '#0b0f18');
-        bgGrad.addColorStop(1, '#04060a');
-        ctx.fillStyle = bgGrad;
-        ctx.fillRect(0, 0, W, H);
+            mufflerBodyEq.connect(cabinetDryGain);
+            mufflerBodyEq.connect(exhaustConvolver);
+            exhaustConvolver.connect(cabinetWetGain);
 
-        if (state.popVisualFlash > 0.05) {
-          ctx.fillStyle = `rgba(255, 115, 0, ${state.popVisualFlash * 0.22})`;
-          ctx.fillRect(0, 0, W, H);
+            cabinetDryGain.connect(masterGain);
+            cabinetWetGain.connect(masterGain);
+
+            // 300% 다이렉트 후적 버스 (머플러 저역 공명 필터 포함)
+            directBackfireBus = audioCtx.createGain();
+            directBackfireBus.gain.value = 1.0;
+            directBackfireBus.connect(masterGain);
+
+            rebuildSoundLayers();
         }
 
-        // Top 16-LED Sequential Shift Light Strip (Universal across all clusters)
-        const ledCount = 16;
-        const stripW = W * 0.66;
-        const startX = (W - stripW) / 2;
-        const ledW = (stripW / ledCount) - 6;
-        for (let i = 0; i < ledCount; i++) {
-          const thresh = 0.25 + (i / ledCount) * 0.70;
-          const active = rpmRatio >= thresh;
-          const isRed = i >= 12;
-          const isAmber = i >= 7 && i < 12;
-          ctx.fillStyle = active
-            ? (isRed ? '#ff1e27' : isAmber ? '#ffb800' : '#00f0ff')
-            : 'rgba(255,255,255,0.08)';
-          fillRoundRect(ctx, startX + i * (ledW + 6), 36, ledW, 9, 4);
+        function updateCabinetMix() {
+            if (!cabinetDryGain || !cabinetWetGain) return;
+            const resRatio = state.resonancePct / 100;
+            cabinetDryGain.gain.value = 0.55;
+            cabinetWetGain.gain.value = 0.68 * resRatio;
+            if (mufflerBodyEq) {
+                mufflerBodyEq.gain.value = 4.5 * resRatio + (state.valveOpen ? 2.5 : -2.0);
+            }
         }
 
-        // Dispatch to 12 Authentic Brand Cluster Layouts
-        if (theme === 's1000rr') {
-          // 🏍️ BMW S1000RR 6.5" TFT Hockey-Stick Bar
-          const segments = 38;
-          for (let i = 0; i < segments; i++) {
-            const t = i / segments;
-            const x = 68 + t * (W - 150);
-            const climb = t < 0.36 ? (1 - t / 0.36) * 145 : 0;
-            const y = 92 + climb;
-            const segH = t < 0.36 ? 26 : 34;
-            const on = rpmRatio >= t;
-            ctx.fillStyle = on
-              ? (t > 0.86 ? '#ff1e27' : t > 0.65 ? '#38bdf8' : '#ffffff')
-              : 'rgba(255,255,255,0.09)';
-            fillRoundRect(ctx, x, y, 15, segH, 3);
-          }
-          // M Tricolor Stripe & Labels
-          ctx.fillStyle = '#0066b1'; ctx.fillRect(68, 70, 28, 6);
-          ctx.fillStyle = '#1e1b4b'; ctx.fillRect(98, 70, 28, 6);
-          ctx.fillStyle = '#e4002b'; ctx.fillRect(128, 70, 28, 6);
-          ctx.fillStyle = '#38bdf8'; ctx.font = '800 13px Orbitron';
-          ctx.fillText('BMW M MOTORSPORT · RACE PRO 1 · GP1RS', 168, 78);
+        function rebuildSoundLayers() {
+            if (!audioCtx) return;
+            if (subPulseNode) {
+                try {
+                    subPulseNode.stop();
+                    corePulseNode.stop();
+                    harmonicRaspNode.stop();
+                } catch (e) {}
+            }
 
-          // Center Speed & Right Gear Box
-          ctx.fillStyle = '#ffffff'; ctx.font = '900 112px Orbitron'; ctx.textAlign = 'center';
-          ctx.fillText(spdStr, W * 0.46, 260);
-          ctx.font = '700 16px JetBrains Mono'; ctx.fillStyle = '#94a3b8';
-          ctx.fillText(`km/h   ·   ${rpmStr} RPM`, W * 0.46, 292);
+            const preset = getActivePreset();
+            exhaustConvolver.buffer = createExhaustCabinetIR(audioCtx, preset.pipeLen);
 
-          ctx.fillStyle = 'rgba(255,30,39,0.16)';
-          fillRoundRect(ctx, W - 210, 145, 130, 145, 18);
-          ctx.strokeStyle = '#ff1e27'; ctx.lineWidth = 2;
-          strokeRoundRect(ctx, W - 210, 145, 130, 145, 18);
-          ctx.fillStyle = '#ff1e27'; ctx.font = '900 84px Orbitron';
-          ctx.fillText(gearStr, W - 145, 246);
-          ctx.font = '700 12px JetBrains Mono'; ctx.fillStyle = '#fca5a5';
-          ctx.fillText('QUICKSHIFTER+', W - 145, 275);
+            subPulseNode = audioCtx.createBufferSource();
+            corePulseNode = audioCtx.createBufferSource();
+            harmonicRaspNode = audioCtx.createBufferSource();
 
-        } else if (theme === 'ferrari' || theme === 'gt3rs' || theme === 'lfa') {
-          // 🐎 Ferrari Giallo Modena / 🐸 Porsche 911 GT3 RS / 👼 Lexus LFA Central Dial
-          const cx = W * 0.5, cy = H * 0.56, rad = 122;
-          ctx.beginPath(); ctx.arc(cx, cy, rad, 0, Math.PI * 2);
-          ctx.fillStyle = theme === 'ferrari' ? '#facc15' : (theme === 'lfa' ? '#1e293b' : '#111827');
-          ctx.fill();
-          ctx.lineWidth = 8;
-          ctx.strokeStyle = theme === 'ferrari' ? '#dc2626' : (theme === 'lfa' ? '#38bdf8' : '#facc15');
-          ctx.stroke();
+            subPulseNode.buffer = createCombustionBuffer(audioCtx, "sub", preset);
+            corePulseNode.buffer = createCombustionBuffer(audioCtx, "core", preset);
+            harmonicRaspNode.buffer = createCombustionBuffer(audioCtx, "harmonic", preset);
 
-          // Active RPM Arc
-          const startAng = Math.PI * 0.75;
-          const endAng = startAng + Math.PI * 1.5 * rpmRatio;
-          ctx.beginPath(); ctx.arc(cx, cy, rad - 10, startAng, endAng);
-          ctx.strokeStyle = rpmRatio > 0.85 ? '#ff1e27' : (theme === 'ferrari' ? '#111827' : '#facc15');
-          ctx.lineWidth = 14; ctx.stroke();
+            subPulseNode.loop = true;
+            corePulseNode.loop = true;
+            harmonicRaspNode.loop = true;
 
-          // Needle
-          const needleAng = startAng + Math.PI * 1.5 * rpmRatio;
-          ctx.save(); ctx.translate(cx, cy); ctx.rotate(needleAng);
-          ctx.fillStyle = theme === 'ferrari' ? '#dc2626' : '#facc15';
-          fillRoundRect(ctx, 0, -4, rad - 18, 8, 4);
-          ctx.restore();
+            subPulseGain = audioCtx.createGain();
+            corePulseGain = audioCtx.createGain();
+            harmonicRaspGain = audioCtx.createGain();
 
-          // Center Text
-          const txtCol = theme === 'ferrari' ? '#09090b' : '#ffffff';
-          ctx.fillStyle = txtCol; ctx.textAlign = 'center';
-          ctx.font = '900 64px Orbitron'; ctx.fillText(gearStr, cx, cy + 16);
-          ctx.font = '800 22px JetBrains Mono'; ctx.fillText(`${spdStr} km/h`, cx, cy + 54);
-          ctx.font = '700 13px JetBrains Mono'; ctx.fillText(`${rpmStr} RPM`, cx, cy - 48);
+            subPulseGain.gain.value = 0.001;
+            corePulseGain.gain.value = 0.001;
+            harmonicRaspGain.gain.value = 0.001;
 
-          // Left & Right Track Pods
-          ctx.fillStyle = 'rgba(255,255,255,0.05)';
-          fillRoundRect(ctx, 45, 95, 220, 195, 18);
-          fillRoundRect(ctx, W - 265, 95, 220, 195, 18);
-          ctx.fillStyle = '#facc15'; ctx.font = '800 14px Orbitron'; ctx.textAlign = 'left';
-          ctx.fillText(theme === 'ferrari' ? '🐎 MANETTINO: RACE' : theme === 'gt3rs' ? '🐸 992 GT3 RS PDK' : '👼 YAMAHA V10 NUR', 65, 130);
-          ctx.fillStyle = '#e2e8f0'; ctx.font = '700 14px JetBrains Mono';
-          ctx.fillText(`THR : ${Math.round(state.throttle * 100)}%`, 65, 175);
-          ctx.fillText(`BRK : ${Math.round(state.brake * 100)}%`, 65, 205);
-          ctx.fillText(`G-X : ${state.forwardG >= 0 ? '+' : ''}${state.forwardG.toFixed(2)}G`, 65, 235);
+            subPulseNode.connect(subPulseGain).connect(engineBus);
+            corePulseNode.connect(corePulseGain).connect(engineBus);
+            harmonicRaspNode.connect(harmonicRaspGain).connect(engineBus);
 
-          ctx.textAlign = 'right'; ctx.fillStyle = '#38bdf8'; ctx.font = '800 14px Orbitron';
-          ctx.fillText('EXHAUST TELEMETRY', W - 65, 130);
-          ctx.fillStyle = '#f8fafc'; ctx.font = '700 14px JetBrains Mono';
-          ctx.fillText(`REDLINE: ${p.redline}`, W - 65, 175);
-          ctx.fillText(`POP BUS: ${Math.round(state.popVolume * 100)}%`, W - 65, 205);
-          ctx.fillText(`VALVE  : ${state.valveOpen ? 'OPEN' : 'QUIET'}`, W - 65, 235);
+            subPulseNode.start();
+            corePulseNode.start();
+            harmonicRaspNode.start();
+        }
 
-        } else if (theme === 'taycan' || theme === 'ioniq_n') {
-          // ⚡ Porsche Taycan 3-Tube OR 🏁 Hyundai IONIQ N Dual Ring
-          const isN = theme === 'ioniq_n';
-          const primaryCol = isN ? '#6ca6ff' : '#00f0ff';
-          const accentCol = isN ? '#ff5e00' : '#38bdf8';
+        /**
+         * 4. 이질감 없는 실차 물리 배기 폭발(Pop & Bang / Burble) 엔진
+         * 화이트노이즈 치찰음을 제거하고, 배기 파이프 내부 미연소 가스 폭압(Shockwave)과
+         * 머플러 공명관 반사음, 저음역 버블(Gurgle)을 물리적으로 합성
+         */
+        function triggerRealisticBackfire(countOverride, isShiftCut) {
+            if (!audioCtx || !isRunning) return;
+            const popScale = (state.popVolumePct / 100) * (state.valveOpen ? 1.0 : 0.45);
+            if (popScale <= 0.03) return;
 
-          // Left Ring (RPM / Power) & Right Ring (Boost / G)
-          [W * 0.25, W * 0.75].forEach((rx, idx) => {
-            ctx.beginPath(); ctx.arc(rx, H * 0.56, 98, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(15,23,42,0.75)'; ctx.fill();
-            ctx.lineWidth = 6; ctx.strokeStyle = 'rgba(255,255,255,0.12)'; ctx.stroke();
+            const preset = getActivePreset();
+            const popStyle = POP_STYLES[state.popStyleIdx] || POP_STYLES[0];
+            const now = audioCtx.currentTime;
 
-            const val = idx === 0 ? rpmRatio : Math.min(1, state.throttle);
+            // 메인 배기음 자연스러운 사이드체인 더킹 (후적 폭발음이 배기구를 가득 채우는 효과)
+            if (engineBus) {
+                engineBus.gain.cancelScheduledValues(now);
+                engineBus.gain.setValueAtTime(0.38, now);
+                engineBus.gain.exponentialRampToValueAtTime(1.0, now + (isShiftCut ? 0.14 : 0.32));
+            }
+
+            const totalShots = countOverride || (isShiftCut ? 2 : popStyle.burbles);
+
+            for (let i = 0; i < totalShots; i++) {
+                // 첫 1~2발은 강한 백파이어 폭발(Bang), 이후 발들은 불규칙한 중저음 잔향 버블(Burble)
+                const isMainBang = (i < 2) || isShiftCut;
+                const spacing = isShiftCut ? 0.038 : (0.055 + Math.random() * 0.075);
+                const startT = now + i * spacing + (i > 0 ? Math.random() * 0.025 : 0);
+                const dur = (popStyle.tailMs / 1000) * (isMainBang ? 1.05 : 0.85);
+
+                // 1) 배기관 내부 충격파 버퍼 생성 (고역 화이트노이즈 대신 저역/중저역 포화 압력파 + 파이프 딜레이 반사)
+                const frames = Math.floor(audioCtx.sampleRate * dur);
+                const popBuf = audioCtx.createBuffer(2, frames, audioCtx.sampleRate);
+                const pipeDelaySamples = Math.max(15, Math.floor(audioCtx.sampleRate * preset.pipeLen));
+
+                for (let ch = 0; ch < 2; ch++) {
+                    const data = popBuf.getChannelData(ch);
+                    let lp1 = 0, lp2 = 0;
+                    for (let j = 0; j < frames; j++) {
+                        const t = j / audioCtx.sampleRate;
+                        // 비대칭 폭발 엔벨로프 (빠른 압축파 상승 후 배기통 울림 감쇠)
+                        const attack = Math.min(1.0, j / (audioCtx.sampleRate * 0.0025));
+                        const decay = Math.exp(-t / (dur * 0.28));
+                        const rawNoise = (Math.random() * 2 - 1);
+
+                        // 2단 저역통과 필터로 "치직"거리는 고주파 치찰음을 원천 차단
+                        lp1 = lp1 * 0.68 + rawNoise * 0.32;
+                        lp2 = lp2 * 0.55 + lp1 * 0.45;
+
+                        // 배기 파이프 내부 반사(Waveguide Comb feedback)
+                        const echo = (j >= pipeDelaySamples) ? data[j - pipeDelaySamples] * 0.46 : 0;
+                        data[j] = Math.tanh((lp2 * 2.6 + echo) * attack * decay * 1.8);
+                    }
+                }
+
+                const burstSrc = audioCtx.createBufferSource();
+                burstSrc.buffer = popBuf;
+
+                // 머플러 통울림 공명 필터 (티타늄/카본 배기통 포먼트 주파수)
+                const pipeResonator = audioCtx.createBiquadFilter();
+                pipeResonator.type = "bandpass";
+                const centerFreq = (isMainBang ? popStyle.freq : popStyle.freq * 0.72) * (0.88 + Math.random() * 0.24);
+                pipeResonator.frequency.setValueAtTime(centerFreq, startT);
+                pipeResonator.frequency.exponentialRampToValueAtTime(Math.max(140, centerFreq * 0.55), startT + dur);
+                pipeResonator.Q.setValueAtTime(popStyle.q, startT);
+
+                // 고주파 롤오프 필터 (가상 전자음 느낌 완전 제거)
+                const warmCut = audioCtx.createBiquadFilter();
+                warmCut.type = "lowpass";
+                warmCut.frequency.setValueAtTime(1950, startT);
+
+                // 2) 대구경 배기구 체스트 펀치 (Sub-Bass Thump: 130Hz -> 38Hz 급감쇠)
+                const thumpOsc = audioCtx.createOscillator();
+                thumpOsc.type = "triangle";
+                const startSub = popStyle.sub * (isMainBang ? 1.1 : 0.85);
+                thumpOsc.frequency.setValueAtTime(startSub, startT);
+                thumpOsc.frequency.exponentialRampToValueAtTime(34, startT + dur * 0.85);
+
+                const shotGain = audioCtx.createGain();
+                const decayFactor = Math.pow(0.78, i);
+                const amp = Math.min(3.0, popScale * preset.popLevel * decayFactor * (0.85 + Math.random() * 0.3));
+                shotGain.gain.setValueAtTime(amp, startT);
+                shotGain.gain.exponentialRampToValueAtTime(0.001, startT + dur);
+
+                const thumpGain = audioCtx.createGain();
+                thumpGain.gain.setValueAtTime(amp * 0.95, startT);
+                thumpGain.gain.exponentialRampToValueAtTime(0.001, startT + dur * 0.9);
+
+                burstSrc.connect(pipeResonator);
+                pipeResonator.connect(warmCut);
+                warmCut.connect(shotGain);
+                shotGain.connect(directBackfireBus);
+
+                thumpOsc.connect(thumpGain);
+                thumpGain.connect(directBackfireBus);
+                // 컨볼버에도 일부 전송해 실제 공간 잔향 부여
+                if (exhaustConvolver) {
+                    shotGain.connect(exhaustConvolver);
+                }
+
+                burstSrc.start(startT);
+                thumpOsc.start(startT);
+                burstSrc.stop(startT + dur + 0.01);
+                thumpOsc.stop(startT + dur + 0.01);
+            }
+
+            // HUD 팝콘 배너 점등
+            const banner = document.getElementById("hud-pop-banner");
+            banner.classList.add("fire");
+            setTimeout(() => banner.classList.remove("fire"), 280);
+        }
+
+        function getActivePreset() {
+            return SOUND_PRESETS.find(p => p.id === state.presetId) || SOUND_PRESETS[6];
+        }
+
+        /**
+         * 5. 12개 브랜드 실제 차량 계기판(Real-Car Instrument Cluster) 고해상도 캔버스 렌더러
+         */
+        const canvas = document.getElementById("cluster-canvas");
+        const ctx = canvas.getContext("2d");
+
+        function drawGForceWidget(x, y, r, accentColor) {
+            ctx.save();
+            ctx.fillStyle = "rgba(10, 14, 24, 0.78)";
             ctx.beginPath();
-            ctx.arc(rx, H * 0.56, 92, Math.PI * 0.75, Math.PI * 0.75 + Math.PI * 1.5 * val);
-            ctx.strokeStyle = idx === 0 ? (rpmRatio > 0.85 ? '#ff1e27' : primaryCol) : accentCol;
-            ctx.lineWidth = 12; ctx.stroke();
-          });
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.22)";
+            ctx.stroke();
 
-          ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff';
-          ctx.font = '900 34px Orbitron'; ctx.fillText(rpmStr, W * 0.25, H * 0.56 + 10);
-          ctx.font = '700 12px JetBrains Mono'; ctx.fillStyle = primaryCol;
-          ctx.fillText('VIRTUAL RPM', W * 0.25, H * 0.56 + 34);
+            ctx.beginPath();
+            ctx.arc(x, y, r * 0.5, 0, Math.PI * 2);
+            ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+            ctx.stroke();
 
-          ctx.fillStyle = '#ffffff'; ctx.font = '900 32px Orbitron';
-          ctx.fillText(`${Math.round(state.throttle * 100)}%`, W * 0.75, H * 0.56 + 10);
-          ctx.font = '700 12px JetBrains Mono'; ctx.fillStyle = accentCol;
-          ctx.fillText(isN ? 'N e-SHIFT TORQUE' : 'LAUNCH POWER', W * 0.75, H * 0.56 + 34);
+            ctx.beginPath();
+            ctx.moveTo(x - r, y); ctx.lineTo(x + r, y);
+            ctx.moveTo(x, y - r); ctx.lineTo(x, y + r);
+            ctx.stroke();
 
-          // Center Speed & Gear Pod
-          ctx.fillStyle = '#ffffff'; ctx.font = '900 94px Orbitron';
-          ctx.fillText(spdStr, W * 0.5, H * 0.54);
-          ctx.font = '700 15px JetBrains Mono'; ctx.fillStyle = '#94a3b8';
-          ctx.fillText('km/h', W * 0.5, H * 0.64);
-          ctx.fillStyle = accentCol; ctx.font = '900 44px Orbitron';
-          ctx.fillText(`GEAR ${gearStr}`, W * 0.5, H * 0.84);
+            const gx = Math.max(-1.5, Math.min(1.5, gForce.x));
+            const gy = Math.max(-1.5, Math.min(1.5, gForce.y));
+            const dotX = x + (gx / 1.5) * (r - 6);
+            const dotY = y - (gy / 1.5) * (r - 6);
 
-        } else if (theme === 'gv60_magma' || theme === 'lamborghini') {
-          // 🌋 Genesis GV60 Magma Wing HUD OR 🐂 Lamborghini SVJ Hex Corsa
-          const isLambo = theme === 'lamborghini';
-          const col = isLambo ? '#facc15' : '#ff5e00';
-          const bars = 26;
-          for (let i = 0; i < bars; i++) {
-            const t = i / bars;
-            const on = rpmRatio >= t;
-            const offset = i * 13;
-            const h = 38 + i * 2.4;
-            ctx.fillStyle = on ? (t > 0.85 ? '#ff1e27' : col) : 'rgba(255,255,255,0.08)';
-            fillRoundRect(ctx, 55 + offset, H * 0.55 - h / 2, 9, h, 3);
-            fillRoundRect(ctx, W - 64 - offset, H * 0.55 - h / 2, 9, h, 3);
-          }
+            ctx.fillStyle = accentColor || "#00e5ff";
+            ctx.shadowColor = accentColor || "#00e5ff";
+            ctx.shadowBlur = 10;
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 5.5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.shadowBlur = 0;
 
-          ctx.textAlign = 'center';
-          ctx.fillStyle = col; ctx.font = '900 15px Orbitron';
-          ctx.fillText(isLambo ? '🐂 LAMBORGHINI ANIMA : CORSA' : '🌋 GENESIS MAGMA VGS 9000', W * 0.5, 92);
-          ctx.fillStyle = '#ffffff'; ctx.font = '900 96px Orbitron';
-          ctx.fillText(gearStr, W * 0.5, 205);
-          ctx.font = '800 36px Orbitron'; ctx.fillStyle = '#f8fafc';
-          ctx.fillText(`${spdStr} km/h`, W * 0.5, 260);
-          ctx.font = '700 15px JetBrains Mono'; ctx.fillStyle = col;
-          ctx.fillText(`${rpmStr} RPM`, W * 0.5, 292);
-
-        } else {
-          // 🇮🇹 Ducati V4 R / 🗡️ Superbike Peak-Hold / 🏆 McLaren F1 / 🚀 Tesla Plaid Ribbon
-          const ribbonW = W - 140;
-          const segs = 44;
-          const peakRatio = Math.min(1, state.peakRpmHold / p.redline);
-          for (let i = 0; i < segs; i++) {
-            const t = i / segs;
-            const isPeak = Math.abs(t - peakRatio) < (1 / segs);
-            const on = rpmRatio >= t || isPeak;
-            ctx.fillStyle = isPeak
-              ? '#ffffff'
-              : on
-                ? (t > 0.84 ? '#ff1e27' : t > 0.60 ? '#f59e0b' : '#00f0ff')
-                : 'rgba(255,255,255,0.08)';
-            fillRoundRect(ctx, 70 + i * (ribbonW / segs), 92, (ribbonW / segs) - 4, 46, 4);
-          }
-
-          ctx.textAlign = 'center';
-          ctx.fillStyle = '#ffffff'; ctx.font = '900 104px Orbitron';
-          ctx.fillText(spdStr, W * 0.36, 265);
-          ctx.font = '700 16px JetBrains Mono'; ctx.fillStyle = '#38bdf8';
-          ctx.fillText(`km/h · ${rpmStr} / ${p.redline} RPM`, W * 0.36, 298);
-
-          ctx.fillStyle = 'rgba(255,255,255,0.06)';
-          fillRoundRect(ctx, W * 0.62, 165, 210, 135, 20);
-          ctx.fillStyle = '#facc15'; ctx.font = '900 78px Orbitron';
-          ctx.fillText(gearStr, W * 0.62 + 105, 255);
-          ctx.font = '700 13px JetBrains Mono'; ctx.fillStyle = '#cbd5e1';
-          ctx.fillText(`G: ${state.forwardG >= 0 ? '+' : ''}${state.forwardG.toFixed(2)}G`, W * 0.62 + 105, 286);
+            ctx.fillStyle = "#cbd5e1";
+            ctx.font = "bold 11px monospace";
+            ctx.textAlign = "center";
+            ctx.fillText(`${gForce.total.toFixed(2)}G`, x, y + r + 14);
+            ctx.restore();
         }
 
-        // Bottom Telemetry Footer Inside Cluster
-        ctx.textAlign = 'left'; ctx.font = '700 12px JetBrains Mono'; ctx.fillStyle = '#94a3b8';
-        ctx.fillText(`VEHICLE: ${p.name}`, 24, H - 14);
-        ctx.textAlign = 'right'; ctx.fillStyle = state.ngbTimer > 0 ? '#ff1e27' : '#38bdf8';
-        ctx.fillText(
-          state.ngbTimer > 0
-            ? `🔥 NGB OVERBOOST: ${state.ngbTimer.toFixed(1)}s`
-            : `POP: ${state.burbleMode.toUpperCase()} (${Math.round(state.popVolume * 100)}%) · THR: ${Math.round(state.throttle * 100)}%`,
-          W - 24, H - 14
-        );
-      } catch (err) {
-        console.error('Cluster render error:', err);
-      }
-    }
+        function renderRealCarCluster() {
+            const w = canvas.width;
+            const h = canvas.height;
+            const preset = getActivePreset();
+            const rpmRatio = Math.max(0, Math.min(1, currentRpm / preset.maxRpm));
+            const gearStr = state.transMode === "NEUTRAL" ? "N" : String(currentGear);
+            const spd = Math.round(currentSpeed);
+            const rpmInt = Math.round(currentRpm);
+            const theme = state.themeId;
 
-    function renderMiniFFT() {
-      const c = document.getElementById('fftCanvas');
-      if (!c) return;
-      const ctx = c.getContext('2d');
-      ctx.fillStyle = '#05070b';
-      ctx.fillRect(0, 0, c.width, c.height);
-      if (!analyser || !state.engineRunning) return;
-      const arr = new Uint8Array(analyser.frequencyBinCount);
-      analyser.getByteFrequencyData(arr);
-      const bars = 28;
-      const bw = c.width / bars;
-      for (let i = 0; i < bars; i++) {
-        const v = arr[i] / 255;
-        const bh = Math.max(2, v * c.height);
-        ctx.fillStyle = v > 0.7 ? '#ff1e27' : v > 0.4 ? '#f97316' : '#00f0ff';
-        ctx.fillRect(i * bw + 1, c.height - bh, bw - 2, bh);
-      }
-    }
+            ctx.clearRect(0, 0, w, h);
 
-    /*************************************************************************
-     * 7. DOM RENDERING, EVENT LISTENERS & LOCALSTORAGE
-     *************************************************************************/
-    function renderThemeButtons() {
-      const bar = document.getElementById('themeButtonsBar');
-      if (!bar) return;
-      bar.innerHTML = CLUSTER_THEMES.map(t => {
-        const active = state.clusterTheme === t.id;
-        return `<button onclick="selectClusterTheme('${t.id}')" class="shrink-0 px-2.5 py-1.5 rounded-xl text-[11px] font-bold transition ${
-          active ? 'bg-red-600 text-white border border-white/40 shadow' : 'bg-zinc-900 text-zinc-400 hover:text-white border border-white/10'
-        }">${t.name}</button>`;
-      }).join('');
+            if (theme === "s1000rr") {
+                // 1. BMW S1000RR 6.5" Pure Ride TFT 실차 레이아웃 (하키스틱 스윕 바 + 중앙 대형 기어 + ShiftCam 표시)
+                ctx.fillStyle = "#04070d";
+                ctx.fillRect(0, 0, w, h);
 
-      const autoBtn = document.getElementById('autoThemeBtn');
-      if (autoBtn) {
-        autoBtn.textContent = `🔄 차량 연동 자동테마: ${state.autoTheme ? 'ON' : 'OFF'}`;
-        autoBtn.className = `px-2.5 py-0.5 rounded-lg text-[10px] font-mono-tech font-bold transition ${
-          state.autoTheme ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400' : 'bg-zinc-800 text-zinc-400 border border-white/10'
-        }`;
-      }
-    }
+                // 상단 M 삼색 라인
+                ctx.fillStyle = "#0066b1"; ctx.fillRect(40, 14, 110, 5);
+                ctx.fillStyle = "#1e293b"; ctx.fillRect(150, 14, 15, 5);
+                ctx.fillStyle = "#e21a1a"; ctx.fillRect(165, 14, 110, 5);
 
-    function filterPresets(cat) {
-      state.catFilter = cat;
-      ['all', 'ev', 'bike', 'supercar', 'special'].forEach(c => {
-        const btn = document.getElementById(`tab-${c}`);
-        if (btn) {
-          btn.className = c === cat
-            ? 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-red-600 text-white'
-            : 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-zinc-900 text-zinc-400 hover:text-white border border-white/10';
+                // 하키스틱(Hockey-Stick) 형태 세그먼트 타코미터
+                const segs = 42;
+                for (let i = 0; i < segs; i++) {
+                    const t = i / (segs - 1);
+                    let sx, sy, sw, sh, angle;
+                    if (t < 0.28) {
+                        // 좌측 하단에서 대각선 상승
+                        const lt = t / 0.28;
+                        sx = 90 + lt * 150;
+                        sy = 250 - lt * 155;
+                        angle = -0.72;
+                    } else {
+                        // 상단 수평 우측 뻗음
+                        const ht = (t - 0.28) / 0.72;
+                        sx = 240 + ht * 680;
+                        sy = 95 - ht * 15;
+                        angle = -0.02;
+                    }
+                    ctx.save();
+                    ctx.translate(sx, sy);
+                    ctx.rotate(angle);
+                    const isRed = t > 0.78;
+                    const isShiftCam = t > 0.61;
+                    if (t <= rpmRatio) {
+                        ctx.fillStyle = isRed ? "#ff1e27" : (isShiftCam ? "#00e5ff" : "#f8fafc");
+                        ctx.shadowColor = ctx.fillStyle;
+                        ctx.shadowBlur = 10;
+                    } else {
+                        ctx.fillStyle = isRed ? "rgba(255, 30, 39, 0.22)" : "rgba(255, 255, 255, 0.1)";
+                    }
+                    ctx.fillRect(-6, -16, 11, 32);
+                    ctx.restore();
+                }
+
+                // 눈금 숫자 (0 ~ 14k)
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "bold 14px monospace";
+                ctx.textAlign = "center";
+                for (let k = 2; k <= 14; k += 2) {
+                    const kt = k / 15;
+                    const kx = kt < 0.28 ? 90 + (kt / 0.28) * 150 : 240 + ((kt - 0.28) / 0.72) * 680;
+                    const ky = kt < 0.28 ? 282 - (kt / 0.28) * 155 : 128 - ((kt - 0.28) / 0.72) * 15;
+                    ctx.fillText(String(k), kx, ky);
+                }
+
+                // 좌측 대형 디지털 속도계
+                ctx.textAlign = "left";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 92px monospace";
+                ctx.fillText(String(spd), 120, 275);
+                ctx.font = "bold 20px sans-serif";
+                ctx.fillStyle = "#38bdf8";
+                ctx.fillText("km/h", 125, 305);
+
+                // 정중앙 초대형 기어 박스 (BMW Motorrad Pure Ride)
+                ctx.fillStyle = "rgba(0, 102, 177, 0.18)";
+                ctx.strokeStyle = currentRpm > 9000 ? "#ff1e27" : "#0066b1";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(475, 145, 130, 155);
+                ctx.fillRect(475, 145, 130, 155);
+
+                ctx.textAlign = "center";
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 105px monospace";
+                ctx.fillText(gearStr, 540, 255);
+                ctx.font = "bold 13px monospace";
+                ctx.fillStyle = "#00e676";
+                ctx.fillText("QUICKSHIFTER+", 540, 286);
+
+                // 우측 ShiftCam / Race Pro 텔레메트리
+                ctx.textAlign = "right";
+                ctx.fillStyle = currentRpm >= 9000 ? "#ff2a54" : "#64748b";
+                ctx.font = "bold 18px monospace";
+                ctx.fillText(currentRpm >= 9000 ? "⚡ SHIFTCAM: HIGH CAM" : "SHIFTCAM: ECO/LOW", 955, 175);
+                ctx.fillStyle = "#f8fafc";
+                ctx.font = "bold 28px monospace";
+                ctx.fillText(`${rpmInt.toLocaleString()} RPM`, 955, 215);
+                ctx.fillStyle = "#eab308";
+                ctx.font = "bold 14px monospace";
+                ctx.fillText("MODE: RACE PRO 1 · DTC -3", 955, 245);
+
+                drawGForceWidget(745, 225, 42, "#00e5ff");
+
+            } else if (theme === "ferrari_giallo") {
+                // 2. 페라리 Giallo Modena 실차 레이아웃 (정중앙 시그니처 노란색 원형 타코미터 + 우측 F1 기어창 + 좌측 디지털 속도)
+                ctx.fillStyle = "#0c0404";
+                ctx.fillRect(0, 0, w, h);
+
+                const cx = w / 2;
+                const cy = h / 2 + 5;
+                const r = 152;
+
+                // 메탈 베젤 & Giallo Modena 노란색 다이얼
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, r + 8, 0, Math.PI * 2);
+                ctx.fillStyle = "#27272a";
+                ctx.fill();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fillStyle = "#facc15"; // Ferrari Giallo Modena
+                ctx.fill();
+
+                // 레드존 섹터
+                const startA = 0.75 * Math.PI;
+                const sweepA = 1.5 * Math.PI;
+                ctx.beginPath();
+                ctx.arc(cx, cy, r - 12, startA + sweepA * 0.82, startA + sweepA, false);
+                ctx.strokeStyle = "#dc2626";
+                ctx.lineWidth = 16;
+                ctx.stroke();
+
+                // 눈금 및 번호 (0 ~ 10)
+                for (let i = 0; i <= 20; i++) {
+                    const ratio = i / 20;
+                    const a = startA + ratio * sweepA;
+                    const isMaj = i % 2 === 0;
+                    ctx.beginPath();
+                    ctx.moveTo(cx + Math.cos(a) * (r - (isMaj ? 26 : 16)), cy + Math.sin(a) * (r - (isMaj ? 26 : 16)));
+                    ctx.lineTo(cx + Math.cos(a) * (r - 6), cy + Math.sin(a) * (r - 6));
+                    ctx.strokeStyle = ratio > 0.82 ? "#dc2626" : "#09090b";
+                    ctx.lineWidth = isMaj ? 4 : 2;
+                    ctx.stroke();
+
+                    if (isMaj) {
+                        const tx = cx + Math.cos(a) * (r - 45);
+                        const ty = cy + Math.sin(a) * (r - 45) + 6;
+                        ctx.fillStyle = "#09090b";
+                        ctx.font = "900 18px sans-serif";
+                        ctx.textAlign = "center";
+                        ctx.fillText(String(i / 2), tx, ty);
+                    }
+                }
+
+                // 우측 하단 검은색 F1 DCT 기어 창
+                ctx.fillStyle = "#09090b";
+                ctx.fillRect(cx + 22, cy + 25, 58, 64);
+                ctx.fillStyle = "#facc15";
+                ctx.font = "900 48px monospace";
+                ctx.textAlign = "center";
+                ctx.fillText(gearStr, cx + 51, cy + 74);
+
+                // 실제 회전 바늘
+                const needleA = startA + rpmRatio * sweepA;
+                ctx.beginPath();
+                ctx.moveTo(cx - Math.cos(needleA) * 22, cy - Math.sin(needleA) * 22);
+                ctx.lineTo(cx + Math.cos(needleA) * (r - 18), cy + Math.sin(needleA) * (r - 18));
+                ctx.strokeStyle = "#dc2626";
+                ctx.lineWidth = 6;
+                ctx.lineCap = "round";
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, 16, 0, Math.PI * 2);
+                ctx.fillStyle = "#18181b";
+                ctx.fill();
+                ctx.restore();
+
+                // 좌측 속도 디스플레이 & 마네티노 RACE
+                ctx.fillStyle = "#18181b";
+                ctx.strokeStyle = "#dc2626";
+                ctx.lineWidth = 2;
+                ctx.strokeRect(70, 95, 235, 175);
+                ctx.fillRect(70, 95, 235, 175);
+                ctx.fillStyle = "#facc15";
+                ctx.font = "bold 14px monospace";
+                ctx.fillText("MANETTINO: RACE / CORSA", 88, 125);
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 74px monospace";
+                ctx.fillText(String(spd), 88, 210);
+                ctx.font = "bold 18px sans-serif";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText(`km/h · ${rpmInt} RPM`, 88, 245);
+
+                drawGForceWidget(865, 180, 58, "#facc15");
+
+            } else if (theme === "taycan_3tube") {
+                // 3. 포르쉐 타이칸 16.8" Curved 3-Tube 실차 레이아웃
+                ctx.fillStyle = "#050608";
+                ctx.fillRect(0, 0, w, h);
+
+                const centers = [235, 540, 845];
+                const cy = 182;
+                const r = 132;
+
+                centers.forEach((cx, idx) => {
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                    ctx.fillStyle = "#0b0f17";
+                    ctx.fill();
+                    ctx.lineWidth = 4;
+                    ctx.strokeStyle = idx === 1 ? "#38bdf8" : "rgba(255,255,255,0.18)";
+                    ctx.stroke();
+                });
+
+                // 좌측 튜브: Power & Recuperation Meter
+                const pAngle = -0.5 * Math.PI + rpmRatio * 1.35 * Math.PI;
+                ctx.beginPath();
+                ctx.arc(centers[0], cy, r - 14, -0.5 * Math.PI, pAngle, false);
+                ctx.strokeStyle = "#00e5ff";
+                ctx.lineWidth = 12;
+                ctx.stroke();
+                ctx.fillStyle = "#ffffff";
+                ctx.textAlign = "center";
+                ctx.font = "bold 15px sans-serif";
+                ctx.fillText("POWER METER", centers[0], cy - 25);
+                ctx.font = "900 42px monospace";
+                ctx.fillText(`${Math.round(rpmRatio * 100)}%`, centers[0], cy + 22);
+                ctx.fillStyle = "#00e676";
+                ctx.font = "bold 13px monospace";
+                ctx.fillText("OVERBOOST READY", centers[0], cy + 55);
+
+                // 중앙 튜브: 타이칸 디지털 속도계 & 2단 변속기
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 84px monospace";
+                ctx.fillText(String(spd), centers[1], cy + 12);
+                ctx.font = "bold 16px sans-serif";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText("km/h", centers[1], cy + 40);
+                ctx.fillStyle = "#38bdf8";
+                ctx.font = "900 32px monospace";
+                ctx.fillText(`GEAR ${gearStr}`, centers[1], cy + 88);
+                ctx.font = "bold 13px monospace";
+                ctx.fillText(`${rpmInt} e-RPM`, centers[1], cy - 68);
+
+                // 우측 튜브: G-Force & Sport Chrono
+                drawGForceWidget(centers[2], cy - 10, 62, "#38bdf8");
+
+            } else if (theme === "lexus_lfa") {
+                // 4. 렉서스 LFA 슬라이딩 메탈 링 & 9,000 RPM 레드 반전 실차 레이아웃
+                const isRedReverse = rpmRatio > 0.84;
+                ctx.fillStyle = "#05060a";
+                ctx.fillRect(0, 0, w, h);
+
+                const cx = w / 2;
+                const cy = h / 2 + 4;
+                const r = 152;
+
+                // LFA 중앙 다이얼 (레드존 진입 시 다이얼 전체가 강렬한 붉은색으로 반전)
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fillStyle = isRedReverse ? "#991b1b" : "#0f172a";
+                ctx.fill();
+
+                // 크롬 메탈릭 이동식 링 베젤
+                ctx.lineWidth = 14;
+                ctx.strokeStyle = isRedReverse ? "#ef4444" : "#cbd5e1";
+                ctx.shadowColor = isRedReverse ? "#ef4444" : "#38bdf8";
+                ctx.shadowBlur = 18;
+                ctx.stroke();
+                ctx.shadowBlur = 0;
+
+                const startA = 0.75 * Math.PI;
+                const sweepA = 1.5 * Math.PI;
+                const curA = startA + rpmRatio * sweepA;
+
+                // 발광 바늘 트레일
+                ctx.beginPath();
+                ctx.arc(cx, cy, r - 20, startA, curA, false);
+                ctx.strokeStyle = isRedReverse ? "#fef08a" : "#38bdf8";
+                ctx.lineWidth = 10;
+                ctx.stroke();
+
+                // 중앙 디지털 속도 & 기어
+                ctx.textAlign = "center";
+                ctx.fillStyle = "#facc15";
+                ctx.font = "900 36px monospace";
+                ctx.fillText(gearStr, cx, cy - 48);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 72px monospace";
+                ctx.fillText(String(spd), cx, cy + 22);
+                ctx.font = "bold 14px monospace";
+                ctx.fillStyle = "#cbd5e1";
+                ctx.fillText(`KM/H · ${rpmInt} RPM`, cx, cy + 52);
+
+                drawGForceWidget(195, cy, 52, "#38bdf8");
+
+            } else if (theme === "lambo_svj") {
+                // 5. 람보르기니 아벤타도르 SVJ CORSA 육각형 전투기 HUD 레이아웃
+                ctx.fillStyle = "#080705";
+                ctx.fillRect(0, 0, w, h);
+
+                // 좌우 육각형 부메랑 RPM 윙 그래프
+                const segs = 24;
+                for (let i = 0; i < segs; i++) {
+                    const t = i / (segs - 1);
+                    const active = t <= rpmRatio;
+                    const col = t > 0.8 ? "#ef4444" : (t > 0.55 ? "#f59e0b" : "#eab308");
+                    ctx.fillStyle = active ? col : "rgba(255,255,255,0.08)";
+                    // 좌측 윙
+                    ctx.fillRect(140 + i * 14, 260 - i * 7, 10, 34);
+                    // 우측 대칭 윙
+                    ctx.fillRect(940 - i * 14, 260 - i * 7, 10, 34);
+                }
+
+                // 정중앙 CORSA 배지 & 초대형 기어
+                ctx.textAlign = "center";
+                ctx.fillStyle = "#ef4444";
+                ctx.font = "900 18px monospace";
+                ctx.fillText("CORSA · ALA ACTIVE", w / 2, 55);
+
+                ctx.fillStyle = "#facc15";
+                ctx.font = "900 118px monospace";
+                ctx.fillText(gearStr, w / 2, 195);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 54px monospace";
+                ctx.fillText(`${spd} km/h`, w / 2, 275);
+                ctx.font = "bold 16px monospace";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText(`${rpmInt.toLocaleString()} RPM`, w / 2, 308);
+
+                drawGForceWidget(540, 325, 22, "#eab308");
+
+            } else if (theme === "ioniq_n") {
+                // 6. 현대 아이오닉 5 N / 6 N e-Shift 실차 트랙 클러스터
+                ctx.fillStyle = "#040914";
+                ctx.fillRect(0, 0, w, h);
+
+                const cx = w / 2;
+                const cy = h / 2 + 5;
+                const r = 145;
+
+                // 퍼포먼스 블루 & N 레드 원형 타코미터
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0.75 * Math.PI, 2.25 * Math.PI);
+                ctx.strokeStyle = "rgba(0, 163, 224, 0.18)";
+                ctx.lineWidth = 22;
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0.75 * Math.PI, (0.75 + 1.5 * rpmRatio) * Math.PI);
+                ctx.strokeStyle = rpmRatio > 0.82 ? "#ff3600" : "#00a3e0";
+                ctx.lineWidth = 22;
+                ctx.stroke();
+
+                ctx.textAlign = "center";
+                ctx.fillStyle = "#00a3e0";
+                ctx.font = "italic 900 18px sans-serif";
+                ctx.fillText(ngbTimer > 0 ? `🔥 N GRIN BOOST (${Math.ceil(ngbTimer / 60)}s)` : "N e-SHIFT · IGNITION", cx, cy - 68);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 84px monospace";
+                ctx.fillText(gearStr, cx, cy + 12);
+
+                ctx.font = "900 42px monospace";
+                ctx.fillText(`${spd} km/h`, cx, cy + 68);
+                ctx.font = "bold 14px monospace";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText(`${rpmInt} RPM`, cx, cy + 94);
+
+                drawGForceWidget(200, cy, 55, "#00a3e0");
+                // 우측 배터리/모터 온도 바
+                ctx.textAlign = "left";
+                ctx.fillStyle = "#cbd5e1";
+                ctx.font = "bold 14px monospace";
+                ctx.fillText("BATT TEMP: 34°C (OPTIMAL)", 755, 145);
+                ctx.fillText("MOTOR TEMP: 68°C", 755, 175);
+                ctx.fillText(`TORQUE: ${Math.round(rpmRatio * 770)} Nm`, 755, 205);
+
+            } else if (theme === "tesla_plaid") {
+                // 7. 2023 테슬라 모델 S 플래드 실차 계기판 레이아웃
+                ctx.fillStyle = "#07090e";
+                ctx.fillRect(0, 0, w, h);
+
+                // 상단 PRND 스트립
+                ctx.textAlign = "center";
+                ctx.font = "bold 16px sans-serif";
+                ctx.fillStyle = "#64748b";
+                ctx.fillText("P   R   N", w / 2 - 22, 38);
+                ctx.fillStyle = "#ffffff";
+                ctx.fillText("D (PLAID)", w / 2 + 52, 38);
+
+                // 중앙 초대형 미니멀 속도계
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "300 112px -apple-system, sans-serif";
+                ctx.fillText(String(spd), w / 2, 165);
+                ctx.font = "bold 16px sans-serif";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText("KM/H", w / 2, 195);
+
+                // Plaid 격자 워프 배지 및 출력 바
+                const kw = Math.round((rpmRatio * 760) - (brakeInput * 180));
+                ctx.fillStyle = "#1e293b";
+                ctx.fillRect(w / 2 - 220, 230, 440, 10);
+                ctx.fillStyle = kw >= 0 ? "#e82127" : "#10b981";
+                const barW = (Math.abs(kw) / 760) * 220;
+                ctx.fillRect(kw >= 0 ? w / 2 : w / 2 - barW, 230, barW, 10);
+
+                ctx.fillStyle = "#cbd5e1";
+                ctx.font = "bold 16px monospace";
+                ctx.fillText(`${kw} kW (${Math.round(rpmRatio * 1020)} HP) · ${rpmInt} MOTOR RPM`, w / 2, 272);
+
+                drawGForceWidget(195, 175, 54, "#e82127");
+
+            } else {
+                // 8~12. GV60 마그마 / 911 GT3 RS / 두카티 V4 R / R1M·CBR / 맥라렌 F1 맞춤형 레이아웃
+                const accentMap = {
+                    gv60_magma: "#ff5500",
+                    gt3rs: "#10b981",
+                    ducati_v4r: "#ff1e27",
+                    superbike_r1m: "#3b82f6",
+                    mclaren_f1: "#ff8000"
+                };
+                const mainCol = accentMap[theme] || "#00e5ff";
+                ctx.fillStyle = "#06080d";
+                ctx.fillRect(0, 0, w, h);
+
+                // 상단 F1/슈퍼바이크 15-LED 시프트 라이트 바
+                for (let i = 0; i < 15; i++) {
+                    const t = i / 15;
+                    ctx.fillStyle = t <= rpmRatio ? (t > 0.8 ? "#ff1e27" : (t > 0.5 ? "#facc15" : "#10b981")) : "rgba(255,255,255,0.08)";
+                    ctx.fillRect(190 + i * 47, 22, 36, 12);
+                }
+
+                // 와이드 레이싱 스윕 바 또는 GT3 RS 원형 링
+                if (theme === "gt3rs") {
+                    const cx = w / 2, cy = h / 2 + 12, r = 140;
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0.75 * Math.PI, 2.25 * Math.PI);
+                    ctx.strokeStyle = "rgba(255,255,255,0.12)";
+                    ctx.lineWidth = 18;
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(cx, cy, r, 0.75 * Math.PI, (0.75 + 1.5 * rpmRatio) * Math.PI);
+                    ctx.strokeStyle = rpmRatio > 0.85 ? "#ff1e27" : mainCol;
+                    ctx.lineWidth = 18;
+                    ctx.stroke();
+                } else {
+                    ctx.fillStyle = "rgba(255,255,255,0.08)";
+                    ctx.fillRect(140, 75, 800, 32);
+                    ctx.fillStyle = rpmRatio > 0.85 ? "#ff1e27" : mainCol;
+                    ctx.fillRect(140, 75, 800 * rpmRatio, 32);
+                }
+
+                ctx.textAlign = "center";
+                ctx.fillStyle = mainCol;
+                ctx.font = "900 94px monospace";
+                ctx.fillText(gearStr, w / 2, 215);
+
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "900 56px monospace";
+                ctx.fillText(`${spd} KM/H`, w / 2, 285);
+
+                ctx.fillStyle = "#94a3b8";
+                ctx.font = "bold 16px monospace";
+                ctx.fillText(`${rpmInt.toLocaleString()} RPM · ${theme.toUpperCase()} TRACK HUD`, w / 2, 318);
+
+                drawGForceWidget(195, 215, 50, mainCol);
+            }
         }
-      });
-      renderPresetCards();
-    }
 
-    function renderPresetCards() {
-      const grid = document.getElementById('presetCardsGrid');
-      if (!grid) return;
-      const list = state.catFilter === 'all' ? PRESETS : PRESETS.filter(p => p.cat === state.catFilter);
-      grid.innerHTML = list.map(p => {
-        const active = p.id === state.presetId;
-        return `<button onclick="selectPreset('${p.id}', true)" class="text-left p-2.5 rounded-xl border transition-all flex flex-col justify-between gap-1 ${
-          active
-            ? 'bg-gradient-to-br from-red-600/30 to-zinc-900 border-red-500 shadow-lg scale-[1.01]'
-            : 'bg-zinc-900/80 hover:bg-zinc-800 border-white/10'
-        }">
-          <div class="flex items-center justify-between w-full">
-            <span class="text-base">${p.emoji}</span>
-            <span class="text-[9px] font-mono-tech px-1.5 py-0.5 rounded ${active ? 'bg-red-500 text-white font-bold' : 'bg-black/60 text-zinc-400'}">${(p.redline / 1000).toFixed(1)}k RPM</span>
-          </div>
-          <div class="font-bold text-xs text-white leading-tight truncate w-full">${p.name}</div>
-          <div class="text-[10px] font-mono-tech text-cyan-300/90 truncate w-full">${p.spec}</div>
-        </button>`;
-      }).join('');
-    }
+        /**
+         * 6. 60FPS 물리 시뮬레이션 & 오디오 루프
+         */
+        function updateSimulation() {
+            const preset = getActivePreset();
 
-    function updateHeaderAndButtons() {
-      const p = getPreset();
-      const tObj = CLUSTER_THEMES.find(t => t.id === state.clusterTheme) || CLUSTER_THEMES[0];
-      document.getElementById('activeEmoji').textContent = p.emoji;
-      document.getElementById('activeCarBadge').textContent = p.name;
-      document.getElementById('activeSpecText').textContent = p.spec;
-      document.getElementById('activeThemeBadge').textContent = `계기판: ${tObj.name}`;
+            if (isRunning) {
+                // 특수 주행 데모 처리
+                if (isLaunchDemo) {
+                    throttleInput = 1.0;
+                    if (currentSpeed >= 205) {
+                        isLaunchDemo = false;
+                        throttleInput = 0;
+                        document.getElementById("btn-launch-demo").classList.remove("active");
+                        triggerRealisticBackfire(5, false);
+                    }
+                } else if (isRevTest) {
+                    const target4k = Math.min(0.65, 4200 / preset.maxRpm);
+                    throttleInput = target4k;
+                } else if (simSensorActive && throttleInput === 0) {
+                    simWavePhase += 0.025;
+                    sensorThrottle = Math.max(0, 0.52 + 0.44 * Math.sin(simWavePhase));
+                } else if (!simSensorActive) {
+                    sensorThrottle *= 0.9;
+                }
 
-      const startBtn = document.getElementById('engineStartBtn');
-      const startLabel = document.getElementById('engineBtnLabel');
-      if (state.engineRunning) {
-        startLabel.textContent = '🛑 ENGINE STOP (ON)';
-        startBtn.className = 'px-3.5 py-1.5 rounded-xl font-display font-black text-xs tracking-wider uppercase bg-red-600 text-white border border-white shadow-[0_0_20px_rgba(255,30,39,0.7)] flex items-center gap-1.5 transition';
-      } else {
-        startLabel.textContent = '🔥 ENGINE START';
-        startBtn.className = 'px-3.5 py-1.5 rounded-xl font-display font-black text-xs tracking-wider uppercase bg-gradient-to-r from-zinc-800 to-zinc-900 text-white border border-red-500/80 flex items-center gap-1.5 transition';
-      }
+                if (ngbTimer > 0) {
+                    ngbTimer--;
+                    if (ngbTimer === 0) {
+                        document.getElementById("btn-ngb-boost").classList.remove("active");
+                    }
+                }
 
-      document.getElementById('valveBtn').textContent = `🔊 가변배기: ${state.valveOpen ? 'OPEN' : 'QUIET'}`;
-      document.getElementById('valveBadge').textContent = `🔊 VALVE: ${state.valveOpen ? 'OPEN' : 'QUIET'}`;
+                const effThrottle = Math.min(1.0, Math.max(throttleInput, sensorThrottle) * (ngbTimer > 0 ? 1.15 : 1.0));
+                document.getElementById("throttle-pct").innerText = Math.round(effThrottle * 100);
+                document.getElementById("throttle-fill").style.width = `${Math.round(effThrottle * 100)}%`;
+                document.getElementById("brake-pct").innerText = Math.round(brakeInput * 100);
+                document.getElementById("brake-fill").style.width = `${Math.round(brakeInput * 100)}%`;
 
-      const bNames = { akra: '🍿 팝콘: AKRA 총성', n_pop: '🍿 팝콘: N 대포후적', sport: '🍿 팝콘: 순정 버블', off: '🍿 팝콘: OFF' };
-      document.getElementById('burbleBtn').textContent = bNames[state.burbleMode] || bNames.akra;
+                // 목표 RPM 및 관성 계산
+                if (shiftCutFrames > 0) {
+                    shiftCutFrames--;
+                } else {
+                    const span = preset.maxRpm - preset.idleRpm;
+                    targetRpm = preset.idleRpm + span * Math.pow(effThrottle, 1.15) - (brakeInput * span * 0.35);
+                    targetRpm = Math.max(preset.idleRpm, Math.min(preset.maxRpm, targetRpm));
+                }
 
-      document.getElementById('driveModeBtn').textContent = state.driveMode === 'sim' ? '🕹️ 시뮬레이터' : '📡 실차 GPS+G';
-      document.getElementById('launchDemoBtn').textContent = state.launchDemo ? '⏹️ 런치데모 정지' : '🚀 0→200 런치데모';
-      document.getElementById('earphoneBtn').textContent = `🎧 이어폰 공간음 보정: ${state.earphoneMode ? 'ON' : 'OFF'}`;
+                const rpmRate = targetRpm > currentRpm ? 0.16 : (0.055 + brakeInput * 0.08);
+                currentRpm += (targetRpm - currentRpm) * rpmRate;
 
-      ['auto', 'manual', 'neutral'].forEach(m => {
-        const btn = document.getElementById(`mode${m.charAt(0).toUpperCase() + m.slice(1)}Btn`);
-        if (btn) {
-          btn.className = state.gearboxMode === m
-            ? 'py-1 rounded-lg bg-red-600 text-white'
-            : 'py-1 rounded-lg text-zinc-400 hover:text-white';
+                // 레드존 리미터 바운스
+                if (currentRpm > preset.maxRpm * 0.97 && effThrottle > 0.85) {
+                    currentRpm -= 380;
+                    if (state.transMode === "AUTO" && currentGear < preset.gears) {
+                        performGearShift(1);
+                    }
+                } else if (state.transMode === "AUTO" && currentRpm < preset.maxRpm * 0.28 && currentGear > 1 && effThrottle < 0.2) {
+                    performGearShift(-1);
+                }
+
+                // 속도 계산
+                if (gpsSpeed > 1.5) {
+                    currentSpeed = gpsSpeed;
+                } else if (state.transMode === "NEUTRAL") {
+                    currentSpeed = Math.max(0, currentSpeed * 0.97 - brakeInput * 2.5);
+                } else {
+                    const gearRatioSpeed = (currentRpm / preset.maxRpm) * (75 + currentGear * 36);
+                    currentSpeed += (gearRatioSpeed - currentSpeed) * 0.08 - brakeInput * 2.2;
+                    currentSpeed = Math.max(0, currentSpeed);
+                }
+
+                // 가상 G-Force 반영
+                if (!simSensorActive) {
+                    gForce.y = (effThrottle * 1.15) - (brakeInput * 1.35);
+                    gForce.x = Math.sin(Date.now() * 0.002) * 0.12 * (currentSpeed / 150);
+                    gForce.total = Math.hypot(gForce.x, gForce.y);
+                    document.getElementById("hud-g-txt").innerText = `${gForce.total.toFixed(2)} G`;
+                }
+
+                // 오프-스로틀(엑셀 떼기) 감지 시 자연스러운 실차 후적 격발
+                const deltaT = prevThrottle - effThrottle;
+                const nowMs = Date.now();
+                if (deltaT > 0.28 && currentRpm > preset.idleRpm * 2.1 && (nowMs - lastPopTime > 380)) {
+                    triggerRealisticBackfire(null, false);
+                    lastPopTime = nowMs;
+                }
+                prevThrottle = effThrottle;
+
+                // 3레이어 물리 오디오 피치 & 필터 실시간 변조
+                if (audioCtx && subPulseGain) {
+                    const tNow = audioCtx.currentTime + 0.02;
+                    const ratio = Math.max(0, Math.min(1, (currentRpm - preset.idleRpm) / (preset.maxRpm - preset.idleRpm)));
+                    const pitch = 0.72 + ratio * 3.45;
+                    const valveBoost = state.valveOpen ? 1.2 : 0.65;
+
+                    const wSub = Math.max(0.15, (1.0 - ratio * 1.35) * valveBoost);
+                    const wCore = (0.35 + Math.sin(ratio * Math.PI) * 0.85) * valveBoost;
+                    // ShiftCam(9,000 RPM+) 또는 고회전 진입 시 하모닉 레이어 개방
+                    const shiftCamBoost = (preset.id.includes("s1000rr") && currentRpm >= 9000) ? 1.45 : 1.0;
+                    const wHarm = Math.pow(ratio, 1.35) * 1.15 * valveBoost * shiftCamBoost;
+
+                    subPulseGain.gain.setTargetAtTime(wSub, tNow, 0.025);
+                    corePulseGain.gain.setTargetAtTime(wCore, tNow, 0.025);
+                    harmonicRaspGain.gain.setTargetAtTime(wHarm, tNow, 0.025);
+
+                    subPulseNode.playbackRate.setTargetAtTime(pitch, tNow, 0.02);
+                    corePulseNode.playbackRate.setTargetAtTime(pitch, tNow, 0.02);
+                    harmonicRaspNode.playbackRate.setTargetAtTime(pitch, tNow, 0.02);
+
+                    const cutoff = (state.valveOpen ? 1100 : 620) + ratio * 4200 + effThrottle * 1800;
+                    dynamicLowpass.frequency.setTargetAtTime(cutoff, tNow, 0.03);
+                }
+            } else {
+                currentRpm *= 0.88;
+                currentSpeed *= 0.92;
+                if (currentRpm < 10) currentRpm = 0;
+                if (currentSpeed < 0.5) currentSpeed = 0;
+            }
+
+            renderRealCarCluster();
+            requestAnimationFrame(updateSimulation);
         }
-      });
-    }
 
-    function updateTelemetryDOM() {
-      const thrPct = Math.round(state.throttle * 100);
-      const brkPct = Math.round(state.brake * 100);
-      document.getElementById('throttleFillBar').style.height = `${thrPct}%`;
-      document.getElementById('brakeFillBar').style.height = `${brkPct}%`;
-      document.getElementById('throttlePctLabel').textContent = `${thrPct}%`;
-      document.getElementById('brakePctLabel').textContent = `${brkPct}%`;
-      document.getElementById('gReadout').textContent = `${state.forwardG >= 0 ? '+' : ''}${state.forwardG.toFixed(2)}G`;
+        function performGearShift(dir) {
+            if (!isRunning) return;
+            const preset = getActivePreset();
+            if (state.transMode === "NEUTRAL") {
+                state.transMode = "MANUAL";
+                updateTransModeUI();
+            }
+            const next = Math.max(1, Math.min(preset.gears || 8, currentGear + dir));
+            if (next === currentGear) return;
 
-      const gDot = document.getElementById('gDot');
-      if (gDot) {
-        const ty = Math.max(-18, Math.min(18, state.forwardG * 14));
-        gDot.style.transform = `translate(0px, ${ty}px)`;
-      }
-    }
+            currentGear = next;
+            if (dir > 0) {
+                // Upshift: 점화컷 폭발 + 순간 RPM 드롭
+                shiftCutFrames = 7;
+                currentRpm = Math.max(preset.idleRpm + 500, currentRpm * 0.72);
+                triggerRealisticBackfire(2, true);
+            } else {
+                // Downshift: 레브매칭 블립 + 연속 오버런 후적
+                currentRpm = Math.min(preset.maxRpm * 0.95, currentRpm * 1.28 + 650);
+                triggerRealisticBackfire(null, false);
+            }
+        }
 
-    function saveSettings() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-          presetId: state.presetId,
-          clusterTheme: state.clusterTheme,
-          autoTheme: state.autoTheme,
-          valveOpen: state.valveOpen,
-          earphoneMode: state.earphoneMode,
-          burbleMode: state.burbleMode,
-          masterVolume: state.masterVolume,
-          popVolume: state.popVolume,
-          gSensitivity: state.gSensitivity,
-          zeroG: state.zeroG
-        }));
-      } catch (e) {}
-    }
+        /**
+         * 7. GPS + 60Hz 가속도 센서 연동
+         */
+        function initSensors() {
+            if ("geolocation" in navigator) {
+                try {
+                    navigator.geolocation.watchPosition(
+                        (pos) => {
+                            if (pos.coords.speed !== null && !isNaN(pos.coords.speed)) {
+                                gpsSpeed = Math.max(0, pos.coords.speed * 3.6);
+                                document.getElementById("hud-gps-txt").innerText = `${gpsSpeed.toFixed(1)} km/h`;
+                            }
+                        },
+                        () => {},
+                        { enableHighAccuracy: true, maximumAge: 500, timeout: 5000 }
+                    );
+                } catch (e) {}
+            }
 
-    function loadSettings() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        const d = JSON.parse(raw);
-        if (d.presetId && PRESETS.some(p => p.id === d.presetId)) state.presetId = d.presetId;
-        if (d.clusterTheme && CLUSTER_THEMES.some(t => t.id === d.clusterTheme)) state.clusterTheme = d.clusterTheme;
-        if (typeof d.autoTheme === 'boolean') state.autoTheme = d.autoTheme;
-        if (typeof d.valveOpen === 'boolean') state.valveOpen = d.valveOpen;
-        if (typeof d.earphoneMode === 'boolean') state.earphoneMode = d.earphoneMode;
-        if (d.burbleMode) state.burbleMode = d.burbleMode;
-        if (typeof d.masterVolume === 'number') state.masterVolume = d.masterVolume;
-        if (typeof d.popVolume === 'number') state.popVolume = d.popVolume;
-        if (typeof d.gSensitivity === 'number') state.gSensitivity = d.gSensitivity;
-        if (d.zeroG) state.zeroG = d.zeroG;
+            const onMotion = (evt) => {
+                const acc = evt.accelerationIncludingGravity;
+                if (!acc) return;
+                const dx = ((acc.x || 0) - gZeroOffset.x) / 9.80665;
+                const dy = ((acc.y || 0) - gZeroOffset.y) / 9.80665;
+                gForce.x = dx;
+                gForce.y = dy;
+                gForce.total = Math.min(2.5, Math.hypot(dx, dy));
+                document.getElementById("hud-g-txt").innerText = `${gForce.total.toFixed(2)} G`;
 
-        document.getElementById('popVolSlider').value = Math.round(state.popVolume * 100);
-        document.getElementById('masterVolSlider').value = Math.round(state.masterVolume * 100);
-        document.getElementById('gSensSlider').value = state.gSensitivity;
-        document.getElementById('popVolLabel').textContent = `${Math.round(state.popVolume * 100)}%`;
-        document.getElementById('masterVolLabel').textContent = `${Math.round(state.masterVolume * 100)}%`;
-        document.getElementById('gSensLabel').textContent = `${state.gSensitivity.toFixed(1)}x`;
-      } catch (e) {}
-    }
+                if (isRunning && throttleInput === 0 && !isLaunchDemo && !isRevTest) {
+                    sensorThrottle = Math.min(1.0, Math.max(0, gForce.total * 0.55 * state.gSensitivity));
+                }
+            };
 
-    function resetAllSettings() {
-      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
-      state.presetId = 's1000rr_gp1rs';
-      state.clusterTheme = 's1000rr';
-      state.autoTheme = true;
-      state.valveOpen = true;
-      state.earphoneMode = true;
-      state.burbleMode = 'akra';
-      state.popVolume = 2.20;
-      state.masterVolume = 0.95;
-      state.gSensitivity = 1.6;
-      document.getElementById('popVolSlider').value = 220;
-      document.getElementById('masterVolSlider').value = 95;
-      document.getElementById('gSensSlider').value = 1.6;
-      onMixerChange();
-      selectPreset('s1000rr_gp1rs', false);
-    }
+            if (typeof DeviceMotionEvent !== "undefined" && typeof DeviceMotionEvent.requestPermission === "function") {
+                DeviceMotionEvent.requestPermission().then(res => {
+                    if (res === "granted") window.addEventListener("devicemotion", onMotion);
+                }).catch(() => {});
+            } else if (typeof window.DeviceMotionEvent !== "undefined") {
+                window.addEventListener("devicemotion", onMotion);
+            }
+        }
 
-    function bindPedalsAndKeys() {
-      const thrBtn = document.getElementById('throttlePedal');
-      const brkBtn = document.getElementById('brakePedal');
+        /**
+         * 8. UI 렌더링 및 이벤트 바인딩
+         */
+        function renderThemeChips() {
+            const box = document.getElementById("theme-chips-container");
+            box.innerHTML = "";
+            CLUSTER_THEMES.forEach(t => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = "theme-chip" + (state.themeId === t.id ? " active" : "");
+                btn.innerText = t.label;
+                btn.addEventListener("click", () => {
+                    state.themeId = t.id;
+                    state.autoTheme = false;
+                    updateAutoThemeBtn();
+                    renderThemeChips();
+                    document.getElementById("header-theme-badge").innerText = `계기판: ${t.name}`;
+                    saveState();
+                });
+                box.appendChild(btn);
+            });
+        }
 
-      const setThr = (val) => {
-        if (val) ensureAudioStarted();
-        state.pedalThrottle = val;
-        thrBtn.classList.toggle('pressed', val);
-      };
-      const setBrk = (val) => {
-        state.pedalBrake = val;
-        brkBtn.classList.toggle('pressed', val);
-      };
+        function updateAutoThemeBtn() {
+            const btn = document.getElementById("btn-auto-theme");
+            btn.innerText = `차량 연동 자동테마: ${state.autoTheme ? "ON" : "OFF"}`;
+            btn.classList.toggle("off", !state.autoTheme);
+        }
 
-      ['mousedown', 'touchstart'].forEach(ev => {
-        thrBtn.addEventListener(ev, (e) => { e.preventDefault(); setThr(true); }, { passive: false });
-        brkBtn.addEventListener(ev, (e) => { e.preventDefault(); setBrk(true); }, { passive: false });
-      });
-      ['mouseup', 'mouseleave', 'touchend', 'touchcancel'].forEach(ev => {
-        thrBtn.addEventListener(ev, () => setThr(false));
-        brkBtn.addEventListener(ev, () => setBrk(false));
-      });
+        function renderPresets(filterCat) {
+            const grid = document.getElementById("preset-grid");
+            grid.innerHTML = "";
+            const list = filterCat === "ALL" ? SOUND_PRESETS : SOUND_PRESETS.filter(p => p.cat === filterCat);
 
-      window.addEventListener('keydown', (e) => {
-        if (e.repeat) return;
-        const k = e.key.toLowerCase();
-        if (k === 'w' || e.key === 'ArrowUp') setThr(true);
-        else if (k === 's' || e.key === 'ArrowDown') setBrk(true);
-        else if (k === 'a' || e.key === 'ArrowLeft') paddleShift(-1);
-        else if (k === 'd' || e.key === 'ArrowRight') paddleShift(1);
-        else if (k === ' ') { e.preventDefault(); triggerAutoBlipTest(); }
-        else if (k === 'p') fireManualPopBurst();
-        else if (k === 'b') triggerNGB();
-        else if (k === 'v') toggleValve();
-      });
-      window.addEventListener('keyup', (e) => {
-        const k = e.key.toLowerCase();
-        if (k === 'w' || e.key === 'ArrowUp') setThr(false);
-        else if (k === 's' || e.key === 'ArrowDown') setBrk(false);
-      });
-    }
+            list.forEach(p => {
+                const card = document.createElement("button");
+                card.type = "button";
+                card.className = "preset-card" + (state.presetId === p.id ? " active" : "");
+                card.innerHTML = `
+                    <div class="preset-card-top">
+                        <span class="preset-name">${p.name}</span>
+                        <span class="preset-rpm-tag">${p.rpmTag}</span>
+                    </div>
+                    <div class="preset-desc">${p.desc}</div>
+                `;
+                card.addEventListener("click", () => {
+                    selectPreset(p.id);
+                });
+                grid.appendChild(card);
+            });
+        }
 
-    window.addEventListener('DOMContentLoaded', () => {
-      loadSettings();
-      renderThemeButtons();
-      renderPresetCards();
-      updateHeaderAndButtons();
-      bindPedalsAndKeys();
-      renderCluster();
-      requestAnimationFrame(stepPhysics);
-    });
-  </script>
+        function selectPreset(id) {
+            const p = SOUND_PRESETS.find(item => item.id === id);
+            if (!p) return;
+            state.presetId = p.id;
+            if (state.autoTheme && p.theme) {
+                state.themeId = p.theme;
+                const tObj = CLUSTER_THEMES.find(t => t.id === p.theme);
+                if (tObj) {
+                    document.getElementById("header-theme-badge").innerText = `계기판: ${tObj.name}`;
+                }
+            }
+            document.getElementById("active-car-spec").innerText = `${p.name} · ${p.desc} · ${p.maxRpm.toLocaleString()} RPM`;
+            renderThemeChips();
+            const activeTab = document.querySelector("#category-tabs .cat-tab.active");
+            renderPresets(activeTab ? activeTab.dataset.cat : "ALL");
+            if (isRunning) {
+                currentRpm = Math.max(p.idleRpm, Math.min(p.maxRpm, currentRpm));
+                rebuildSoundLayers();
+            }
+            saveState();
+        }
+
+        function updateTransModeUI() {
+            document.getElementById("btn-mode-auto").classList.toggle("active", state.transMode === "AUTO");
+            document.getElementById("btn-mode-manual").classList.toggle("active", state.transMode === "MANUAL");
+            document.getElementById("btn-mode-neutral").classList.toggle("active", state.transMode === "NEUTRAL");
+            document.getElementById("hud-trans-txt").innerText =
+                state.transMode === "AUTO" ? "AUTO 8-DCT" : (state.transMode === "MANUAL" ? "MANUAL SEQ" : "NEUTRAL (N)");
+        }
+
+        function bindEvents() {
+            loadState();
+            renderThemeChips();
+            updateAutoThemeBtn();
+            renderPresets("ALL");
+            selectPreset(state.presetId);
+
+            // 슬라이더 초기값 동기화
+            const sPop = document.getElementById("slider-pop-vol");
+            const sMas = document.getElementById("slider-master-vol");
+            const sGSens = document.getElementById("slider-g-sens");
+            const sRes = document.getElementById("slider-resonance");
+
+            sPop.value = state.popVolumePct;
+            document.getElementById("val-pop-vol").innerText = `${state.popVolumePct}%`;
+            sMas.value = state.masterVolumePct;
+            document.getElementById("val-master-vol").innerText = `${state.masterVolumePct}%`;
+            sGSens.value = state.gSensitivity;
+            document.getElementById("val-g-sens").innerText = `${ Number(state.gSensitivity).toFixed(1) }x`;
+            sRes.value = state.resonancePct;
+            document.getElementById("val-resonance").innerText = `${state.resonancePct}%`;
+
+            sPop.addEventListener("input", (e) => {
+                state.popVolumePct = parseInt(e.target.value, 10);
+                document.getElementById("val-pop-vol").innerText = `${state.popVolumePct}%`;
+                saveState();
+            });
+            sMas.addEventListener("input", (e) => {
+                state.masterVolumePct = parseInt(e.target.value, 10);
+                document.getElementById("val-master-vol").innerText = `${state.masterVolumePct}%`;
+                if (masterGain && audioCtx) {
+                    masterGain.gain.setTargetAtTime(state.masterVolumePct / 100, audioCtx.currentTime, 0.02);
+                }
+                saveState();
+            });
+            sGSens.addEventListener("input", (e) => {
+                state.gSensitivity = parseFloat(e.target.value);
+                document.getElementById("val-g-sens").innerText = `${state.gSensitivity.toFixed(1)}x`;
+                saveState();
+            });
+            sRes.addEventListener("input", (e) => {
+                state.resonancePct = parseInt(e.target.value, 10);
+                document.getElementById("val-resonance").innerText = `${state.resonancePct}%`;
+                updateCabinetMix();
+                saveState();
+            });
+
+            // 카테고리 탭
+            document.querySelectorAll("#category-tabs .cat-tab").forEach(tab => {
+                tab.addEventListener("click", () => {
+                    document.querySelectorAll("#category-tabs .cat-tab").forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                    renderPresets(tab.dataset.cat);
+                });
+            });
+
+            // 자동 테마 토글
+            document.getElementById("btn-auto-theme").addEventListener("click", () => {
+                state.autoTheme = !state.autoTheme;
+                updateAutoThemeBtn();
+                if (state.autoTheme) selectPreset(state.presetId);
+                saveState();
+            });
+
+            // 엔진 스타트 버튼
+            const startBtn = document.getElementById("btn-engine-toggle");
+            startBtn.addEventListener("click", () => {
+                if (!audioCtx) {
+                    initAudioSystem();
+                    initSensors();
+                }
+                if (audioCtx.state === "suspended") {
+                    audioCtx.resume();
+                }
+                isRunning = !isRunning;
+                const p = getActivePreset();
+                if (isRunning) {
+                    startBtn.innerText = "🛑 ENGINE STOP";
+                    startBtn.classList.add("on");
+                    currentRpm = p.idleRpm * 1.85; // 시동 플레어(Start-up Bark)
+                    targetRpm = p.idleRpm;
+                    triggerRealisticBackfire(3, true);
+                } else {
+                    startBtn.innerText = "🔥 ENGINE START";
+                    startBtn.classList.remove("on");
+                    isLaunchDemo = false;
+                    isRevTest = false;
+                    if (subPulseGain && audioCtx) {
+                        subPulseGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.04);
+                        corePulseGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.04);
+                        harmonicRaspGain.gain.setTargetAtTime(0.0001, audioCtx.currentTime, 0.04);
+                    }
+                }
+            });
+
+            // 6개 특수 주행 버튼
+            document.getElementById("btn-launch-demo").addEventListener("click", (e) => {
+                if (!isRunning) startBtn.click();
+                isLaunchDemo = !isLaunchDemo;
+                isRevTest = false;
+                currentSpeed = isLaunchDemo ? 0 : currentSpeed;
+                currentGear = 1;
+                e.currentTarget.classList.toggle("active", isLaunchDemo);
+            });
+
+            document.getElementById("btn-rev-pop-test").addEventListener("click", (e) => {
+                if (!isRunning) startBtn.click();
+                const btn = e.currentTarget;
+                btn.classList.add("active");
+                isRevTest = true;
+                setTimeout(() => {
+                    isRevTest = false;
+                    throttleInput = 0;
+                    btn.classList.remove("active");
+                    triggerRealisticBackfire(5, false);
+                }, 950);
+            });
+
+            document.getElementById("btn-ngb-boost").addEventListener("click", (e) => {
+                if (!isRunning) startBtn.click();
+                ngbTimer = 600; // 10초 (60fps * 10)
+                e.currentTarget.classList.add("active");
+                showToast("🔥 N Grin Boost 10초 오버부스트 가동!");
+            });
+
+            document.getElementById("btn-valve-toggle").addEventListener("click", (e) => {
+                state.valveOpen = !state.valveOpen;
+                e.currentTarget.innerText = `🔊 가변배기: ${state.valveOpen ? "OPEN" : "CLOSED"}`;
+                e.currentTarget.classList.toggle("active", state.valveOpen);
+                const hudV = document.getElementById("hud-valve-txt");
+                hudV.innerText = `VALVE: ${state.valveOpen ? "OPEN" : "CLOSED"}`;
+                hudV.classList.toggle("valve-open", state.valveOpen);
+                updateCabinetMix();
+                saveState();
+            });
+
+            document.getElementById("btn-pop-style").addEventListener("click", (e) => {
+                state.popStyleIdx = (state.popStyleIdx + 1) % POP_STYLES.length;
+                const ps = POP_STYLES[state.popStyleIdx];
+                e.currentTarget.innerText = ps.label;
+                document.getElementById("hud-popmode-txt").innerText = ps.short;
+                if (isRunning) triggerRealisticBackfire(3, false);
+                saveState();
+            });
+
+            document.getElementById("btn-sim-sensor").addEventListener("click", (e) => {
+                simSensorActive = !simSensorActive;
+                e.currentTarget.classList.toggle("active", simSensorActive);
+                showToast(simSensorActive ? "🕹️ G-센서 자동 주행 시뮬레이터 ON" : "🎯 거치대 영점 보정 완료 (수동/센서 대기)");
+            });
+
+            // 변속 및 기어 모드
+            document.getElementById("btn-shift-down").addEventListener("click", () => performGearShift(-1));
+            document.getElementById("btn-shift-up").addEventListener("click", () => performGearShift(1));
+            document.getElementById("btn-mode-auto").addEventListener("click", () => { state.transMode = "AUTO"; updateTransModeUI(); });
+            document.getElementById("btn-mode-manual").addEventListener("click", () => { state.transMode = "MANUAL"; updateTransModeUI(); });
+            document.getElementById("btn-mode-neutral").addEventListener("click", () => { state.transMode = "NEUTRAL"; updateTransModeUI(); });
+
+            // 5연발 즉시 격발
+            document.getElementById("btn-burst-5").addEventListener("click", () => {
+                if (!isRunning) startBtn.click();
+                triggerRealisticBackfire(5, false);
+            });
+
+            // 페달 터치/드래그
+            const bindPedal = (elId, isThrottle) => {
+                const box = document.getElementById(elId);
+                let active = false;
+                const updatePos = (clientX) => {
+                    const rect = box.getBoundingClientRect();
+                    const v = Math.max(0.15, Math.min(1.0, (clientX - rect.left) / rect.width));
+                    if (isThrottle) throttleInput = v;
+                    else brakeInput = v;
+                };
+                box.addEventListener("mousedown", (e) => { e.preventDefault(); active = true; updatePos(e.clientX); });
+                window.addEventListener("mousemove", (e) => { if (active) updatePos(e.clientX); });
+                window.addEventListener("mouseup", () => {
+                    if (active) {
+                        active = false;
+                        if (isThrottle) throttleInput = 0;
+                        else brakeInput = 0;
+                    }
+                });
+                box.addEventListener("touchstart", (e) => { e.preventDefault(); active = true; if (e.touches[0]) updatePos(e.touches[0].clientX); }, { passive: false });
+                box.addEventListener("touchmove", (e) => { e.preventDefault(); if (active && e.touches[0]) updatePos(e.touches[0].clientX); }, { passive: false });
+                window.addEventListener("touchend", () => {
+                    if (active) {
+                        active = false;
+                        if (isThrottle) throttleInput = 0;
+                        else brakeInput = 0;
+                    }
+                });
+            };
+            bindPedal("pedal-throttle", true);
+            bindPedal("pedal-brake", false);
+
+            // 키보드 컨트롤 (W/S/A/D & 화살표)
+            window.addEventListener("keydown", (e) => {
+                const k = e.key.toLowerCase();
+                if (k === "w" || e.key === "ArrowUp") throttleInput = 1.0;
+                if (k === "s" || e.key === "ArrowDown") brakeInput = 1.0;
+                if (k === "a") performGearShift(-1);
+                if (k === "d") performGearShift(1);
+            });
+            window.addEventListener("keyup", (e) => {
+                const k = e.key.toLowerCase();
+                if (k === "w" || e.key === "ArrowUp") throttleInput = 0.0;
+                if (k === "s" || e.key === "ArrowDown") brakeInput = 0.0;
+            });
+
+            // 커스텀 오디오 샘플(.WAV/.MP3) 로드
+            const fileInput = document.getElementById("audio-file-input");
+            document.getElementById("btn-load-sample").addEventListener("click", () => fileInput.click());
+            fileInput.addEventListener("change", (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                if (!audioCtx) initAudioSystem();
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    audioCtx.decodeAudioData(ev.target.result, (decoded) => {
+                        customSampleBuffer = decoded;
+                        if (isRunning) rebuildSoundLayers();
+                        showToast(`🎵 커스텀 배기 샘플(${file.name})이 로드되었습니다!`);
+                    }, () => showToast("오디오 디코딩에 실패했습니다."));
+                };
+                reader.readAsArrayBuffer(file);
+            });
+
+            // 모달 & 다운로드 & 코드 복사
+            const guideModal = document.getElementById("guide-modal");
+            document.getElementById("btn-open-guide").addEventListener("click", () => guideModal.classList.add("open"));
+            document.getElementById("btn-close-guide").addEventListener("click", () => guideModal.classList.remove("open"));
+
+            document.getElementById("btn-dl-code").addEventListener("click", () => {
+                const src = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const blob = new Blob([src], { type: "text/html;charset=utf-8" });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = url;
+                a.download = "index.html";
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                setTimeout(() => URL.revokeObjectURL(url), 1500);
+                showToast("💾 index.html 다운로드가 시작되었습니다!");
+            });
+
+            document.getElementById("btn-copy-code").addEventListener("click", () => {
+                const src = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+                const ta = document.createElement("textarea");
+                ta.value = src;
+                ta.style.position = "fixed";
+                ta.style.opacity = "0";
+                document.body.appendChild(ta);
+                ta.select();
+                try {
+                    document.execCommand("copy");
+                    showToast("📋 전체 HTML 코드가 클립보드에 복사되었습니다!");
+                } catch (err) {}
+                document.body.removeChild(ta);
+            });
+        }
+
+        window.addEventListener("DOMContentLoaded", () => {
+            bindEvents();
+            requestAnimationFrame(updateSimulation);
+        });
+    </script>
 </body>
 </html>
